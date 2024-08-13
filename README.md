@@ -11,7 +11,7 @@
   </a>
 </p>
 
-> It can quickly generate a Three.js scene through default configuration settings, without requiring users to manually declare basic classes like camera and renderer.
+> auto-three can quickly generate a Three.js scene through default configuration settings, without requiring users to manually declare basic classes like camera and renderer.
 
 ### 🏠 [Homepage](1)
 
