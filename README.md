@@ -1,6 +1,6 @@
-<h1 align="center">Welcome to auto-three 👋</h1>
+<h1 align="center">Welcome to three-auto 👋</h1>
 <p>
-  <a href="https://www.npmjs.com/package/auto-three" target="_blank">
+  <a href="https://www.npmjs.com/package/three-auto" target="_blank">
     <img alt="Version" src="https://img.shields.io/npm/v/auto-three.svg">
   </a>
   <a href="1" target="_blank">
@@ -11,7 +11,7 @@
   </a>
 </p>
 
-> auto-three can quickly generate a Three.js scene through default configuration settings, without requiring users to manually declare basic classes like camera and renderer.
+> three-auto can quickly generate a Three.js scene through default configuration settings, without requiring users to manually declare basic classes like camera and renderer.
 
 ### 🏠 [Homepage](1)
 
@@ -20,7 +20,11 @@
 ## Install
 
 ```sh
-npm install
+npm install three-auto
+```
+
+```sh
+yarn add three-auto
 ```
 
 ## Author
