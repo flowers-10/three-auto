@@ -35,5 +35,11 @@ npm install
 
 Give a ⭐️ if this project helped you!
 
+## Todo
+- proxy config setting
+- update customer renderer pass
+- support generate lowcode
+- support webgpu
+
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
