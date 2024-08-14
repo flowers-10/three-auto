@@ -5,11 +5,9 @@ import { ExtendType } from "../../types/ExtendType";
 
 // import { eventBus } from '@BI/utils/eventBus'
 export default class Sprite extends BaseThree {
-    private scale;
     public spriteGroup: THREE.Group;
     constructor(instance: ThreeInstance) {
         super(instance);
-        this.scale = 1;
         this.spriteGroup = new THREE.Group();
     }
     // 创建坐标精灵
@@ -18,7 +16,6 @@ export default class Sprite extends BaseThree {
             return console.error(
                 "tips: Please use the array type for the data configuration items in spriteConfig."
             );
-        this.scale = data[0].scaleX;
         this.spriteGroup.name = "location-tips";
         //  wait
         this.resources.on("ready", async () => {
@@ -27,9 +24,9 @@ export default class Sprite extends BaseThree {
                 const texture = this.resources.items[item.texture];
                 texture.colorSpace = THREE.SRGBColorSpace;
                 const spriteMaterial = new THREE.SpriteMaterial({
-                    map: texture, //设置精灵纹理贴图
+                    map: texture,
                 });
-                // 透明遮挡问题/GPU过滤
+                // GPU
                 spriteMaterial.onBeforeCompile = (shader) => {
                     shader.fragmentShader = shader.fragmentShader.replace(
                         "#include <opaque_fragment>",

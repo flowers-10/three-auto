@@ -111,9 +111,6 @@ export default class EventEmitter {
     // Default args
     const args = !(_args instanceof Array) ? [] : _args;
 
-    // Resolve names (should on have one event)
-    let name = this.resolveNames(_name);
-
      // Resolve name
     const resolvedNames = this.resolveNames(_name);
     const resolvedName = this.resolveName(resolvedNames[0]);

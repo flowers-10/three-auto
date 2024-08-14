@@ -1,7 +1,10 @@
 {
   "name": "auto-three",
-  "private": true,
-  "version": "0.0.0",
+  "private": false,
+  "version": "0.1.0",
+  "main": "dist/auto-three.umd.js",
+  "module": "dist/auto-three.es.js",
+  "files": ["dist/*"],
   "type": "module",
   "scripts": {
     "dev": "vite",
