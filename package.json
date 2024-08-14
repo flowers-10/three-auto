@@ -1,5 +1,5 @@
 {
-  "name": "auto-three",
+  "name": "auto-threejs",
   "private": false,
   "version": "0.1.0",
   "main": "dist/auto-three.umd.js",
