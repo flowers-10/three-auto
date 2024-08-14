@@ -1,0 +1,33 @@
+import { ConfigType } from '../types/ConfigType';
+import { default as Mousemove } from '../base/Mousemove';
+import { default as Time } from '../base/Time';
+import { default as Sizes } from '../base/Sizes';
+import { default as Resources } from './Resources';
+import { default as Loading } from '../components/loading/Loading';
+import { default as Camera } from '../components/cameras/Camera';
+import { default as Renderer } from '../components/renderers/Renderer';
+import { default as Light } from '../components/lights/Light';
+import { default as Raycaster } from '../components/Raycaster';
+import * as THREE from "three";
+export default class ThreeInstance {
+    static __ins: ThreeInstance;
+    _canvas: HTMLCanvasElement;
+    scene: THREE.Scene;
+    mousemove: Mousemove;
+    resources: Resources;
+    sizes: Sizes;
+    camera: Camera;
+    renderer: Renderer;
+    _config: ConfigType;
+    light: Light;
+    time: Time;
+    raycaster: Raycaster;
+    loading: Loading;
+    private bloomPass;
+    constructor(canvas?: HTMLCanvasElement, config?: ConfigType);
+    setOption(option: any): void;
+    resize(): void;
+    update(): void;
+    clearGroup(group: any): void;
+    dispose(): void;
+}

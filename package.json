@@ -1,12 +1,18 @@
 {
   "name": "three-auto",
   "private": false,
-  "version": "0.1.0",
-  "main": "dist/auto-three.umd.js",
-  "module": "dist/auto-three.es.js",
-  "types": "dist/index.d.ts",
+  "version": "0.1.1",
+  "main": "build/three-auto.umd.js",
+  "module": "build/three-auto.es.js",
+  "types": "build/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flowers-10/three-auto"
+  },
   "files": [
-    "dist/*"
+    "build/*",
+    "src/*",
+    "examples/*"
   ],
   "type": "module",
   "scripts": {
