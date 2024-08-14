@@ -4,7 +4,10 @@
   "version": "0.1.0",
   "main": "dist/auto-three.umd.js",
   "module": "dist/auto-three.es.js",
-  "files": ["dist/*"],
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -18,6 +21,7 @@
   "dependencies": {
     "@types/three": "^0.167.1",
     "gsap": "^3.12.5",
-    "three": "^0.167.1"
+    "three": "^0.167.1",
+    "vite-plugin-dts": "^4.0.2"
   }
 }
