@@ -5,10 +5,9 @@ import BaseThree from "../../base/BaseThree";
 
 export default class LoadingManager extends BaseThree {
   public loadingManager: THREE.LoadingManager;
-  constructor(config: any, instance: ThreeInstance) {
+  constructor(instance: ThreeInstance) {
     super(instance);
-    this.createLoading();
-
+    this.createLoading(!!instance._config.sources.length);
     this.loadingManager = new THREE.LoadingManager(
       // Loaded
       () => {
@@ -16,9 +15,8 @@ export default class LoadingManager extends BaseThree {
         this.endLoading();
       },
       // Progress
-      (url, loaded, total) => {
+      (_, loaded, total) => {
         console.log("Progress");
-
         this.endLoadingBar(loaded, total);
       },
       () => {
@@ -26,34 +24,7 @@ export default class LoadingManager extends BaseThree {
       }
     );
   }
-  endLoadingBar(loaded: number, total: number) {
-    const loadingBarElement = document.querySelector(
-      ".loading-bar"
-    ) as HTMLDivElement;
-    const progressRatio = loaded / total;
-    loadingBarElement.style.transform = `scaleX(${progressRatio})`;
-  }
-  endLoading() {
-    const loadingBarElement = document.querySelector(
-      ".loading-bar"
-    ) as HTMLDivElement;
-    const element = document.querySelector(".loading-page") as HTMLDivElement;
-    if (element) {
-      gsap.set(element.style, { opacity: 1 });
-      gsap.to(element.style, {
-        duration: 5,
-        opacity: 0,
-        ease: "power1.inOut",
-      });
-
-      window.setTimeout(() => {
-        loadingBarElement.style.transform = "scaleX(0)";
-        loadingBarElement.style.transformOrigin = "100% 0";
-        loadingBarElement.style.transition = "transform 1.5s ease-in-out";
-      }, 500);
-    }
-  }
-  createLoading() {
+  createLoading(flag: boolean) {
     const element = document.querySelector(".loading-page");
     if (element) return;
     const loadingPage = document.createElement("div");
@@ -77,9 +48,41 @@ export default class LoadingManager extends BaseThree {
     loadingBar.style.transform = "scaleX(0)";
     loadingBar.style.transformOrigin = "top left";
     loadingBar.style.transition = "transform  0.5s";
+    if (!flag) {
+      this.endLoading();
+      this.endLoadingBar(10,10);
+    }
   }
+  endLoading() {
+    const loadingBarElement = document.querySelector(
+      ".loading-bar"
+    ) as HTMLDivElement;
+    const element = document.querySelector(".loading-page") as HTMLDivElement;
+    if (element) {
+      gsap.set(element.style, { opacity: 1 });
+      gsap.to(element.style, {
+        duration: 5,
+        opacity: 0,
+        ease: "power1.inOut",
+      });
 
-  resize() {}
-  update() {}
-  dispose() {}
+      window.setTimeout(() => {
+        loadingBarElement.style.transform = "scaleX(0)";
+        loadingBarElement.style.transformOrigin = "100% 0";
+        loadingBarElement.style.transition = "transform 1.5s ease-in-out";
+      }, 500);
+    }
+  }
+  endLoadingBar(loaded: number, total: number) {
+    const loadingBarElement = document.querySelector(
+      ".loading-bar"
+    ) as HTMLDivElement;
+    const progressRatio = loaded / total;
+    loadingBarElement.style.transform = `scaleX(${progressRatio})`;
+  }
+ 
+
+  resize() { }
+  update() { }
+  dispose() { }
 }

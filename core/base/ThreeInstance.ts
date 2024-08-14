@@ -61,7 +61,7 @@ export default class ThreeInstance {
       default:
         break;
     }
-    this.loading = new Loading(1, this);
+    this.loading = new Loading(this);
     this.resources = new Resources(
       this._config.sources,
       this.loading.loadingManager
