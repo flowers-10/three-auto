@@ -22,5 +22,15 @@ export default defineConfig({
       name: "three-auto", 
       fileName: (format) => `three-auto.${format}.js`,
     },
+    // rollupOptions:{
+    //   input: {
+    //     'three-auto': 'core/index.ts',
+    //     'dist': 'src/main.ts',
+    //   },
+    //   output: {
+    //     inlineDynamicImports: true
+    //   }
+    // },
+    
   },
 });

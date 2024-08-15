@@ -1,4 +1,4 @@
-import { default as ThreeInstance } from '../../base/ThreeInstance';
+import { ThreeInstance } from '../../base/ThreeInstance';
 import { default as BaseThree } from '../../base/BaseThree';
 import * as THREE from "three";
 export default class LoadingManager extends BaseThree {

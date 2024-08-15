@@ -1,3 +1,6 @@
+import { effect } from "../base/effect";
+import { reactive } from "../base/reactive";
+// import { ThreeInstance } from "../base/ThreeInstance";
 import { ConfigType } from "../types/ConfigType";
 
 export const CONFIG: ConfigType = {
@@ -29,7 +32,7 @@ export const CONFIG: ConfigType = {
     id: "_Background_3D",
   },
   rendererPass: {
-    type: "BLOOM",
+    type: "NONE",
     outlineConfig: {
       edgeStrength: 3,
       edgeGlow: 1,
@@ -63,3 +66,11 @@ export const CONFIG: ConfigType = {
   ],
   sources: [],
 };
+
+export const getConfig =(config:any) => {
+    reactive(config)
+    effect(() => {
+      console.log(config,'我被触发了',111111);
+    })
+    return config
+}

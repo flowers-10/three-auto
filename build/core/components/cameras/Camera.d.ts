@@ -1,5 +1,5 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { default as ThreeInstance } from '../../base/ThreeInstance';
+import { ThreeInstance } from '../../base/ThreeInstance';
 import { default as BaseThree } from '../../base/BaseThree';
 import { CameraConfig } from '../../types/ConfigType';
 import * as THREE from "three";

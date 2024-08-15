@@ -1,4 +1,4 @@
-import { default as ThreeInstance } from '../../base/ThreeInstance';
+import { ThreeInstance } from '../../base/ThreeInstance';
 import { default as BaseThree } from '../../base/BaseThree';
 import { BloomConfigType } from '../../types/ConfigType';
 export default class BloomPass extends BaseThree {

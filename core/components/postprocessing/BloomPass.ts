@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
-import ThreeInstance from "../../base/ThreeInstance";
+import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
 import { BloomConfigType } from "../../types/ConfigType";
 
@@ -53,8 +53,8 @@ export default class BloomPass extends BaseThree {
     //     vUv = uv;
     //     gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
     //     }`,
-    //     fragmentShader: `uniform sampler2D baseTexture; 
-    //       uniform sampler2D bloomTexture; 
+    //     fragmentShader: `uniform sampler2D baseTexture;
+    //       uniform sampler2D bloomTexture;
     //       varying vec2 vUv;
 
     //       void main() {

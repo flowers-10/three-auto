@@ -10,25 +10,24 @@ import Resources from "./Resources";
 import Loading from "../components/loading/Loading";
 import Camera from "../components/cameras/Camera";
 import Renderer from "../components/renderers/Renderer";
-import BloomPass from "../components/postprocessing/BloomPass";
+// import BloomPass from "../components/postprocessing/BloomPass";
 import Light from "../components/lights/Light";
 import Raycaster from "../components/Raycaster";
 
-export default class ThreeInstance {
-  public static __ins: ThreeInstance;
-  public _canvas: HTMLCanvasElement;
+export class ThreeInstance {
+  public time: Time;
+  public light: Light;
   public scene: THREE.Scene;
-  public mousemove: Mousemove;
-  public resources: Resources;
   public sizes: Sizes;
   public camera: Camera;
-  public renderer: Renderer;
   public _config: ConfigType;
-  public light: Light;
-  public time: Time;
-  public raycaster: Raycaster;
+  public _canvas: HTMLCanvasElement;
   public loading: Loading;
-  private bloomPass;
+  public renderer: Renderer;
+  public mousemove: Mousemove;
+  public resources: Resources;
+  public raycaster: Raycaster;
+  // private bloomPass;
 
   constructor(canvas?: HTMLCanvasElement, config: ConfigType = CONFIG) {
     const canvass = document.getElementById(config.id);
@@ -45,22 +44,23 @@ export default class ThreeInstance {
     this.camera = new Camera(this._config.camera, this);
     this.light = new Light(this._config.light, this);
     this.raycaster = new Raycaster(this);
-
     this.renderer = new Renderer(this._config.renderer, this);
-    switch (this._config.rendererPass.type) {
-      case "OUTLINE":
-        break;
-      case "BLOOM":
-        this.bloomPass = new BloomPass(
-          this._config.rendererPass.bloomConfig,
-          this
-        );
-        break;
-      case "NONE":
-        break;
-      default:
-        break;
-    }
+
+    // todo 等待优化
+    // switch (this._config.rendererPass.type) {
+    //   case "OUTLINE":
+    //     break;
+    //   case "BLOOM":
+    //     this.bloomPass = new BloomPass(
+    //       this._config.rendererPass.bloomConfig,
+    //       this
+    //     );
+    //     break;
+    //   case "NONE":
+    //     break;
+    //   default:
+    //     break;
+    // }
     this.loading = new Loading(this);
     this.resources = new Resources(
       this._config.sources,
@@ -90,7 +90,7 @@ export default class ThreeInstance {
       case "OUTLINE":
         break;
       case "BLOOM":
-        this.bloomPass?.update();
+        // this.bloomPass?.update();
         break;
       case "NONE":
         this.renderer?.update();

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { gsap } from "gsap";
-import ThreeInstance from "../../base/ThreeInstance";
+import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
 
 export default class LoadingManager extends BaseThree {
@@ -50,7 +50,7 @@ export default class LoadingManager extends BaseThree {
     loadingBar.style.transition = "transform  0.5s";
     if (!flag) {
       this.endLoading();
-      this.endLoadingBar(10,10);
+      this.endLoadingBar(10, 10);
     }
   }
   endLoading() {
@@ -80,9 +80,8 @@ export default class LoadingManager extends BaseThree {
     const progressRatio = loaded / total;
     loadingBarElement.style.transform = `scaleX(${progressRatio})`;
   }
- 
 
-  resize() { }
-  update() { }
-  dispose() { }
+  resize() {}
+  update() {}
+  dispose() {}
 }

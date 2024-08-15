@@ -1,4 +1,4 @@
-import { default as ThreeInstance } from './ThreeInstance';
+import { ThreeInstance } from './ThreeInstance';
 import { default as Sizes } from './Sizes';
 interface BaseThreeInterface {
     resize(): void;

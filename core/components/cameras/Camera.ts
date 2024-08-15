@@ -1,17 +1,16 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import ThreeInstance from "../../base/ThreeInstance";
-import BaseThree from '../../base/BaseThree'
+import { ThreeInstance } from "../../base/ThreeInstance";
+import BaseThree from "../../base/BaseThree";
 import { CameraConfig } from "../../types/ConfigType";
 
-
-export default class Camera extends BaseThree{
+export default class Camera extends BaseThree {
   private cameraConfig: CameraConfig;
-  public controls: OrbitControls
+  public controls: OrbitControls;
   public instance: THREE.PerspectiveCamera;
 
-   constructor(config: CameraConfig,instance: ThreeInstance) {
-    super(instance)
+  constructor(config: CameraConfig, instance: ThreeInstance) {
+    super(instance);
     this.cameraConfig = config;
     this.instance = new THREE.PerspectiveCamera(
       this.cameraConfig.fov,
@@ -21,8 +20,8 @@ export default class Camera extends BaseThree{
     );
     this.controls = new OrbitControls(this.instance, this.canvas);
 
-    this.setInstance()
-    this.setControls()
+    this.setInstance();
+    this.setControls();
   }
   setInstance() {
     this.instance.position.set(
@@ -37,12 +36,12 @@ export default class Camera extends BaseThree{
     this.scene.add(this.instance);
   }
   setControls() {
-    const controls = this.cameraConfig.controls
+    const controls = this.cameraConfig.controls;
     this.controls.enableDamping = controls.enableDamping;
-    this.controls.minPolarAngle = controls.minPolarAngle; 
-    this.controls.maxPolarAngle = controls.maxPolarAngle; 
-    this.controls.minAzimuthAngle = controls.minAzimuthAngle; 
-    this.controls.maxAzimuthAngle = controls.maxAzimuthAngle; 
+    this.controls.minPolarAngle = controls.minPolarAngle;
+    this.controls.maxPolarAngle = controls.maxPolarAngle;
+    this.controls.minAzimuthAngle = controls.minAzimuthAngle;
+    this.controls.maxAzimuthAngle = controls.maxAzimuthAngle;
     this.controls.enablePan = controls.enablePan;
   }
   resize() {
