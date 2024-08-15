@@ -1,10 +1,10 @@
 {
   "name": "three-auto",
   "private": false,
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "build/three-auto.umd.js",
   "module": "build/three-auto.es.js",
-  "types": "build/index.d.ts",
+  "types": "build/core/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/flowers-10/three-auto"
@@ -22,12 +22,15 @@
   },
   "devDependencies": {
     "typescript": "^5.2.2",
-    "vite": "^5.2.0"
+    "vite": "^5.2.0",
+    "three": "^0.154.0",
+    "@types/three": "^0.154.0"
+  },
+  "peerDependencies": {
+    "three": ">=0.154"
   },
   "dependencies": {
-    "@types/three": "^0.167.1",
     "gsap": "^3.12.5",
-    "three": "^0.167.1",
     "vite-plugin-dts": "^4.0.2"
   }
 }
