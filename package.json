@@ -2,8 +2,14 @@
   "name": "three-auto",
   "private": false,
   "version": "0.1.2",
-  "main": "build/three-auto.umd.js",
-  "module": "build/three-auto.es.js",
+  "main": "./build/three-auto.umd.js",
+  "module": "./build/three-auto.es.js",
+  "exports": {
+    ".": {
+      "import": "./build/three-auto.es.js",
+      "require": "./build/three-auto.umd.js"
+    }
+  },
   "types": "build/core/index.d.ts",
   "repository": {
     "type": "git",
@@ -21,16 +27,17 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/three": "^0.154.0",
+    "gsap": "^3.12.5",
+    "three": "^0.154.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
-    "three": "^0.154.0",
-    "@types/three": "^0.154.0"
+    "vite-plugin-dts": "^4.0.2"
   },
   "peerDependencies": {
     "three": ">=0.154"
   },
   "dependencies": {
-    "gsap": "^3.12.5",
-    "vite-plugin-dts": "^4.0.2"
+    "vite-plugin-html": "^3.2.2"
   }
 }
