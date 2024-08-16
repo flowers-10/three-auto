@@ -16,6 +16,7 @@ export declare class ThreeInstance {
     sizes: Sizes;
     camera: Camera;
     _config: ConfigType;
+    config: any;
     _canvas: HTMLCanvasElement;
     loading: Loading;
     renderer: Renderer;
@@ -23,7 +24,6 @@ export declare class ThreeInstance {
     resources: Resources;
     raycaster: Raycaster;
     constructor(canvas?: HTMLCanvasElement, config?: ConfigType);
-    setOption(option: any): void;
     resize(): void;
     update(): void;
     clearGroup(group: any): void;

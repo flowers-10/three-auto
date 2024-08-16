@@ -1,6 +1,4 @@
 export { ThreeInstance } from './base/ThreeInstance';
-export { effect } from './base/effect';
-export { reactive } from './base/reactive';
 export { CONFIG } from './config/config';
 export type { ConfigType } from './types/ConfigType';
 export type { SourcesItems } from './types/ConfigType';
