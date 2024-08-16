@@ -1,7 +1,7 @@
-import { track, trigger } from "../base/effect"
+import { track, trigger } from "./effect"
 import { isObject } from "../shared"
 
-export const reactive = (raw:Object) => {
+export const reactive = (raw:any) => {
     return new Proxy(raw,{
         get(target,key,receiver) {
             const res =  Reflect.get(target,key,receiver)
@@ -12,10 +12,12 @@ export const reactive = (raw:Object) => {
             return res
 
         },
-        set(target,key,value,receiver) {
-            const res = Reflect.set(target,key,value,receiver)
+        set(target,key:any,value,receiver) {
+            console.log(`Set key:${key}`);
+            
+            Reflect.set(target,key,value,receiver)
             trigger(target,key)
-            return res
+            return true
         },
 
     })

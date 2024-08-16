@@ -1,5 +1,5 @@
-import { effect } from "../base/effect";
-import { reactive } from "../base/reactive";
+import { effect } from "./effect";
+import { reactive } from "./reactive";
 // import { ThreeInstance } from "../base/ThreeInstance";
 import { ConfigType } from "../types/ConfigType";
 
@@ -67,10 +67,20 @@ export const CONFIG: ConfigType = {
   sources: [],
 };
 
-export const getConfig =(config:any) => {
-    reactive(config)
-    effect(() => {
-      console.log(config,'我被触发了',111111);
-    })
-    return config
-}
+export const setupConfigEffect = (config: any,instance:any): any => {
+  const configEffect = reactive(config);
+
+  // todo : to many keys should bind to effects
+  effect(() => {
+    configEffect.name;
+    configEffect.id;
+    configEffect.sources;
+    instance.camera.instance.fov = configEffect.camera.fov;
+    instance.camera.instance.near = configEffect.camera.near;
+    instance.camera.instance.far = configEffect.camera.far;
+    instance.camera.instance.position.x = configEffect.camera.position.x;
+    instance.camera.instance.position.y = configEffect.camera.position.y;
+    instance.camera.instance.position.z = configEffect.camera.position.z;
+  });
+  return configEffect
+};

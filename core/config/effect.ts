@@ -38,8 +38,6 @@ export function track(target: Object, key: string | symbol) {
 }
 
 export function trigger(target: object, key: string | symbol) {
-  console.log('我被触发了',1111111,key);
-  
   let depsMap = targetMap.get(target);
   let dep = depsMap.get(key);
   for (let effect of dep) {
