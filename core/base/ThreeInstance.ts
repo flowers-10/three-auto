@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 import { ConfigType } from "../types/ConfigType";
-import { CONFIG, setupConfigEffect } from "../config/config";
+import { CONFIG } from "../config/config";
 import Mousemove from "../base/Mousemove";
 import Time from "../base/Time";
 import Sizes from "../base/Sizes";
@@ -64,7 +64,6 @@ export class ThreeInstance {
     // }
     this.loading = new Loading(this);
     this.resources = new Resources(config.sources, this.loading.loadingManager);
-    this.config = setupConfigEffect(config,this);
     this.sizes.on("resize", () => {
       this.resize();
     });
