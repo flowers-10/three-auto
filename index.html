@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -8,9 +8,25 @@
   </head>
   <body>
     <div id="app">
-    <canvas class="webgl" id="_scene"></canvas>
+      <canvas class="webgl" id="_scene"></canvas>
     </div>
-    <script type="module" src="/src/main.ts"></script>
+    <script type="module">
+      import { ThreeInstance } from "../core";
+      import * as THREE from "three";
+
+      const instance = new ThreeInstance();
+      const geometry = new THREE.BoxGeometry(400, 400, 400);
+      const material = new THREE.MeshBasicMaterial({
+        color: "#E89ABE",
+        transparent: true,
+      });
+      const box = new THREE.Mesh(geometry, material);
+
+      instance.scene.add(box);
+      instance.time.on("tick", () => {
+        box.rotation.y = instance.time.elapsedTime;
+      });
+    </script>
   </body>
   <style>
     * {
@@ -19,7 +35,9 @@
       box-sizing: border-box;
     }
     #app {
-      width: 100%; height: 100vh;overflow: hidden;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
     }
   </style>
 </html>
