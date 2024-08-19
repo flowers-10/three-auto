@@ -11,16 +11,14 @@ export default class LoadingManager extends BaseThree {
     this.loadingManager = new THREE.LoadingManager(
       // Loaded
       () => {
-        console.log("Loaded");
         this.endLoading();
       },
       // Progress
       (_, loaded, total) => {
-        console.log("Progress");
         this.endLoadingBar(loaded, total);
       },
       () => {
-        console.log("error");
+        console.error("Loading error");
       }
     );
   }

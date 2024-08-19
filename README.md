@@ -37,11 +37,13 @@ yarn add three-auto
 
 Give a ⭐️ if this project helped you!
 
-## Todo
-- proxy config setting
-- update customer renderer pass
-- support generate lowcode
-- support webgpu
+## Features
+- support proxy config setting
+- support customer compose renderer pass
+- support generate low code
+- support webGPU
+- support environment
+- 
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
