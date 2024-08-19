@@ -2,7 +2,7 @@
   "name": "three-auto",
   "private": false,
   "version": "0.1.4",
-  "main": "./build/three-auto.es.js",
+  "main": "./build/three-auto.umd.js",
   "module": "./build/three-auto.es.js",
   "types": "./build/index.d.ts",
   "repository": {
@@ -24,12 +24,12 @@
     "three": "^0.154.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
-    "vite-plugin-dts": "^4.0.2"
+    "vite-plugin-dts": "^4.0.2",
+    "vite-plugin-html": "^3.2.2"
   },
   "peerDependencies": {
     "three": ">=0.154"
   },
   "dependencies": {
-    "vite-plugin-html": "^3.2.2"
   }
 }
