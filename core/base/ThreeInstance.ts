@@ -14,14 +14,14 @@ import Renderer from "../components/renderers/Renderer";
 import Light from "../components/lights/Light";
 import Raycaster from "../components/Raycaster";
 
-export class ThreeInstance {
+class ThreeInstance {
   public time: Time;
   public light: Light;
   public scene: THREE.Scene;
   public sizes: Sizes;
   public camera: Camera;
   public _config: ConfigType;
-  public config:any;
+  public config: any;
   public _canvas: HTMLCanvasElement;
   public loading: Loading;
   public renderer: Renderer;
@@ -123,3 +123,5 @@ export class ThreeInstance {
     this.camera.dispose();
   }
 }
+
+export { ThreeInstance };

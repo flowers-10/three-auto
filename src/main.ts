@@ -1,0 +1,15 @@
+import { ThreeInstance } from "../build/three-auto.es";
+import * as THREE from "three";
+
+const instance = new ThreeInstance();
+const geometry = new THREE.BoxGeometry(400, 400, 400);
+const material = new THREE.MeshBasicMaterial({
+  color: "#E89ABE",
+  transparent: true,
+});
+const box = new THREE.Mesh(geometry, material);
+
+instance.scene.add(box);
+instance.time.on("tick", () => {
+  box.rotation.y = instance.time.elapsedTime;
+});
