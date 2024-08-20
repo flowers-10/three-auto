@@ -12,7 +12,6 @@ export default class BaseThree implements BaseThreeInterface {
     protected canvas: HTMLCanvasElement;
     protected camera: import('../components/cameras/Camera').default;
     protected _camera: import('three').PerspectiveCamera;
-    protected resources: import('./Resources').default;
     protected time: import('./Time').default;
     protected mouse: import('three').Vector2;
     protected eventOffset: {
