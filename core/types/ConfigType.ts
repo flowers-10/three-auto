@@ -1,4 +1,3 @@
-type SourcesType = "TEXTURE" | "CUBE_TEXTURE" | "GLTF" | "MP3" | "FONT";
 type SizeType = "parent" | "window";
 type PassType = "NONE" | "OUTLINE" | "BLOOM";
 type LightType = "point" | "ambient" | "hemisphere" | "spot";
@@ -9,12 +8,6 @@ type PositionType = {
   z: number;
 };
 
-export type SourcesItems = {
-  name: string;
-  type: SourcesType;
-  path: string;
-  show: boolean;
-};
 export type LightItems = {
   type: LightType;
   color: string;
@@ -73,10 +66,7 @@ export interface ConfigType {
   size: SizeConfigType;
   rendererPass: {
     type: PassType;
-    outlineConfig: {};
-    bloomConfig: BloomConfigType;
   };
   renderer: RendererConfig;
   light: LightItems[];
-  sources: SourcesItems[];
 }

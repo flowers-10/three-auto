@@ -1,12 +1,10 @@
 import * as THREE from "three";
 import { gsap } from "gsap";
-import { ThreeInstance } from "../../base/ThreeInstance";
-import BaseThree from "../../base/BaseThree";
-
-export default class LoadingManager extends BaseThree {
+export class CustomLoading {
   public loadingManager: THREE.LoadingManager;
-  constructor(instance: ThreeInstance) {
-    super(instance);
+  constructor(type:string) {
+    // todo :type
+    type
     this.createLoading();
     this.loadingManager = new THREE.LoadingManager(
       // Loaded
@@ -17,8 +15,9 @@ export default class LoadingManager extends BaseThree {
       (_, loaded, total) => {
         this.endLoadingBar(loaded, total);
       },
-      () => {
-        console.error("Loading error");
+      // Error
+      (e) => {
+        console.error("Loading error:", e);
       }
     );
   }
@@ -45,7 +44,24 @@ export default class LoadingManager extends BaseThree {
     loadingBar.style.background = "#ffffff";
     loadingBar.style.transform = "scaleX(0)";
     loadingBar.style.transformOrigin = "top left";
-    loadingBar.style.transition = "transform  0.5s";
+    loadingBar.style.transition = "transform  0.8s";
+  }
+  autoEndLoading() {
+    const loaded = {
+      value: 0,
+    };
+    gsap.to(loaded, 0.2, {
+      value: 10,
+      ease: "power1.inOut",
+      onUpdate: () => {
+        this.endLoadingBar(loaded.value, 10);
+      },
+      onComplete: () => {
+        setTimeout(() => {
+          this.endLoading();
+        }, 300);
+      },
+    });
   }
   endLoading() {
     const loadingBarElement = document.querySelector(
@@ -55,16 +71,15 @@ export default class LoadingManager extends BaseThree {
     if (element) {
       gsap.set(element.style, { opacity: 1 });
       gsap.to(element.style, {
-        duration: 5,
+        duration: 2,
         opacity: 0,
         ease: "power1.inOut",
       });
-
       window.setTimeout(() => {
         loadingBarElement.style.transform = "scaleX(0)";
         loadingBarElement.style.transformOrigin = "100% 0";
-        loadingBarElement.style.transition = "transform 1.5s ease-in-out";
-      }, 500);
+        loadingBarElement.style.transition = "transform 0.8s ease-in-out";
+      }, 100);
     }
   }
   endLoadingBar(loaded: number, total: number) {
@@ -74,8 +89,10 @@ export default class LoadingManager extends BaseThree {
     const progressRatio = loaded / total;
     loadingBarElement.style.transform = `scaleX(${progressRatio})`;
   }
-
-  resize() {}
-  update() {}
-  dispose() {}
+  dispose() {
+    const element = document.querySelector(".loading-page");
+    if (element) {
+      element.remove();
+    }
+  }
 }

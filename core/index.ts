@@ -1,1 +1,1 @@
-export * from "./base/ThreeInstance";
+export * from "./base";

@@ -3,18 +3,18 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import EventEmitter from "./EventEmitter.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-import { ThreeInstance } from "./ThreeInstance.js";
+import { CustomLoading } from "../components/loading/CustomLoading.ts";
 
-type SourcesType = "TEXTURE" | "CUBE_TEXTURE" | "GLTF" | "MP3" | "FONT";
+export type SourcesType = "TEXTURE" | "CUBE_TEXTURE" | "GLTF" | "MP3" | "FONT";
 
-type SourcesItems = {
+export type SourcesItems = {
   name: string;
   type: SourcesType;
   path: string;
   show: boolean;
 };
 
-type Loaders = {
+export type Loaders = {
   gltfLoader: GLTFLoader;
   textureLoader: THREE.TextureLoader;
   cubeTextureLoader: THREE.CubeTextureLoader;
@@ -22,35 +22,55 @@ type Loaders = {
   audioLoader: THREE.AudioLoader;
 };
 
-export default class Resources extends EventEmitter {
+export class Resources extends EventEmitter {
   private sources: SourcesItems[];
   public items: { [key: string]: any };
   public toLoad: number;
   public loaded: number;
   private loaders: Loaders;
-  constructor(sources: SourcesItems[], instance: ThreeInstance) {
+
+  constructor(
+    sources: SourcesItems[],
+    loadingManager?:string | THREE.LoadingManager
+  ) {
     super();
     // Options
     this.sources = sources;
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("draco/");
     // Setup
     this.items = {};
     this.toLoad = this.sources.length || 0;
     this.loaded = 0;
-    const loadingManager = instance.loading.loadingManager
-    this.loaders = {
-      gltfLoader: new GLTFLoader(loadingManager),
+    // Create the loading manager based on the provided value or use a default one.
+    const customLoadingManager = this.createLoadingManager(loadingManager);
+    // Initialize the loaders with the custom loading manager.
+    this.loaders = this.createLoaders(customLoadingManager);
+    // Start the loading process.
+    this.startLoading();
+  }
+
+  private createLoadingManager(
+    loadingManager?: string | THREE.LoadingManager
+  ): THREE.LoadingManager {
+    if (loadingManager === undefined) {
+      return new CustomLoading("default").loadingManager;
+    } else if (typeof loadingManager === "string") {
+      return new CustomLoading(loadingManager).loadingManager;
+    } else {
+      return loadingManager;
+    }
+  }
+
+  private createLoaders(loadingManager: THREE.LoadingManager): Loaders {
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath("draco/");
+    return {
+      gltfLoader: new GLTFLoader(loadingManager).setDRACOLoader(dracoLoader),
       textureLoader: new THREE.TextureLoader(loadingManager),
       cubeTextureLoader: new THREE.CubeTextureLoader(loadingManager),
       fontLoader: new FontLoader(loadingManager),
       audioLoader: new THREE.AudioLoader(loadingManager),
     };
-    this.loaders.gltfLoader.setDRACOLoader(dracoLoader);
-
-    this.startLoading();
   }
-
   startLoading() {
     // Load each source
     for (const source of this.sources) {
@@ -83,10 +103,10 @@ export default class Resources extends EventEmitter {
     }
   }
 
-  get isLoaded() {
-    return this.loaded === this.toLoad
+  get getLoaded() {
+    return this.loaded === this.toLoad;
   }
-  get progress() {
-    return this.loaded / this.toLoad
+  get getProgress() {
+    return this.loaded / this.toLoad;
   }
 }

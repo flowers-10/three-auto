@@ -13,7 +13,6 @@ export default class BaseThree implements BaseThreeInterface {
   protected canvas;
   protected camera;
   protected _camera;
-  protected resources;
   protected time;
   protected mouse;
   protected eventOffset;
@@ -26,7 +25,6 @@ export default class BaseThree implements BaseThreeInterface {
     this.mouse = _instance.mousemove?.mouse;
     this.eventOffset = _instance.mousemove?.eventOffset;
     this.canvas = _instance._canvas;
-    this.resources = _instance.resources;
   }
   resize(): void {}
   update(): void {}

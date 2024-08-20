@@ -1,7 +1,7 @@
-import { ThreeInstance } from "../build/three-auto.es";
+import * as AUTO from "../core";
 import * as THREE from "three";
 
-const instance = new ThreeInstance();
+const instance = new AUTO.ThreeAuto();
 const geometry = new THREE.BoxGeometry(400, 400, 400);
 const material = new THREE.MeshBasicMaterial({
   color: "#E89ABE",

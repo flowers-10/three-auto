@@ -6,24 +6,35 @@ import Mousemove from "../base/Mousemove";
 import Time from "../base/Time";
 import Sizes from "../base/Sizes";
 
-import Resources from "./Resources";
-import Loading from "../components/loading/Loading";
+import { Resources } from "./Resources";
 import Camera from "../components/cameras/Camera";
 import Renderer from "../components/renderers/Renderer";
 // import BloomPass from "../components/postprocessing/BloomPass";
 import Light from "../components/lights/Light";
 import Raycaster from "../components/Raycaster";
 
-class ThreeInstance {
+export interface ThreeInstance {
+  time: Time;
+  light: Light;
+  scene: THREE.Scene;
+  sizes: Sizes;
+  camera: Camera;
+  config: any;
+  _config: ConfigType;
+  _canvas: HTMLCanvasElement;
+  renderer: Renderer;
+  mousemove: Mousemove;
+  raycaster: Raycaster;
+}
+class ThreeAuto implements ThreeInstance {
   public time: Time;
   public light: Light;
   public scene: THREE.Scene;
   public sizes: Sizes;
   public camera: Camera;
-  public _config: ConfigType;
   public config: any;
+  public _config: ConfigType;
   public _canvas: HTMLCanvasElement;
-  public loading: Loading;
   public renderer: Renderer;
   public mousemove: Mousemove;
   public raycaster: Raycaster;
@@ -62,8 +73,6 @@ class ThreeInstance {
     //   default:
     //     break;
     // }
-    this.loading = new Loading(this);
-    // this.resources = new Resources(config.sources, this.loading.loadingManager);
     this.sizes.on("resize", () => {
       this.resize();
     });
@@ -124,4 +133,4 @@ class ThreeInstance {
   }
 }
 
-export { ThreeInstance };
+export { ThreeAuto };

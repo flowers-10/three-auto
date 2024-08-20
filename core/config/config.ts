@@ -30,20 +30,6 @@ export const CONFIG: ConfigType = {
   },
   rendererPass: {
     type: "NONE",
-    outlineConfig: {
-      edgeStrength: 3,
-      edgeGlow: 1,
-      edgeThickness: 3,
-      pulsePeriod: 2,
-      gamma: true,
-      antiAliasing: true,
-      showIndex: 1,
-    },
-    bloomConfig: {
-      strength: 0.8,
-      radius: 0.5,
-      threshold: 0.5,
-    },
   },
   renderer: {
     antialias: true,
@@ -61,6 +47,5 @@ export const CONFIG: ConfigType = {
       lightName: "光源1",
     },
   ],
-  sources: [],
 };
 
