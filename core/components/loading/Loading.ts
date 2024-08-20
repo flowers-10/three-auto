@@ -7,7 +7,7 @@ export default class LoadingManager extends BaseThree {
   public loadingManager: THREE.LoadingManager;
   constructor(instance: ThreeInstance) {
     super(instance);
-    this.createLoading(!!instance._config.sources.length);
+    this.createLoading();
     this.loadingManager = new THREE.LoadingManager(
       // Loaded
       () => {
@@ -22,7 +22,7 @@ export default class LoadingManager extends BaseThree {
       }
     );
   }
-  createLoading(flag: boolean) {
+  createLoading() {
     const element = document.querySelector(".loading-page");
     if (element) return;
     const loadingPage = document.createElement("div");
@@ -46,10 +46,6 @@ export default class LoadingManager extends BaseThree {
     loadingBar.style.transform = "scaleX(0)";
     loadingBar.style.transformOrigin = "top left";
     loadingBar.style.transition = "transform  0.5s";
-    if (!flag) {
-      this.endLoading();
-      this.endLoadingBar(10, 10);
-    }
   }
   endLoading() {
     const loadingBarElement = document.querySelector(

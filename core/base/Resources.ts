@@ -2,23 +2,33 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import EventEmitter from "./EventEmitter.js";
-import { SourcesItems } from "../types/ConfigType.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import { ThreeInstance } from "./ThreeInstance.js";
+
+type SourcesType = "TEXTURE" | "CUBE_TEXTURE" | "GLTF" | "MP3" | "FONT";
+
+type SourcesItems = {
+  name: string;
+  type: SourcesType;
+  path: string;
+  show: boolean;
+};
 
 type Loaders = {
   gltfLoader: GLTFLoader;
   textureLoader: THREE.TextureLoader;
   cubeTextureLoader: THREE.CubeTextureLoader;
   fontLoader: FontLoader;
+  audioLoader: THREE.AudioLoader;
 };
 
 export default class Resources extends EventEmitter {
   private sources: SourcesItems[];
   public items: { [key: string]: any };
-  private toLoad: number;
-  private loaded: number;
+  public toLoad: number;
+  public loaded: number;
   private loaders: Loaders;
-  constructor(sources: SourcesItems[], loadingManager: THREE.LoadingManager) {
+  constructor(sources: SourcesItems[], instance: ThreeInstance) {
     super();
     // Options
     this.sources = sources;
@@ -26,13 +36,15 @@ export default class Resources extends EventEmitter {
     dracoLoader.setDecoderPath("draco/");
     // Setup
     this.items = {};
-    this.toLoad = this.sources.length;
+    this.toLoad = this.sources.length || 0;
     this.loaded = 0;
+    const loadingManager = instance.loading.loadingManager
     this.loaders = {
       gltfLoader: new GLTFLoader(loadingManager),
       textureLoader: new THREE.TextureLoader(loadingManager),
       cubeTextureLoader: new THREE.CubeTextureLoader(loadingManager),
       fontLoader: new FontLoader(loadingManager),
+      audioLoader: new THREE.AudioLoader(loadingManager),
     };
     this.loaders.gltfLoader.setDRACOLoader(dracoLoader);
 
@@ -54,6 +66,10 @@ export default class Resources extends EventEmitter {
         this.loaders.fontLoader.load(source.path, (file) => {
           this.sourceLoaded(source, file);
         });
+      } else if (source.type === "MP3") {
+        this.loaders.audioLoader.load(source.path, (file) => {
+          this.sourceLoaded(source, file);
+        });
       }
     }
   }
@@ -62,9 +78,15 @@ export default class Resources extends EventEmitter {
     this.items[source.name] = file;
 
     this.loaded++;
-
     if (this.loaded === this.toLoad) {
       this.trigger("ready", null);
     }
+  }
+
+  get isLoaded() {
+    return this.loaded === this.toLoad
+  }
+  get progress() {
+    return this.loaded / this.toLoad
   }
 }

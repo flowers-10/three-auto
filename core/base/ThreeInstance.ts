@@ -26,8 +26,8 @@ class ThreeInstance {
   public loading: Loading;
   public renderer: Renderer;
   public mousemove: Mousemove;
-  public resources: Resources;
   public raycaster: Raycaster;
+  public Resources = Resources;
   // private bloomPass;
 
   constructor(canvas?: HTMLCanvasElement, config: ConfigType = CONFIG) {
@@ -63,7 +63,7 @@ class ThreeInstance {
     //     break;
     // }
     this.loading = new Loading(this);
-    this.resources = new Resources(config.sources, this.loading.loadingManager);
+    // this.resources = new Resources(config.sources, this.loading.loadingManager);
     this.sizes.on("resize", () => {
       this.resize();
     });
