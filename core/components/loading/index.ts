@@ -1,2 +1,2 @@
 export * from './CustomLoading'
-export * from './htmlRender'
+export * from './createLoading'

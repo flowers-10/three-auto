@@ -2,6 +2,7 @@ import * as AUTO from "../core";
 import * as THREE from "three";
 
 const instance = new AUTO.ThreeAuto();
+AUTO.createLoading()
 const geometry = new THREE.BoxGeometry(400, 400, 400);
 const material = new THREE.MeshBasicMaterial({
   color: "#E89ABE",

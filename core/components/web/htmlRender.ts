@@ -11,7 +11,7 @@ export interface NodeObject {
   cssRules?: CSSRule[];
 }
 
-function addCSSRules(cssRules: CSSRule[]): void {
+export function addCSSRules(cssRules: CSSRule[]): void {
   const styleElement = document.createElement("style");
   const styleText = cssRules
     .map((rule) => {
