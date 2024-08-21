@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
-import { RendererConfig } from "../../types/ConfigType";
+import { RendererConfig } from "../../types";
 
 export class Renderer extends BaseThree {
   public instance: THREE.WebGLRenderer;

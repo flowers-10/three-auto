@@ -4,7 +4,7 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
-import { BloomConfigType } from "../../types/ConfigType";
+import { BloomConfigType } from "../../types";
 
 export  class BloomPass extends BaseThree {
   private renderer;

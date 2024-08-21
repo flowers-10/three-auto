@@ -4,7 +4,7 @@ import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { EventEmitter } from "./EventEmitter";
 import { CustomLoading } from "../components";
-import { SourcesItems, Loaders, LoadingType } from "../types/index";
+import { SourcesItems, Loaders, LoadingType } from "../types";
 
 export class Resources extends EventEmitter {
   private sources: SourcesItems[];

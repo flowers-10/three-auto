@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
-import { CameraConfig } from "../../types/ConfigType";
+import { CameraConfig } from "../../types";
 
 export class Camera extends BaseThree {
   private cameraConfig: CameraConfig;
