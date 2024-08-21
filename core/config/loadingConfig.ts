@@ -1,7 +1,6 @@
-import { htmlRender, NodeObject } from "../web";
-import { LoadingType } from "../../types";
+import { NodeObject } from "../components";
 
-const defaultLoading: NodeObject = {
+export const defaultLoading: NodeObject = {
   tag: "div",
   className: "loading-page",
   style: {
@@ -32,36 +31,38 @@ const defaultLoading: NodeObject = {
   ],
 };
 
-const circleLoading: NodeObject = {
+export const circleLoading: NodeObject = {
   tag: "div",
   className: "loading-page",
-  cssRules:  Array.from({ length: 62 }, (_, index) => ({
+  cssRules: Array.from({ length: 62 }, (_, index) => ({
     selector: `._circle_:nth-child(${index + 1})`,
     rules: {
-      transform: `rotate(${(360 / 62) * (index + 1)}deg) translate3d(80px, 0, 0)`,
+      transform: `rotate(${
+        (360 / 62) * (index + 1)
+      }deg) translate3d(80px, 0, 0)`,
       "animation-delay": `${index * (3 / 62)}s`,
-    }
+    },
   })),
   keyframes: [
     {
-      name: 'spin',
+      name: "spin",
       keyframes: [
-        'from { opacity:0 }',
-        'to { opacity:0.6; transform: translate3d(-4px, -4px, 570px) }'
-      ]
-    }
+        "from { opacity:0 }",
+        "to { opacity:0.6; transform: translate3d(-4px, -4px, 570px) }",
+      ],
+    },
   ],
   style: {
     position: "absolute",
     top: "0",
     overflow: "hidden",
-    width: '100%',
-    height: '100vh',
+    width: "100%",
+    height: "100vh",
     "background-color": "#111111",
   },
   children: [
     {
-      tag: 'div',
+      tag: "div",
       style: {
         position: "absolute",
         top: "50%",
@@ -89,18 +90,8 @@ const circleLoading: NodeObject = {
           "animation-timing-function": "ease-in-out",
         },
       })),
-    }
-  ]
+    },
+  ],
 };
 
-const map = new Map();
-map.set("default", defaultLoading);
-map.set("circle", circleLoading);
-map.set("gradient", defaultLoading);
-
-export function createLoading(type: LoadingType = "circle", node: NodeObject) {
-  if (!node) {
-    node = map.get(type);
-  }
-  htmlRender(node, document.body);
-}
+export const traditionLoading = {};

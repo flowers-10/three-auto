@@ -1,13 +1,12 @@
 import * as THREE from "three";
 import { gsap } from "gsap";
 import { LoadingType } from "../../types/index";
+import { createLoading } from "./loadingScheduler";
 
 export class CustomLoading {
   public loadingManager: THREE.LoadingManager;
   constructor(type: LoadingType) {
-    // todo :type
-    type;
-    this.createBar();
+    this.createBar(type);
     this.loadingManager = new THREE.LoadingManager(
       // Loaded
       () => {
@@ -23,12 +22,12 @@ export class CustomLoading {
       }
     );
   }
-  createBar() {
-    const element = document.querySelector(".loading-page");
-    if (element) return;
-    
+  createBar(type: LoadingType) {
+    this.dispose();
+    createLoading(type);
   }
   loadedBar() {
+    // todo ... schedule
     const loadingBarElement = document.querySelector(
       ".loading-bar"
     ) as HTMLDivElement;
@@ -48,6 +47,7 @@ export class CustomLoading {
     }
   }
   progressBar(loaded: number, total: number) {
+     // todo ... schedule
     const loadingBarElement = document.querySelector(
       ".loading-bar"
     ) as HTMLDivElement;
