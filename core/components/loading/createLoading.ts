@@ -1,13 +1,45 @@
 import { htmlRender, NodeObject } from "../web";
+import { LoadingType } from "../../types";
 
-const tree: NodeObject = {
+const any: NodeObject = {
   tag: "div",
-  className: "container",
-  style: { color: "blue",width: '100px',height:'100px',position:'absulte' },
-  cssRules: [{ selector: ".container", rules: { "font-size": "16px" } }],
-  children: [{ tag: "span", className: "text", children: "hello world" }],
+  className: "loading-page",
+  style: {
+    position: "fixed",
+    top: "0",
+    left: "0",
+    width: "100%",
+    height: "100vh",
+    "background-color": "rgba(0, 0, 0, 0.7)",
+    "pointer-events": "none",
+  },
+  cssRules: [],
+  children: [
+    {
+      tag: "div",
+      className: "loading-bar",
+      style: {
+        position: "absolute",
+        top: "50%",
+        width: "100%",
+        height: "2px",
+        "background-color": "#ffffff",
+        transform: "scaleX(0)",
+        "transform-origin": "top left",
+        transition: "transform  0.8s",
+      },
+    },
+  ],
 };
 
-export function createLoading(node:NodeObject = tree) {
-  htmlRender(node,document.body)
+const map = new Map();
+map.set("default", any);
+map.set("circle", any);
+map.set("gradient", any);
+
+export function createLoading(type: LoadingType = 'default', node: NodeObject) {
+  if(!node) {
+    node = map.get(type)
+  }
+  htmlRender(node, document.body);
 }

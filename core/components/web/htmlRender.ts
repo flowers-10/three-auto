@@ -8,16 +8,17 @@ export interface NodeObject {
   className?: string;
   style?: Record<string, string>;
   children?: (NodeObject | string)[] | string;
-  cssRules?: CSSRule[];
+  cssRules?: Partial<CSSRule[]>;
 }
 
-export function addCSSRules(cssRules: CSSRule[]): void {
+export function addCSSRules(cssRules: Partial<CSSRule[]>): void {
   const styleElement = document.createElement("style");
   const styleText = cssRules
     .map((rule) => {
-      return `${rule.selector} { ${Object.entries(rule.rules)
-        .map(([prop, value]) => `${prop}: ${value};`)
-        .join(" ")} }`;
+      if (rule)
+        return `${rule.selector} { ${Object.entries(rule.rules)
+          .map(([prop, value]) => `${prop}: ${value};`)
+          .join(" ")} }`;
     })
     .join("\n");
 

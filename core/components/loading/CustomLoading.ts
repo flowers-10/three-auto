@@ -26,27 +26,7 @@ export class CustomLoading {
   createBar() {
     const element = document.querySelector(".loading-page");
     if (element) return;
-    const loadingPage = document.createElement("div");
-    loadingPage.className = "loading-page";
-    loadingPage.style.position = "fixed";
-    loadingPage.style.top = "0";
-    loadingPage.style.left = "0";
-    loadingPage.style.width = "100%";
-    loadingPage.style.height = "100vh";
-    loadingPage.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
-    loadingPage.style.pointerEvents = "none";
-    document.body.appendChild(loadingPage);
-    const loadingBar = document.createElement("div");
-    loadingBar.className = "loading-bar";
-    loadingPage.appendChild(loadingBar);
-    loadingBar.style.position = "absolute";
-    loadingBar.style.top = "50%";
-    loadingBar.style.width = "100%";
-    loadingBar.style.height = "2px";
-    loadingBar.style.background = "#ffffff";
-    loadingBar.style.transform = "scaleX(0)";
-    loadingBar.style.transformOrigin = "top left";
-    loadingBar.style.transition = "transform  0.8s";
+    
   }
   loadedBar() {
     const loadingBarElement = document.querySelector(
