@@ -3,7 +3,7 @@ import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
 import { RendererConfig } from "../../types/ConfigType";
 
-export default class Renderer extends BaseThree {
+export class Renderer extends BaseThree {
   public instance: THREE.WebGLRenderer;
 
   constructor(config: RendererConfig, instance: ThreeInstance) {

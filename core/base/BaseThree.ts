@@ -1,6 +1,4 @@
 import { ThreeInstance } from "./ThreeInstance";
-import Sizes from "./Sizes";
-
 interface BaseThreeInterface {
   resize(): void;
   update(): void;
@@ -8,7 +6,7 @@ interface BaseThreeInterface {
 }
 
 export default class BaseThree implements BaseThreeInterface {
-  protected sizes: Sizes;
+  protected sizes;
   protected scene;
   protected canvas;
   protected camera;

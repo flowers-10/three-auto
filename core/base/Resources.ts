@@ -1,26 +1,10 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
-import EventEmitter from "./EventEmitter.js";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-import { CustomLoading } from "../components/loading/CustomLoading.ts";
-
-export type SourcesType = "TEXTURE" | "CUBE_TEXTURE" | "GLTF" | "MP3" | "FONT";
-
-export type SourcesItems = {
-  name: string;
-  type: SourcesType;
-  path: string;
-  show: boolean;
-};
-
-export type Loaders = {
-  gltfLoader: GLTFLoader;
-  textureLoader: THREE.TextureLoader;
-  cubeTextureLoader: THREE.CubeTextureLoader;
-  fontLoader: FontLoader;
-  audioLoader: THREE.AudioLoader;
-};
+import { EventEmitter } from "./EventEmitter";
+import { CustomLoading } from "../components";
+import { SourcesItems, Loaders, LoadingType } from "../types/index";
 
 export class Resources extends EventEmitter {
   private sources: SourcesItems[];
@@ -31,7 +15,7 @@ export class Resources extends EventEmitter {
 
   constructor(
     sources: SourcesItems[],
-    loadingManager?:string | THREE.LoadingManager
+    loadingManager?: LoadingType | THREE.LoadingManager
   ) {
     super();
     // Options
@@ -49,7 +33,7 @@ export class Resources extends EventEmitter {
   }
 
   private createLoadingManager(
-    loadingManager?: string | THREE.LoadingManager
+    loadingManager?: LoadingType | THREE.LoadingManager
   ): THREE.LoadingManager {
     if (loadingManager === undefined) {
       return new CustomLoading("default").loadingManager;

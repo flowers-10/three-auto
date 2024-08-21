@@ -1,7 +1,7 @@
-import EventEmitter from "./EventEmitter";
+import { EventEmitter } from "./EventEmitter";
 import { SizeConfigType } from "../types/ConfigType";
 
-export default class Sizes extends EventEmitter {
+export class Sizes extends EventEmitter {
   public width: number;
   public height: number;
   public pixelRatio: number;
@@ -40,7 +40,7 @@ export default class Sizes extends EventEmitter {
     window.addEventListener("resize", this.resizeHandler);
   }
   info(message = "Now size") {
-    console.log(message, 'width:',this.width,'height:', this.height);
+    console.log(message, "width:", this.width, "height:", this.height);
   }
   release() {
     window.removeEventListener("resize", this.resizeHandler);

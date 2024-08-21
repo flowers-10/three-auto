@@ -1,4 +1,4 @@
-export default class EventEmitter {
+export class EventEmitter {
   private callbacks: { [key: string]: { [key: string]: Function[] } };
 
   constructor() {

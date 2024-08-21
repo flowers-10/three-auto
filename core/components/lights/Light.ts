@@ -3,7 +3,7 @@ import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
 import { LightItems } from "../../types/ConfigType";
 
-export default class Light extends BaseThree {
+export class Light extends BaseThree {
   private light;
   constructor(config: LightItems[], instance: ThreeInstance) {
     super(instance);

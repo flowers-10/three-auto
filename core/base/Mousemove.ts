@@ -1,7 +1,7 @@
 import * as THREE from "three";
-import EventEmitter from "./EventEmitter";
+import { EventEmitter } from "./EventEmitter";
 
-export default class Mousemove extends EventEmitter {
+export class Mousemove extends EventEmitter {
   private canvas: HTMLCanvasElement;
   public eventOffset: { x: number; y: number };
   public mouse: THREE.Vector2;

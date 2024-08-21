@@ -2,16 +2,9 @@ import * as THREE from "three";
 
 import { ConfigType } from "../types/ConfigType";
 import { CONFIG } from "../config/config";
-import Mousemove from "../base/Mousemove";
-import Time from "../base/Time";
-import Sizes from "../base/Sizes";
-
-import { Resources } from "./Resources";
-import Camera from "../components/cameras/Camera";
-import Renderer from "../components/renderers/Renderer";
+import { Mousemove, Time, Sizes, Raycaster, Resources } from "./index";
+import { Camera, Renderer, Light } from "../components";
 // import BloomPass from "../components/postprocessing/BloomPass";
-import Light from "../components/lights/Light";
-import Raycaster from "../components/Raycaster";
 
 export interface ThreeInstance {
   time: Time;

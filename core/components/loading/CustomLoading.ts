@@ -1,19 +1,21 @@
 import * as THREE from "three";
 import { gsap } from "gsap";
+import { LoadingType } from "../../types/index";
+
 export class CustomLoading {
   public loadingManager: THREE.LoadingManager;
-  constructor(type:string) {
+  constructor(type: LoadingType) {
     // todo :type
-    type
-    this.createLoading();
+    type;
+    this.createBar();
     this.loadingManager = new THREE.LoadingManager(
       // Loaded
       () => {
-        this.endLoading();
+        this.loadedBar();
       },
       // Progress
       (_, loaded, total) => {
-        this.endLoadingBar(loaded, total);
+        this.progressBar(loaded, total);
       },
       // Error
       (e) => {
@@ -21,7 +23,7 @@ export class CustomLoading {
       }
     );
   }
-  createLoading() {
+  createBar() {
     const element = document.querySelector(".loading-page");
     if (element) return;
     const loadingPage = document.createElement("div");
@@ -46,24 +48,7 @@ export class CustomLoading {
     loadingBar.style.transformOrigin = "top left";
     loadingBar.style.transition = "transform  0.8s";
   }
-  autoEndLoading() {
-    const loaded = {
-      value: 0,
-    };
-    gsap.to(loaded, 0.2, {
-      value: 10,
-      ease: "power1.inOut",
-      onUpdate: () => {
-        this.endLoadingBar(loaded.value, 10);
-      },
-      onComplete: () => {
-        setTimeout(() => {
-          this.endLoading();
-        }, 300);
-      },
-    });
-  }
-  endLoading() {
+  loadedBar() {
     const loadingBarElement = document.querySelector(
       ".loading-bar"
     ) as HTMLDivElement;
@@ -82,7 +67,7 @@ export class CustomLoading {
       }, 100);
     }
   }
-  endLoadingBar(loaded: number, total: number) {
+  progressBar(loaded: number, total: number) {
     const loadingBarElement = document.querySelector(
       ".loading-bar"
     ) as HTMLDivElement;

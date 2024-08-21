@@ -6,7 +6,7 @@ import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
 import { BloomConfigType } from "../../types/ConfigType";
 
-export default class BloomPass extends BaseThree {
+export  class BloomPass extends BaseThree {
   private renderer;
   private bloomLayer;
   private materials: any;

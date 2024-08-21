@@ -4,7 +4,7 @@ import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
 import { CameraConfig } from "../../types/ConfigType";
 
-export default class Camera extends BaseThree {
+export class Camera extends BaseThree {
   private cameraConfig: CameraConfig;
   public controls: OrbitControls;
   public instance: THREE.PerspectiveCamera;
