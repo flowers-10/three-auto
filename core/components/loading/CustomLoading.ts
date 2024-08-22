@@ -1,7 +1,6 @@
 import * as THREE from "three";
-import { gsap } from "gsap";
 import { LoadingType } from "../../types/index";
-import { createLoading } from "./loadingScheduler";
+import { createLoading, endLoading, progressLoading } from "./loadingScheduler";
 
 export class CustomLoading {
   public loadingManager: THREE.LoadingManager;
@@ -10,11 +9,11 @@ export class CustomLoading {
     this.loadingManager = new THREE.LoadingManager(
       // Loaded
       () => {
-        this.loadedBar();
+        this.loadedBar(type);
       },
       // Progress
       (_, loaded, total) => {
-        this.progressBar(loaded, total);
+        this.progressBar(type,loaded, total);
       },
       // Error
       (e) => {
@@ -26,33 +25,11 @@ export class CustomLoading {
     this.dispose();
     createLoading(type);
   }
-  loadedBar() {
-    // todo ... schedule
-    const loadingBarElement = document.querySelector(
-      ".loading-bar"
-    ) as HTMLDivElement;
-    const element = document.querySelector(".loading-page") as HTMLDivElement;
-    if (element) {
-      gsap.set(element.style, { opacity: 1 });
-      gsap.to(element.style, {
-        duration: 2,
-        opacity: 0,
-        ease: "power1.inOut",
-      });
-      window.setTimeout(() => {
-        loadingBarElement.style.transform = "scaleX(0)";
-        loadingBarElement.style.transformOrigin = "100% 0";
-        loadingBarElement.style.transition = "transform 0.8s ease-in-out";
-      }, 100);
-    }
+  loadedBar(type: LoadingType) {
+    endLoading(type)
   }
-  progressBar(loaded: number, total: number) {
-     // todo ... schedule
-    const loadingBarElement = document.querySelector(
-      ".loading-bar"
-    ) as HTMLDivElement;
-    const progressRatio = loaded / total;
-    loadingBarElement.style.transform = `scaleX(${progressRatio})`;
+  progressBar(type:LoadingType,loaded: number, total: number) {
+   progressLoading(type,loaded,total)
   }
   dispose() {
     const element = document.querySelector(".loading-page");

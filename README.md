@@ -44,6 +44,7 @@ Give a ⭐️ if this project helped you!
 - support webGPU
 - support environment
 - support physic
+- fix Three.js Reminders caused by inconsistent versions: 'Material: onBeforeRender() has been removed.'
 
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

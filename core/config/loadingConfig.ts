@@ -28,19 +28,33 @@ export const defaultLoading: NodeObject = {
         transition: "transform  0.8s",
       },
     },
+    {
+      tag: "div",
+      className: "loading-counter",
+      style: {
+        "font-size": "60px",
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%,0)",
+        color: "#ffffff",
+      },
+      children: "0%",
+    },
   ],
 };
 
+const sum = 32;
 export const circleLoading: NodeObject = {
   tag: "div",
   className: "loading-page",
-  cssRules: Array.from({ length: 62 }, (_, index) => ({
+  cssRules: Array.from({ length: sum }, (_, index) => ({
     selector: `._circle_:nth-child(${index + 1})`,
     rules: {
       transform: `rotate(${
-        (360 / 62) * (index + 1)
-      }deg) translate3d(80px, 0, 0)`,
-      "animation-delay": `${index * (3 / 62)}s`,
+        (360 / sum) * (index + 1)
+      }deg) translate3d(120px, 0, 0)`,
+      "animation-delay": `${index * (3 / sum)}s`,
     },
   })),
   keyframes: [
@@ -48,7 +62,7 @@ export const circleLoading: NodeObject = {
       name: "spin",
       keyframes: [
         "from { opacity:0 }",
-        "to { opacity:0.6; transform: translate3d(-4px, -4px, 570px) }",
+        "to { opacity:0.6; transform: translate3d(-4px, -4px, 670px) }",
       ],
     },
   ],
@@ -63,6 +77,7 @@ export const circleLoading: NodeObject = {
   children: [
     {
       tag: "div",
+      className: "loading-bar",
       style: {
         position: "absolute",
         top: "50%",
@@ -72,7 +87,7 @@ export const circleLoading: NodeObject = {
         "background-color": "#111",
         "pointer-events": "none",
       },
-      children: Array.from({ length: 62 }, () => ({
+      children: Array.from({ length: sum }, () => ({
         tag: "i",
         className: "_circle_",
         style: {
@@ -81,7 +96,7 @@ export const circleLoading: NodeObject = {
           width: "8px",
           height: "8px",
           "border-radius": "8px",
-          opacity: "0.6",
+          opacity: "0",
           background: "rgba(255, 255, 255, 0.5)",
           "box-shadow": "0px 0px 10px rgba(255, 255, 255, 0.4)",
           "animation-name": "spin",
@@ -91,7 +106,25 @@ export const circleLoading: NodeObject = {
         },
       })),
     },
+    {
+      tag: "div",
+      className: "loading-counter",
+      style: {
+        "font-size": "60px",
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%,-50%)",
+        color: "#ffffff",
+      },
+      children: "0%",
+    },
   ],
 };
 
 export const traditionLoading = {};
+
+export const loadingMap = new Map();
+loadingMap.set("default", defaultLoading);
+loadingMap.set("circle", circleLoading);
+loadingMap.set("tradition", defaultLoading);

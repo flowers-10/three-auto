@@ -19,9 +19,9 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@types/three": "^0.154.0",
+    "@types/three": "^0.166.0",
     "gsap": "^3.12.5",
-    "three": "^0.154.0",
+    "three": "^0.166.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "vite-plugin-dts": "^4.0.2",
