@@ -4,7 +4,7 @@ import dts from 'vite-plugin-dts'
 export default defineConfig({
   plugins: [dts()],
   build: {
-    outDir: 'build',
+    outDir: 'dist',
     lib: {
       entry: "core/index.ts", 
       name: "three-auto", 
