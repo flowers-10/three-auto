@@ -1,7 +1,7 @@
 {
   "name": "three-auto",
   "private": false,
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "./dist/three-auto.umd.js",
   "module": "./dist/three-auto.es.js",
   "types": "./dist/index.d.ts",
