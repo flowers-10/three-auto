@@ -9,7 +9,7 @@ export class CustomLoading {
     this.loadingManager = new THREE.LoadingManager(
       // Loaded
       () => {
-        this.loadedBar(type);
+        this.loadedBar();
       },
       // Progress
       (_, loaded, total) => {
@@ -25,8 +25,8 @@ export class CustomLoading {
     this.dispose();
     createLoading(type);
   }
-  loadedBar(type: LoadingType) {
-    endLoading(type)
+  loadedBar() {
+    endLoading()
   }
   progressBar(type:LoadingType,loaded: number, total: number) {
    progressLoading(type,loaded,total)

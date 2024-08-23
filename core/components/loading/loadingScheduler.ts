@@ -13,11 +13,13 @@ export function createLoading(
   htmlRender(node, document.body);
 }
 
-export function endLoading(type: LoadingType = "default") {
+export function endLoading() {
   const loadingBarElement = document.querySelector(
     "._loading_bar_"
   ) as HTMLElement | null;
-  const element = document.querySelector("._loading_page_") as HTMLElement | null;
+  const element = document.querySelector(
+    "._loading_page_"
+  ) as HTMLElement | null;
   if (element && element.style) {
     gsap.set(element.style, { opacity: 1 });
     gsap.to(element.style, {
