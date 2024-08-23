@@ -15,9 +15,9 @@ export function createLoading(
 
 export function endLoading(type: LoadingType = "default") {
   const loadingBarElement = document.querySelector(
-    ".loading-bar"
+    "._loading_bar_"
   ) as HTMLElement | null;
-  const element = document.querySelector(".loading-page") as HTMLElement | null;
+  const element = document.querySelector("._loading_page_") as HTMLElement | null;
   if (element && element.style) {
     gsap.set(element.style, { opacity: 1 });
     gsap.to(element.style, {
@@ -41,7 +41,7 @@ export function progressLoading(
   total: number
 ) {
   const loadingCounterElement = document.querySelector(
-    ".loading-counter"
+    "._loading_counter_"
   ) as HTMLElement | null;
 
   const progress = loaded / total;
@@ -54,7 +54,7 @@ export function progressLoading(
       break;
     default:
       const loadingBarElement = document.querySelector(
-        ".loading-bar"
+        "._loading_bar_"
       ) as HTMLElement | null;
       if (!loadingBarElement) return;
       loadingBarElement.style.transform = `scaleX(${progress})`;

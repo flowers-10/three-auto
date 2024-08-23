@@ -9,7 +9,7 @@ export interface NodeObject {
   style?: Record<string, string>;
   children?: (NodeObject | string)[] | string;
   cssRules?: Partial<CSSRule[]>;
-  keyframes?: CSSKeyframesRule[]
+  keyframes?: CSSKeyframesRule[];
 }
 
 interface CSSKeyframesRule {
@@ -17,30 +17,34 @@ interface CSSKeyframesRule {
   keyframes: string[];
 }
 
-
-export function addCSSRules(cssRules: Partial<CSSRule[]>, keyframes?: CSSKeyframesRule[]): void {
+export function addCSSRules(
+  cssRules: Partial<CSSRule[]>,
+  keyframes?: CSSKeyframesRule[]
+): void {
   const styleElement = document.createElement("style");
-  let styleText = '';
+  let styleText = "";
 
   // Generate the CSS text for the rules
   styleText += cssRules
-    .filter(rule => rule !== undefined) // Ensure rule is not undefined
+    .filter((rule) => rule !== undefined) // Ensure rule is not undefined
     .map((rule) => {
       if (rule) {
         // Check if rule.rules is defined before calling Object.entries
         const rulesEntries = rule.rules ? Object.entries(rule.rules) : [];
         return `${rule.selector} { ${rulesEntries
           .map(([prop, value]) => `${prop}: ${value};`)
-          .join(" ")} }`;
+          .join(" ")} } \n`;
       }
     })
     .filter(Boolean) // Remove any undefined or null values
     .join("\n");
-
   // Generate the CSS text for the keyframes
   if (keyframes && keyframes.length > 0) {
     styleText += keyframes
-      .map((keyframe) => `@keyframes ${keyframe.name} { ${keyframe.keyframes.join("\n")} }`)
+      .map(
+        (keyframe) =>
+          `@keyframes ${keyframe.name} { ${keyframe.keyframes.join("\n")} }\n`
+      )
       .join("\n");
   }
 
@@ -50,7 +54,7 @@ export function addCSSRules(cssRules: Partial<CSSRule[]>, keyframes?: CSSKeyfram
 
 export function htmlRender(obj: NodeObject, root: HTMLElement): void {
   if (obj.cssRules) {
-    addCSSRules(obj.cssRules,obj.keyframes);
+    addCSSRules(obj.cssRules, obj.keyframes);
   }
 
   const el = document.createElement(obj.tag);

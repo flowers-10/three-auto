@@ -32,7 +32,7 @@ export class CustomLoading {
    progressLoading(type,loaded,total)
   }
   dispose() {
-    const element = document.querySelector(".loading-page");
+    const element = document.querySelector("._loading_page_");
     if (element) {
       element.remove();
     }

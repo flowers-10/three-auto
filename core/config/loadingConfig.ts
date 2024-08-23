@@ -2,7 +2,7 @@ import { NodeObject } from "../components";
 
 export const defaultLoading: NodeObject = {
   tag: "div",
-  className: "loading-page",
+  className: "_loading_page_",
   style: {
     position: "fixed",
     top: "0",
@@ -16,7 +16,7 @@ export const defaultLoading: NodeObject = {
   children: [
     {
       tag: "div",
-      className: "loading-bar",
+      className: "_loading_bar_",
       style: {
         position: "absolute",
         top: "50%",
@@ -30,7 +30,7 @@ export const defaultLoading: NodeObject = {
     },
     {
       tag: "div",
-      className: "loading-counter",
+      className: "_loading_counter_",
       style: {
         "font-size": "60px",
         position: "absolute",
@@ -47,7 +47,7 @@ export const defaultLoading: NodeObject = {
 const sum = 32;
 export const circleLoading: NodeObject = {
   tag: "div",
-  className: "loading-page",
+  className: "_loading_page_",
   cssRules: Array.from({ length: sum }, (_, index) => ({
     selector: `._circle_:nth-child(${index + 1})`,
     rules: {
@@ -59,7 +59,7 @@ export const circleLoading: NodeObject = {
   })),
   keyframes: [
     {
-      name: "spin",
+      name: "_spin_",
       keyframes: [
         "from { opacity:0 }",
         "to { opacity:0.6; transform: translate3d(-4px, -4px, 670px) }",
@@ -77,7 +77,7 @@ export const circleLoading: NodeObject = {
   children: [
     {
       tag: "div",
-      className: "loading-bar",
+      className: "_loading_bar_",
       style: {
         position: "absolute",
         top: "50%",
@@ -99,7 +99,7 @@ export const circleLoading: NodeObject = {
           opacity: "0",
           background: "rgba(255, 255, 255, 0.5)",
           "box-shadow": "0px 0px 10px rgba(255, 255, 255, 0.4)",
-          "animation-name": "spin",
+          "animation-name": "_spin_",
           "animation-duration": "3s",
           "animation-iteration-count": "infinite",
           "animation-timing-function": "ease-in-out",
@@ -108,7 +108,7 @@ export const circleLoading: NodeObject = {
     },
     {
       tag: "div",
-      className: "loading-counter",
+      className: "_loading_counter_",
       style: {
         "font-size": "60px",
         position: "absolute",
@@ -122,9 +122,116 @@ export const circleLoading: NodeObject = {
   ],
 };
 
-export const traditionLoading = {};
+const LOADING = "LOADING";
+const factor = [1, 2, 5, 10];
+export const fadeLoading: NodeObject = {
+  tag: "div",
+  className: "_loading_page_",
+  cssRules: [
+    ...Array.from({ length: 7 }, (_, index) => ({
+      selector: `._load_str_ > span:nth-of-type(${index + 1})`,
+      rules: {
+        animation: "_letter_fade_ 3s ease-in-out infinite",
+        "animation-delay": `${(index + 1) * 0.3}s`,
+      },
+    })),
+    ...Array.from({ length: 4 }, (_, index) => ({
+      selector: `._loading_ span:nth-child(${index + 1})`,
+      rules: {
+        filter: `blur(${factor[index] * 5}px);`,
+      },
+    })),
+  ],
+  keyframes: [
+    {
+      name: "_letter_fade_",
+      keyframes: [
+        "0% {opacity: 1;}",
+        "50% {opacity: 0;}",
+        "100% {opacity: 1;}",
+      ],
+    },
+    {
+      name: "_loading_fade_",
+      keyframes: [
+        "from {transform: rotate(0);}",
+        "to {transform: rotate(360deg);}",
+      ],
+    },
+  ],
+  style: {
+    position: "absolute",
+    top: "0",
+    overflow: "hidden",
+    width: "100%",
+    height: "100vh",
+    "background-color": "#000",
+    display: "flex",
+    "justify-content": "center",
+    "align-items": "center",
+  },
+  children: [
+    {
+      tag: "div",
+      className: "_loading_",
+      style: {
+        position: "relative",
+        width: "200px",
+        height: "200px",
+        "border-radius": "50%",
+        background: "linear-gradient(#14ffe9, #ffeb3b, #ff00e0)",
+        animation: "_loading_fade_ 0.5s linear infinite",
+      },
+      children: [...Array.from({ length: 4 }, () => ({
+        tag: "span",
+        style: {
+          position: "absolute",
+          width: "200px",
+          height: "200px",
+          "border-radius": "50%",
+          background: "linear-gradient(#14ffe9, #ffeb3b, #ff00e0)",
+        },
+      })),
+      {
+        tag:'div',
+        style: {
+          position: "absolute",
+          top: "10px",
+          left: "10px",
+          right: "10px",
+          bottom: "10px",
+          "border-radius": "50%",
+          "background-color": "#000",
+          "z-index": "1",
+        }
+      }
+    ]
+    },
+    {
+      tag: "div",
+      className: "_load_str_",
+      style: {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        color: "#35c4f0",
+        "z-index": "10",
+        "letter-spacing": "2px",
+        "font-size": "25px",
+      },
+      children: Array.from({ length: 7 }, (_, k) => ({
+        tag: "span",
+        children: LOADING[k],
+        style: {
+          opacity: "1",
+        },
+      })),
+    },
+  ],
+};
 
 export const loadingMap = new Map();
 loadingMap.set("default", defaultLoading);
 loadingMap.set("circle", circleLoading);
-loadingMap.set("tradition", defaultLoading);
+loadingMap.set("fade", fadeLoading);
