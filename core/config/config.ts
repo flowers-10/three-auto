@@ -34,8 +34,8 @@ export const CONFIG: ConfigType = {
   renderer: {
     antialias: true,
     alpha: true,
-    clearAlpha: 0,
-    clearColor: "",
+    clearAlpha: 1,
+    clearColor: "#fff",
   },
   light: [
     {

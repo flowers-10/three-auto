@@ -31,5 +31,6 @@
     "three": ">=0.154"
   },
   "dependencies": {
+    "postprocessing": "^6.36.0"
   }
 }

@@ -1,1 +1,1 @@
-export * from './BloomPass'
+export * from './CustomPass'
