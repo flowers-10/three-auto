@@ -1,6 +1,6 @@
 import * as AUTO from "../core";
 import * as THREE from "three";
-import { Effect, EffectPass, ShaderPass } from "postprocessing";
+import { GlitchEffect, EffectPass, ShaderPass } from "postprocessing";
 
 const instance = new AUTO.ThreeAuto();
 const geometry = new THREE.BoxGeometry(400, 400, 400);
@@ -13,26 +13,18 @@ const box = new THREE.Mesh(geometry, material);
 instance.scene.add(box);
 
 const customPass = new AUTO.CustomPass(instance);
-// customPass.composer.addPass(
-//   new EffectPass(
-//     instance.camera.instance,
-//     new Effect(
-//       "test",
-//       `
-// void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)  {
-//     vec4 color = inputColor;
-//     color.r -= 0.9;
-//     outputColor = color;
-//   }`
-//     )
-//   )
-// );
+customPass.composer.addPass(
+  new EffectPass(
+    instance.camera.instance,
+    new GlitchEffect()
+  )
+);
 
 customPass.composer.addPass(
   new ShaderPass(
     new THREE.ShaderMaterial({
       uniforms: {
-        tDiffuse: { value: null },
+        inputBuffer: { value: null },
       },
       vertexShader: `
         varying vec2 vUv;
@@ -43,8 +35,9 @@ customPass.composer.addPass(
   `,
       fragmentShader: `
         varying vec2 vUv;
+        uniform sampler2D inputBuffer;
         void main() {
-          vec4 color = texture2D(tDiffuse, vUv);
+          vec4 color = texture2D(inputBuffer, vUv);
           color.gb += 0.3;
           gl_FragColor = color;
         }
