@@ -24,6 +24,7 @@ export class Renderer extends BaseThree {
     // this.instance.shadowMap.enabled = true
     // this.instance.shadowMap.type = THREE.PCFSoftShadowMap
     this.instance.outputColorSpace = THREE.SRGBColorSpace;
+    this.instance.toneMapping = THREE.ACESFilmicToneMapping;
     // this.instance.useLegacyLights = true
     config.clearAlpha
       ? this.instance.setClearAlpha(config.clearAlpha)

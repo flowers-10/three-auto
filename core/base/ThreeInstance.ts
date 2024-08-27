@@ -82,7 +82,7 @@ class ThreeAuto implements ThreeInstance {
   update() {
     this.camera.update();
     this.raycaster.update();
-    // this.renderer.update();
+    this.renderer.update();
   }
 
   clearGroup(group: any) {
