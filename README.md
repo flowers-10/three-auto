@@ -25,9 +25,7 @@ npm install three-auto
 yarn add three-auto
 ```
 ## Useing
-> There must be a canvas DOM root node or a virtual DOM node (supporting Vue and React).
-> If the canvas's ID is explicitly declared in the HTML file, there is no need to pass in the canvas node.
-> It also supports manually passing in a DOM node to create a Three.js instance.
+Creating an auto-three instance, you need a canvas DOM root node or a virtual DOM node (supported by frameworks like Vue and React) to render the Three.js scene.
 
 `html`
 ```html
@@ -39,7 +37,8 @@ yarn add three-auto
 ```ts
 import * as AUTO from "../core";
 import * as THREE from "three";
-const instance = new AUTO.ThreeAuto();
+const canvas = document.getElementById('_scene') as HTMLCanvasElement;
+const instance = new AUTO.ThreeAuto(canvas);
 const geometry = new THREE.BoxGeometry(400, 400, 400);
 const material = new THREE.MeshBasicMaterial({
   color: "#E89ABE",
@@ -54,10 +53,8 @@ instance.time.on("tick", () => {
 
 ## Author
 
-👤 **flowers-10**
+👤 **Michela**
 
-* Website: 1
-* Twitter: [@1](https://twitter.com/1)
 * Github: [@flowers-10](https://github.com/flowers-10)
 
 ## Show your support
