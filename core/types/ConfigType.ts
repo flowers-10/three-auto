@@ -1,6 +1,7 @@
 type SizeType = "parent" | "window";
 type PassType = "NONE" | "OUTLINE" | "BLOOM";
 type LightType = "point" | "ambient" | "hemisphere" | "spot";
+type CameraType = 'PerspectiveCamera' | 'OrthographicCamera'
 
 type PositionType = {
   x: number;
@@ -28,6 +29,7 @@ export type SizeConfigType = {
   id: string;
 };
 export type CameraConfig = {
+  type: CameraType;
   fov: number;
   near: number;
   far: number;

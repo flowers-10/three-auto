@@ -5,6 +5,7 @@ export const CONFIG: ConfigType = {
   id: "_scene",
   name: "hello world",
   camera: {
+    type: 'PerspectiveCamera',
     fov: 60,
     near: 1,
     far: 10000,

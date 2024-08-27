@@ -7,21 +7,38 @@ import { CameraConfig } from "../../types";
 export class Camera extends BaseThree {
   private cameraConfig: CameraConfig;
   public controls: OrbitControls;
-  public instance: THREE.PerspectiveCamera;
+  public instance: THREE.PerspectiveCamera | THREE.OrthographicCamera;
 
   constructor(config: CameraConfig, instance: ThreeInstance) {
     super(instance);
     this.cameraConfig = config;
-    this.instance = new THREE.PerspectiveCamera(
-      this.cameraConfig.fov,
-      this.sizes?.width / this.sizes?.height,
-      this.cameraConfig.near,
-      this.cameraConfig.far
-    );
+    this.instance = this.switchCameraType()
     this.controls = new OrbitControls(this.instance, this.canvas);
 
     this.setInstance();
     this.setControls();
+  }
+  switchCameraType() {
+    switch (this.cameraConfig.type) {
+      case "OrthographicCamera":
+       return new THREE.OrthographicCamera(
+          this.sizes?.width / -2,
+          this.sizes?.width / 2,
+          this.sizes?.height / 2,
+          this.sizes?.height / -2,
+          this.cameraConfig.near,
+          this.cameraConfig.far
+        );
+      case "PerspectiveCamera":
+        return new THREE.PerspectiveCamera(
+          this.cameraConfig.fov,
+          this.sizes?.width / this.sizes?.height,
+          this.cameraConfig.near,
+          this.cameraConfig.far
+        );
+      default:
+        throw new Error("Unknown camera")
+    }
   }
   setInstance() {
     this.instance.position.set(
@@ -45,7 +62,15 @@ export class Camera extends BaseThree {
     this.controls.enablePan = controls.enablePan;
   }
   resize() {
-    this.instance.aspect = this.sizes?.width / this.sizes?.height;
+    
+    if (this.instance instanceof THREE.PerspectiveCamera) {
+      this.instance.aspect = this.sizes?.width / this.sizes?.height;
+    }else if( this.instance instanceof THREE.OrthographicCamera) {
+      this.instance.left =  this.sizes?.width / -2
+      this.instance.right =  this.sizes?.width / 2
+      this.instance.top = this.sizes?.height / 2
+      this.instance.bottom = this.sizes?.height / -2
+    }
     this.instance.updateProjectionMatrix();
   }
   update() {
