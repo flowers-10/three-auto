@@ -15,9 +15,10 @@
 
     /* Linting */
     "strict": true,
+    "types": ["vite-plugin-glsl/ext"],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["core/**/*.ts","core/**/*.d.ts"]
+  "include": ["core/**/*.ts", "core/**/*.d.ts"]
 }

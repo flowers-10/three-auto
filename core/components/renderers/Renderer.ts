@@ -18,14 +18,7 @@ export class Renderer extends BaseThree {
 
   setRenderer(config: RendererConfig): void {
     // Renderer settings
-
-    // this.instance.toneMapping = THREE.CineonToneMapping
-    // this.instance.toneMappingExposure = 1.75
-    // this.instance.shadowMap.enabled = true
-    // this.instance.shadowMap.type = THREE.PCFSoftShadowMap
     this.instance.outputColorSpace = THREE.SRGBColorSpace;
-    this.instance.toneMapping = THREE.ACESFilmicToneMapping;
-    // this.instance.useLegacyLights = true
     config.clearAlpha
       ? this.instance.setClearAlpha(config.clearAlpha)
       : this.instance.setClearAlpha(0);
