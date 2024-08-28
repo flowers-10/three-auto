@@ -57,6 +57,26 @@ Detailed changes for each release are documented in the [release notes](https://
 ## Contribution
 Thank you to all the people who already contributed to three-auto!
 <!-- readme: contributors -start -->
+<table>
+	<tbody>
+		<tr>
+            <td align="center">
+                <a href="https://github.com/flowers-10">
+                    <img src="https://avatars.githubusercontent.com/u/94791181?v=4" width="100;" alt="flowers-10"/>
+                    <br />
+                    <sub><b>Michela</b></sub>
+                </a>
+            </td>
+            <td align="center">
+                <a href="https://github.com/KallkaGo">
+                    <img src="https://avatars.githubusercontent.com/u/82202033?v=4" width="100;" alt="KallkaGo"/>
+                    <br />
+                    <sub><b>More</b></sub>
+                </a>
+            </td>
+		</tr>
+	<tbody>
+</table>
 <!-- readme: contributors -end -->
 
 ## Show your support
