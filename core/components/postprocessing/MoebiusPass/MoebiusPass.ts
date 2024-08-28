@@ -23,16 +23,11 @@ export class MoebiusPass extends CustomPass {
     const { noiseTex, amplitude, frequency, mod, tickness } = config;
     const depthTexture = new THREE.DepthTexture(
       width,
-      height,
-      THREE.UnsignedShortType,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
-      THREE.DepthFormat
+      height
     );
+    depthTexture.type = THREE.UnsignedShortType;
+    depthTexture.format = THREE.DepthFormat;
+
     const depthRenderTarget = new THREE.WebGLRenderTarget(width, height, {
       depthTexture,
       generateMipmaps: false,
@@ -50,7 +45,7 @@ export class MoebiusPass extends CustomPass {
       sizes: this.sizes,
       camera: this._camera,
       depthRenderTarget,
-     normalRenderTarget,
+      normalRenderTarget,
       noiseTex,
       frequency,
       amplitude,
@@ -60,9 +55,10 @@ export class MoebiusPass extends CustomPass {
     this.composer.addPass(new EffectPass(this._camera, this.effect));
   }
   render() {
-    const renderer =  this.renderer.instance
+    const renderer = this.renderer.instance
+    renderer.autoClear = true
     renderer.setRenderTarget(this.depthRenderTarget)
-    renderer.render(this.scene,this._camera)
+    renderer.render(this.scene, this._camera)
     renderer.setRenderTarget(null)
     renderer.setRenderTarget(this.normalRenderTarget);
     this.scene.overrideMaterial = new THREE.MeshNormalMaterial();
