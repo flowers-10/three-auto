@@ -51,11 +51,8 @@ instance.time.on("tick", () => {
 });
 ```
 
-## Author
-
-👤 **Michela**
-
-* Github: [@flowers-10](https://github.com/flowers-10)
+## Changelog
+Detailed changes for each release are documented in the [release notes](https://github.com/flowers-10/three-auto/releases).
 
 ## Show your support
 
