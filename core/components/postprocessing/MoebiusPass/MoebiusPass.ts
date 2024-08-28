@@ -15,16 +15,13 @@ export interface MoebiusProps {
 
 export class MoebiusPass extends CustomPass {
   effect: MoebiusEffect;
-  depthRenderTarget: THREE.WebGLRenderTarget
-  normalRenderTarget: THREE.WebGLRenderTarget
+  depthRenderTarget: THREE.WebGLRenderTarget;
+  normalRenderTarget: THREE.WebGLRenderTarget;
   constructor(instance: ThreeInstance, config: MoebiusProps) {
     super(instance);
     const { width, height } = this.sizes;
     const { noiseTex, amplitude, frequency, mod, tickness } = config;
-    const depthTexture = new THREE.DepthTexture(
-      width,
-      height
-    );
+    const depthTexture = new THREE.DepthTexture(width, height);
     depthTexture.type = THREE.UnsignedShortType;
     depthTexture.format = THREE.DepthFormat;
 
@@ -39,8 +36,8 @@ export class MoebiusPass extends CustomPass {
       stencilBuffer: false,
       type: THREE.HalfFloatType,
     });
-    this.depthRenderTarget = depthRenderTarget
-    this.normalRenderTarget = normalRenderTarget
+    this.depthRenderTarget = depthRenderTarget;
+    this.normalRenderTarget = normalRenderTarget;
     this.effect = new MoebiusEffect({
       sizes: this.sizes,
       camera: this._camera,
@@ -55,11 +52,11 @@ export class MoebiusPass extends CustomPass {
     this.composer.addPass(new EffectPass(this._camera, this.effect));
   }
   render() {
-    const renderer = this.renderer.instance
-    renderer.autoClear = true
-    renderer.setRenderTarget(this.depthRenderTarget)
-    renderer.render(this.scene, this._camera)
-    renderer.setRenderTarget(null)
+    const renderer = this.renderer.instance;
+    renderer.autoClear = true;
+    renderer.setRenderTarget(this.depthRenderTarget);
+    renderer.render(this.scene, this._camera);
+    renderer.setRenderTarget(null);
     renderer.setRenderTarget(this.normalRenderTarget);
     this.scene.overrideMaterial = new THREE.MeshNormalMaterial();
     renderer.render(this.scene, this._camera);
