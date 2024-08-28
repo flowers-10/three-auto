@@ -3,7 +3,6 @@ import { ThreeInstance } from "../../../base";
 import { CustomPass } from "../CustomPass";
 import { MoebiusEffect } from "./MoebiusEffect";
 import { EffectPass } from "postprocessing";
-import { Sizes } from "../../../base";
 
 export interface MoebiusProps {
   noiseTex?: THREE.Texture;
