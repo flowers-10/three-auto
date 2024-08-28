@@ -54,6 +54,11 @@ instance.time.on("tick", () => {
 ## Changelog
 Detailed changes for each release are documented in the [release notes](https://github.com/flowers-10/three-auto/releases).
 
+## Contribution
+Thank you to all the people who already contributed to three-auto!
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
+
 ## Show your support
 
 Give a ⭐️ if this project helped you!
