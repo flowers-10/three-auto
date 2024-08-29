@@ -8,7 +8,7 @@ import { SourcesItems, Loaders, LoadingType } from "../types";
 
 export class Resources extends EventEmitter {
   private sources: SourcesItems[];
-  public items: { [key: string]: any };
+  public items: Map<string, any>;
   public toLoad: number;
   public loaded: number;
   private loaders: Loaders;
@@ -18,35 +18,25 @@ export class Resources extends EventEmitter {
     loadingManager?: LoadingType | THREE.LoadingManager
   ) {
     super();
-    // Options
     this.sources = sources;
-    // Setup
-    this.items = {};
+    this.items = new Map();
     this.toLoad = this.sources.length || 0;
     this.loaded = 0;
-    // Create the loading manager based on the provided value or use a default one.
     const customLoadingManager = this.createLoadingManager(loadingManager);
-    // Initialize the loaders with the custom loading manager.
     this.loaders = this.createLoaders(customLoadingManager);
-    // Start the loading process.
     this.startLoading();
   }
 
   private createLoadingManager(
     loadingManager?: LoadingType | THREE.LoadingManager
   ): THREE.LoadingManager {
-    if (loadingManager === undefined) {
-      return new CustomLoading("default").loadingManager;
-    } else if (typeof loadingManager === "string") {
-      return new CustomLoading(loadingManager).loadingManager;
-    } else {
-      return loadingManager;
-    }
+    return loadingManager instanceof THREE.LoadingManager
+    ? loadingManager
+    : new CustomLoading(typeof loadingManager === "string" ? loadingManager : "default").loadingManager;
   }
 
   private createLoaders(loadingManager: THREE.LoadingManager): Loaders {
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("draco/");
+    const dracoLoader = new DRACOLoader().setDecoderPath("draco/");
     return {
       gltfLoader: new GLTFLoader(loadingManager).setDRACOLoader(dracoLoader),
       textureLoader: new THREE.TextureLoader(loadingManager),
@@ -55,32 +45,26 @@ export class Resources extends EventEmitter {
       audioLoader: new THREE.AudioLoader(loadingManager),
     };
   }
-  startLoading() {
-    // Load each source
-    for (const source of this.sources) {
-      if (source.type === "GLTF") {
-        this.loaders.gltfLoader.load(source.path, (file) => {
-          this.sourceLoaded(source, file);
-        });
-      } else if (source.type === "TEXTURE") {
-        this.loaders.textureLoader.load(source.path, (file) => {
-          this.sourceLoaded(source, file);
-        });
-      } else if (source.type === "FONT") {
-        this.loaders.fontLoader.load(source.path, (file) => {
-          this.sourceLoaded(source, file);
-        });
-      } else if (source.type === "MP3") {
-        this.loaders.audioLoader.load(source.path, (file) => {
-          this.sourceLoaded(source, file);
-        });
-      }
+
+  private loadSource(source: SourcesItems) {
+    const loaderMap: { [key: string]: (path: string, callback: (file: any) => void) => void } = {
+      GLTF: this.loaders.gltfLoader.load.bind(this.loaders.gltfLoader),
+      TEXTURE: this.loaders.textureLoader.load.bind(this.loaders.textureLoader),
+      FONT: this.loaders.fontLoader.load.bind(this.loaders.fontLoader),
+      MP3: this.loaders.audioLoader.load.bind(this.loaders.audioLoader),
+    };
+
+    if (loaderMap[source.type]) {
+      loaderMap[source.type](source.path, (file) => this.sourceLoaded(source, file));
     }
   }
 
-  sourceLoaded(source: SourcesItems, file: any) {
-    this.items[source.name] = file;
+  startLoading() {
+     this.sources.forEach(source => this.loadSource(source));
+  }
 
+  sourceLoaded(source: SourcesItems, file: any) {
+    this.items.set(source.name, file);
     this.loaded++;
     if (this.loaded === this.toLoad) {
       this.trigger("ready", null);
@@ -91,6 +75,6 @@ export class Resources extends EventEmitter {
     return this.loaded === this.toLoad;
   }
   get getProgress() {
-    return this.loaded / this.toLoad;
+    return this.toLoad ? this.loaded / this.toLoad : 0;
   }
 }
