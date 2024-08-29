@@ -1,45 +1,38 @@
 import * as THREE from "three";
 import { EventEmitter } from "./EventEmitter";
 
-export class Mousemove extends EventEmitter {
+export class MouseMoveTracker extends EventEmitter {
   private canvas: HTMLCanvasElement;
-  public eventOffset: { x: number; y: number };
   public mouse: THREE.Vector2;
-  private mouseMoveHandler: (event: MouseEvent) => void;
+  public eventOffset: THREE.Vector2;
+  private mouseMoveHandler: ((event: MouseEvent) => void) | null;
 
   constructor(canvas: HTMLCanvasElement) {
     super();
     this.canvas = canvas;
-    this.eventOffset = {
-      x: 0,
-      y: 0,
-    };
     this.mouse = new THREE.Vector2();
-    this.mouseMoveHandler = (event) => {
-      // 父级并非满屏，所以需要减去父级的left 和 top
-      let {
-        top = 0,
-        left = 0,
-        width = 0,
-        height = 0,
-      } = this.canvas?.getBoundingClientRect();
-      let clientX = event.clientX - left;
-      let clientY = event.clientY - top;
+    this.eventOffset = new THREE.Vector2();
 
-      this.mouse.x = (clientX / width) * 2 - 1;
-      this.mouse.y = -(clientY / height) * 2 + 1;
+    const handleMouseMove = (event: MouseEvent) => {
+      const { left, top, width, height } = this.canvas.getBoundingClientRect();
+      const clientX = event.clientX - left;
+      const clientY = event.clientY - top;
 
-      this.eventOffset.x = clientX;
-      this.eventOffset.y = clientY;
-      this.trigger("mousemove", null);
+      this.mouse.set((clientX / width) * 2 - 1, -(clientY / height) * 2 + 1);
+      this.eventOffset.set(clientX, clientY);
+      this.trigger("mousemove", this.eventOffset);
     };
 
-    this.canvas
-      ? window.addEventListener("mousemove", this.mouseMoveHandler, false)
-      : null;
+    this.mouseMoveHandler = handleMouseMove;
+    if (this.canvas) {
+      window.addEventListener("mousemove", this.mouseMoveHandler);
+    }
   }
 
-  release() {
-    window.removeEventListener("mousemove", this.mouseMoveHandler, false);
+  dispose() {
+    if (this.mouseMoveHandler && this.canvas) {
+      window.removeEventListener("mousemove", this.mouseMoveHandler);
+      this.mouseMoveHandler = null;
+    }
   }
 }

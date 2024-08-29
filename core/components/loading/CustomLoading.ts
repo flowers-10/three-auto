@@ -13,7 +13,7 @@ export class CustomLoading {
       },
       // Progress
       (_, loaded, total) => {
-        this.progressBar(type,loaded, total);
+        this.progressBar(type, loaded, total);
       },
       // Error
       (e) => {
@@ -26,10 +26,10 @@ export class CustomLoading {
     createLoading(type);
   }
   loadedBar() {
-    endLoading()
+    endLoading();
   }
-  progressBar(type:LoadingType,loaded: number, total: number) {
-   progressLoading(type,loaded,total)
+  progressBar(type: LoadingType, loaded: number, total: number) {
+    progressLoading(type, loaded, total);
   }
   dispose() {
     const element = document.querySelector("._loading_page_");

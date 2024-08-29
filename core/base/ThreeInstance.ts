@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 import { ConfigType } from "../types/ConfigType";
 import { CONFIG } from "../config/config";
-import { Mousemove, Time, Sizes, Raycaster, Resources } from "./index";
+import { MouseMoveTracker, Time, Sizes, Raycaster, Resources } from "./index";
 import { Camera, Renderer, Light } from "../components";
 // import BloomPass from "../components/postprocessing/BloomPass";
 
@@ -12,12 +12,17 @@ export interface ThreeInstance {
   scene: THREE.Scene;
   sizes: Sizes;
   camera: Camera;
+  _camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   config: any;
   _config: ConfigType;
   _canvas: HTMLCanvasElement;
   renderer: Renderer;
-  mousemove: Mousemove;
+  _renderer: THREE.WebGLRenderer;
+  mousemove: MouseMoveTracker;
   raycaster: Raycaster;
+  resize(): void;
+  update(): void;
+  dispose(): void;
 }
 class ThreeAuto implements ThreeInstance {
   public time: Time;
@@ -25,11 +30,13 @@ class ThreeAuto implements ThreeInstance {
   public scene: THREE.Scene;
   public sizes: Sizes;
   public camera: Camera;
+  public _camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   public config: any;
   public _config: ConfigType;
   public _canvas: HTMLCanvasElement;
   public renderer: Renderer;
-  public mousemove: Mousemove;
+  public _renderer: THREE.WebGLRenderer;
+  public mousemove: MouseMoveTracker;
   public raycaster: Raycaster;
   public Resources = Resources;
   // private bloomPass;
@@ -42,30 +49,16 @@ class ThreeAuto implements ThreeInstance {
     }
     this._config = config;
     this._canvas = canvas || (canvass as HTMLCanvasElement);
-    this.mousemove = new Mousemove(this._canvas);
+    this.mousemove = new MouseMoveTracker(this._canvas);
     this.sizes = new Sizes(config.size);
     this.scene = new THREE.Scene();
     this.time = new Time();
     this.camera = new Camera(config.camera, this);
+    this._camera = this.camera.instance;
     this.light = new Light(config.light, this);
     this.raycaster = new Raycaster(this);
     this.renderer = new Renderer(config.renderer, this);
-
-    // todo 等待优化
-    // switch (config.rendererPass.type) {
-    //   case "OUTLINE":
-    //     break;
-    //   case "BLOOM":
-    //     this.bloomPass = new BloomPass(
-    //       config.rendererPass.bloomConfig,
-    //       this
-    //     );
-    //     break;
-    //   case "NONE":
-    //     break;
-    //   default:
-    //     break;
-    // }
+    this._renderer = this.renderer.instance;
     this.sizes.on("resize", () => {
       this.resize();
     });
@@ -74,18 +67,18 @@ class ThreeAuto implements ThreeInstance {
     });
   }
 
-  resize() {
+  public resize() {
     this.camera?.resize();
     this.renderer?.resize();
   }
 
-  update() {
+  public update() {
     this.camera.update();
     this.raycaster.update();
     this.renderer.update();
   }
 
-  clearGroup(group: any) {
+  public clearGroup(group: any) {
     if (!group.children.length) return;
     const clearCache = (item: any) => {
       item.geometry?.dispose();
@@ -106,13 +99,13 @@ class ThreeAuto implements ThreeInstance {
     removeObj(group);
   }
 
-  dispose() {
+  public dispose() {
     this.sizes.off("resize");
     this.sizes.release();
     this.time.off("tick");
     this.time.release();
     this.mousemove.off("mousemove");
-    this.mousemove.release();
+    this.mousemove.dispose();
     /* 销毁场景里的几何体 材质等 */
     this.scene.traverse((child: any) => {
       child?.geometry?.dispose();

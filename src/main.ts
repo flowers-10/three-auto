@@ -2,6 +2,10 @@ import * as AUTO from "../core";
 import * as THREE from "three";
 
 const instance = new AUTO.ThreeAuto();
+AUTO.createLoading('circle')
+setTimeout(() => {
+  AUTO.endLoading()
+}, 2000);
 const geometry = new THREE.BoxGeometry(400, 400, 400);
 const material = new THREE.MeshBasicMaterial({
   color: "#E89ABE",
@@ -17,6 +21,7 @@ const customPass = new AUTO.MoebiusPass(instance,{
   mod:10,
   tickness:1.5
 })
+
 
 instance.time.on("tick", () => {
   customPass.render();

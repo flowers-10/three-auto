@@ -97,7 +97,7 @@ export class EventEmitter {
     return this;
   }
 
-  trigger(_name: string, _args: any): any {
+  trigger(_name: string, ..._args: any): any {
     const that = this;
     // Errors
     if (typeof _name === "undefined" || _name === "") {
@@ -107,9 +107,6 @@ export class EventEmitter {
 
     let finalResult:any = null;
     let result = null;
-
-    // Default args
-    const args = !(_args instanceof Array) ? [] : _args;
 
      // Resolve name
     const resolvedNames = this.resolveNames(_name);
@@ -124,7 +121,7 @@ export class EventEmitter {
           this.callbacks[namespace][resolvedName.value] instanceof Array
         ) {
           this.callbacks[namespace][resolvedName.value].forEach(function (callback) {
-            result = callback.apply(that, args);
+            result = callback.apply(that, _args);
 
             if (typeof finalResult === "undefined") {
               finalResult = result;
@@ -142,7 +139,7 @@ export class EventEmitter {
       }
 
       this.callbacks[resolvedName.namespace][resolvedName.value].forEach(function (callback) {
-        result = callback.apply(that, args);
+        result = callback.apply(that, _args);
 
         if (typeof finalResult === "undefined") finalResult = result;
       });

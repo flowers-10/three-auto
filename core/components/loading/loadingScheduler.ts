@@ -27,6 +27,12 @@ export function endLoading() {
       opacity: 0,
       ease: "power1.inOut",
     });
+    setTimeout(() => {
+      const element = document.querySelector("._loading_page_");
+      if (element) {
+        element.remove();
+      }
+    }, 2000);
     if (loadingBarElement && loadingBarElement.style) {
       window.setTimeout(() => {
         loadingBarElement.style.transform = "scaleX(0)";

@@ -45,7 +45,7 @@ export const CONFIG: ConfigType = {
       intensity: 0.8,
       helper: false,
       lightId: 0,
-      lightName: "光源1",
+      lightName: "ambient-light",
     },
   ],
 };
