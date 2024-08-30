@@ -1,5 +1,6 @@
 {
-  "private": true,
+  "name": "three-auto",
+  "private": false,
   "version": "0.1.11",
   "main": "./dist/three-auto.umd.js",
   "module": "./dist/three-auto.es.js",
@@ -13,21 +14,24 @@
   ],
   "type": "module",
   "scripts": {
-    "dev": "vite packages/core",
-    "dev:examples": "vite packages/examples",
+    "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/three": "^0.166.0",
+    "gsap": "^3.12.5",
     "three": "^0.166.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
-    "vite-plugin-dts": "^4.0.2"
+    "vite-plugin-dts": "^4.0.2",
+    "vite-plugin-html": "^3.2.2"
   },
   "peerDependencies": {
     "three": ">=0.154"
   },
   "dependencies": {
+    "postprocessing": "^6.36.0",
     "vite-plugin-glsl": "^1.3.0"
   }
 }
