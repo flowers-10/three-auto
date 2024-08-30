@@ -5,15 +5,16 @@
   "scripts": {
     "dev": "vite packages/core",
     "dev:examples": "vite packages/examples",
-    "build": "tsc && vite build",
-    "build:examples": "tsc && vite build packages/examples",
-    "preview": "vite preview",
+    "build": "tsc --project packages/core/tsconfig.json && vite build --config packages/core/vite.config.js",
+    "build:examples": "tsc --project packages/examples/tsconfig.json && vite build --config packages/examples/vite.config.js",
+    "preview": "vite preview/examples",
     "update-version": "node scripts/update-version.js"
   },
   "engines": {
     "node": ">=18.12.0"
   },
   "devDependencies": {
+    "@types/three": "^0.166.0",
     "three": "^0.166.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
