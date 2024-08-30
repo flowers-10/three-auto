@@ -1,11 +1,14 @@
 import * as AUTO from "../core";
 import * as THREE from "three";
 
+
 const instance = new AUTO.ThreeAuto();
-AUTO.createLoading('circle')
-setTimeout(() => {
-  AUTO.endLoading()
-}, 2000);
+new AUTO.Resources([{
+  name: "buildingTransparent",
+  type: "GLTF",
+  path: "models/smartBusiness/building-transparent.glb",
+  show: false,
+},])
 const geometry = new THREE.BoxGeometry(400, 400, 400);
 const material = new THREE.MeshBasicMaterial({
   color: "#E89ABE",

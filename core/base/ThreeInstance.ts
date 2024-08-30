@@ -4,7 +4,6 @@ import { ConfigType } from "../types/ConfigType";
 import { CONFIG } from "../config/config";
 import { MouseMoveTracker, Time, Sizes, Raycaster, Resources } from "./index";
 import { Camera, Renderer, Light } from "../components";
-// import BloomPass from "../components/postprocessing/BloomPass";
 
 export interface ThreeInstance {
   time: Time;
@@ -39,7 +38,6 @@ class ThreeAuto implements ThreeInstance {
   public mousemove: MouseMoveTracker;
   public raycaster: Raycaster;
   public Resources = Resources;
-  // private bloomPass;
 
   constructor(canvas?: HTMLCanvasElement, config: ConfigType = CONFIG) {
     const canvass = document.getElementById(config.id);
@@ -106,7 +104,6 @@ class ThreeAuto implements ThreeInstance {
     this.time.release();
     this.mousemove.off("mousemove");
     this.mousemove.dispose();
-    /* 销毁场景里的几何体 材质等 */
     this.scene.traverse((child: any) => {
       child?.geometry?.dispose();
       if (child instanceof THREE.Group || child instanceof THREE.Object3D) {
