@@ -35,7 +35,7 @@ Creating an auto-three instance, you need a canvas DOM root node or a virtual DO
 
 `js/ts`
 ```ts
-import * as AUTO from "../core";
+import * as AUTO from "three-auto";
 import * as THREE from "three";
 const canvas = document.getElementById('_scene') as HTMLCanvasElement;
 const instance = new AUTO.ThreeAuto(canvas);
