@@ -1,22 +1,17 @@
 {
   "private": true,
-  "version": "0.1.11",
-  "main": "./dist/three-auto.umd.js",
-  "module": "./dist/three-auto.es.js",
-  "types": "./dist/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/flowers-10/three-auto"
-  },
-  "files": [
-    "dist/*"
-  ],
+  "version": "0.1.12",
   "type": "module",
   "scripts": {
     "dev": "vite packages/core",
     "dev:examples": "vite packages/examples",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build:examples": "tsc && vite build packages/examples",
+    "preview": "vite preview",
+    "update-version": "node scripts/update-version.js"
+  },
+  "engines": {
+    "node": ">=18.12.0"
   },
   "devDependencies": {
     "three": "^0.166.0",
