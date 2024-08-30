@@ -23,7 +23,7 @@ export class MoebiusPass extends CustomPass {
     const depthTexture = new THREE.DepthTexture(width, height);
     depthTexture.type = THREE.UnsignedShortType;
     depthTexture.format = THREE.DepthFormat;
-
+    // FBO
     const depthRenderTarget = new THREE.WebGLRenderTarget(width, height, {
       depthTexture,
       generateMipmaps: false,

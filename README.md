@@ -85,11 +85,14 @@ Give a ⭐️ if this project helped you!
 
 ## Features
 - support proxy config setting
-- support customer compose renderer pass
+- support customer compose renderer pass ✅
 - support generate low code
 - support webGPU
 - support environment
 - support physic
+- support animationMixer
+- support auto uniforms
+- preferences Raycaster
 - fix Three.js Reminders caused by inconsistent versions: 'Material: onBeforeRender() has been removed.'
 
 ***

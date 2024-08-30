@@ -5,7 +5,6 @@ import { RendererConfig } from "../../types";
 
 export class Renderer extends BaseThree {
   public instance: THREE.WebGLRenderer;
-
   constructor(config: RendererConfig, instance: ThreeInstance) {
     super(instance);
     this.instance = new THREE.WebGLRenderer({

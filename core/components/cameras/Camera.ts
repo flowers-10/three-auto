@@ -62,7 +62,6 @@ export class Camera extends BaseThree {
     this.controls.enablePan = controls.enablePan;
   }
   resize() {
-    
     if (this.instance instanceof THREE.PerspectiveCamera) {
       this.instance.aspect = this.sizes?.width / this.sizes?.height;
     }else if( this.instance instanceof THREE.OrthographicCamera) {
