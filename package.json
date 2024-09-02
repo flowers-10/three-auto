@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "vite packages/core",
     "dev:examples": "vite packages/examples",
-    "build": "tsc --project packages/core/tsconfig.json && vite build --config packages/core/vite.config.js",
-    "build:examples": "tsc --project packages/examples/tsconfig.json && vite build --config packages/examples/vite.config.js",
+    "build": "node scripts/build.js",
     "preview": "vite preview/examples",
     "update-version": "node scripts/update-version.js"
   },
