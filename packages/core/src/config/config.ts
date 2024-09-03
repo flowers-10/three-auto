@@ -1,7 +1,6 @@
 import { ConfigType } from "../types/ConfigType";
 
 export const CONFIG: ConfigType = {
-  el: "_canvas-scene",
   id: "_scene",
   name: "hello world",
   camera: {
@@ -10,9 +9,9 @@ export const CONFIG: ConfigType = {
     near: 1,
     far: 10000,
     position: {
-      x: 600,
-      y: 600,
-      z: 600,
+      x: 2,
+      y: 2,
+      z: 2,
     },
     lookAt: true,
     controls: {
@@ -35,18 +34,8 @@ export const CONFIG: ConfigType = {
   renderer: {
     antialias: true,
     alpha: true,
-    clearAlpha: 1,
-    clearColor: "#fff",
-  },
-  light: [
-    {
-      type: "ambient",
-      color: "#ffffff",
-      intensity: 0.8,
-      helper: false,
-      lightId: 0,
-      lightName: "ambient-light",
-    },
-  ],
+    clearAlpha: 0,
+    clearColor: '#00000',
+  }
 };
 

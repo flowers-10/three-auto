@@ -3,17 +3,16 @@ import * as THREE from "three";
 import { ConfigType } from "../types/ConfigType";
 import { CONFIG } from "../config/config";
 import { MouseMoveTracker, Time, Sizes, Raycaster, Resources } from "./index";
-import { Camera, Renderer, Light } from "../components";
+import { Camera, Renderer } from "../components";
 
 export interface ThreeInstance {
   time: Time;
-  light: Light;
   scene: THREE.Scene;
   sizes: Sizes;
   camera: Camera;
   _camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   config: any;
-  _config: ConfigType;
+  _config: Partial<ConfigType>;
   _canvas: HTMLCanvasElement;
   renderer: Renderer;
   _renderer: THREE.WebGLRenderer;
@@ -25,13 +24,12 @@ export interface ThreeInstance {
 }
 class ThreeAuto implements ThreeInstance {
   public time: Time;
-  public light: Light;
   public scene: THREE.Scene;
   public sizes: Sizes;
   public camera: Camera;
   public _camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   public config: any;
-  public _config: ConfigType;
+  public _config: Partial<ConfigType>;
   public _canvas: HTMLCanvasElement;
   public renderer: Renderer;
   public _renderer: THREE.WebGLRenderer;
@@ -41,7 +39,6 @@ class ThreeAuto implements ThreeInstance {
 
   constructor(canvas?: HTMLCanvasElement, config: ConfigType = CONFIG) {
     const canvass = document.getElementById(config.id);
-
     if (!canvass && !canvas) {
       throw new Error("canvas has already been initialized.");
     }
@@ -53,7 +50,6 @@ class ThreeAuto implements ThreeInstance {
     this.time = new Time();
     this.camera = new Camera(config.camera, this);
     this._camera = this.camera.instance;
-    this.light = new Light(config.light, this);
     this.raycaster = new Raycaster(this);
     this.renderer = new Renderer(config.renderer, this);
     this._renderer = this.renderer.instance;

@@ -29,12 +29,13 @@ export class Light extends BaseThree {
         position,
         decay,
         helper,
+        helperSize = 0.5
       }) => {
         switch (type) {
           case "point":
             light = new THREE.PointLight(color, intensity, distance);
             if (helper) {
-              lightHelper = new THREE.PointLightHelper(light, 0.5);
+              lightHelper = new THREE.PointLightHelper(light, helperSize);
             }
             break;
           case "ambient":
@@ -43,7 +44,7 @@ export class Light extends BaseThree {
           case "hemisphere":
             light = new THREE.HemisphereLight(color, groundColor, intensity);
             if (helper) {
-              lightHelper = new THREE.HemisphereLightHelper(light, 0.5);
+              lightHelper = new THREE.HemisphereLightHelper(light, helperSize);
             }
             break;
           case "spot":
@@ -56,7 +57,7 @@ export class Light extends BaseThree {
               decay
             );
             if (helper) {
-              lightHelper = new THREE.SpotLightHelper(light, 0.5);
+              lightHelper = new THREE.SpotLightHelper(light, helperSize);
             }
             break;
           default:

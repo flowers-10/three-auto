@@ -18,11 +18,7 @@ export class Renderer extends BaseThree {
   setRenderer(config: RendererConfig): void {
     // Renderer settings
     this.instance.outputColorSpace = THREE.SRGBColorSpace;
-    config.clearAlpha
-      ? this.instance.setClearAlpha(config.clearAlpha)
-      : this.instance.setClearAlpha(0);
-
-    config.clearColor ? this.instance.setClearColor(config.clearColor) : null;
+    this.instance.setClearColor(config.clearColor,config.clearAlpha); 
     this.instance.setSize(this.sizes.width, this.sizes.height);
     this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
   }

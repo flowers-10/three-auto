@@ -14,9 +14,9 @@ export type LightItems = {
   color: string;
   intensity: number;
   distance?: number;
-  helper: boolean;
-  lightId: number;
-  lightName: string;
+  helper?: boolean;
+  helperSize?: number;
+  lightName?: string;
   position?: PositionType;
   groundColor?: string;
   angle?: number;
@@ -61,7 +61,6 @@ export type BloomConfigType = {
 
 
 export interface ConfigType {
-  el: string;
   id: string;
   name: string;
   camera: CameraConfig;
@@ -70,5 +69,4 @@ export interface ConfigType {
     type: PassType;
   };
   renderer: RendererConfig;
-  light: LightItems[];
 }
