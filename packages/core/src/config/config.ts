@@ -32,7 +32,7 @@ export const CONFIG: ConfigType = {
     antialias: true,
     alpha: true,
     clearAlpha: 0,
-    clearColor: '#00000',
+    clearColor: '#000000',
   }
 };
 
