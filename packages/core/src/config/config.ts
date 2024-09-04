@@ -28,9 +28,6 @@ export const CONFIG: ConfigType = {
     type: "window",
     id: "_Background_3D",
   },
-  rendererPass: {
-    type: "NONE",
-  },
   renderer: {
     antialias: true,
     alpha: true,
