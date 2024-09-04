@@ -1,5 +1,4 @@
 type SizeType = "parent" | "window";
-type PassType = "NONE" | "OUTLINE" | "BLOOM";
 type LightType = "point" | "ambient" | "hemisphere" | "spot";
 type CameraType = 'PerspectiveCamera' | 'OrthographicCamera'
 
@@ -65,8 +64,6 @@ export interface ConfigType {
   name: string;
   camera: CameraConfig;
   size: SizeConfigType;
-  rendererPass: {
-    type: PassType;
-  };
+  light?: LightItems[];
   renderer: RendererConfig;
 }

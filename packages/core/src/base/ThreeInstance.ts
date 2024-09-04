@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { ConfigType } from "../types/ConfigType";
 import { CONFIG } from "../config/config";
 import { MouseMoveTracker, Time, Sizes, Raycaster, Resources } from "./index";
-import { Camera, Renderer } from "../components";
+import { Camera, Light, Renderer } from "../components";
 
 export interface ThreeInstance {
   time: Time;
@@ -35,6 +35,8 @@ class ThreeAuto implements ThreeInstance {
   public _renderer: THREE.WebGLRenderer;
   public mousemove: MouseMoveTracker;
   public raycaster: Raycaster;
+  public light?: Light;
+  public Light = Light;
   public Resources = Resources;
 
   constructor(canvas?: HTMLCanvasElement, config: ConfigType = CONFIG) {
@@ -53,6 +55,9 @@ class ThreeAuto implements ThreeInstance {
     this.raycaster = new Raycaster(this);
     this.renderer = new Renderer(config.renderer, this);
     this._renderer = this.renderer.instance;
+    if (config.light) {
+      this.light = new Light(config.light, this);
+    }
     this.sizes.on("resize", () => {
       this.resize();
     });
@@ -72,27 +77,6 @@ class ThreeAuto implements ThreeInstance {
     this.renderer.update();
   }
 
-  public clearGroup(group: any) {
-    if (!group.children.length) return;
-    const clearCache = (item: any) => {
-      item.geometry?.dispose();
-    };
-    const removeObj = (obj: any) => {
-      let arr = obj.children.filter((x: any) => x);
-      arr.forEach((item: any) => {
-        if (item.children.length) {
-          removeObj(item);
-        } else {
-          clearCache(item);
-          item.clear();
-        }
-      });
-      obj.clear();
-      arr = null;
-    };
-    removeObj(group);
-  }
-
   public dispose() {
     this.sizes.off("resize");
     this.sizes.release();
@@ -100,10 +84,31 @@ class ThreeAuto implements ThreeInstance {
     this.time.release();
     this.mousemove.off("mousemove");
     this.mousemove.dispose();
+    function clearGroup(group: THREE.Object3D) {
+      if (!group.children.length) return;
+      const clearCache = (item: THREE.Mesh) => {
+        item.geometry?.dispose();
+      };
+      const removeObj = (obj: THREE.Object3D) => {
+        let arr = obj.children.filter((x: THREE.Mesh |  THREE.Object3D) => x);
+        arr.forEach((item: THREE.Mesh |  THREE.Object3D) => {
+          if (item.children instanceof THREE.Object3D ) {
+            removeObj(item);
+          }
+          if (item instanceof THREE.Mesh) {
+            clearCache(item);
+            item.clear();
+          }
+        });
+        obj.clear();
+        arr = [];
+      };
+      removeObj(group);
+    }
     this.scene.traverse((child: any) => {
       child?.geometry?.dispose();
       if (child instanceof THREE.Group || child instanceof THREE.Object3D) {
-        this.clearGroup(child);
+        clearGroup(child);
       }
     });
     this.scene.clear();
