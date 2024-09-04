@@ -38,22 +38,30 @@ class ThreeAuto implements ThreeInstance {
   public light?: Light;
   public Light = Light;
   public Resources = Resources;
+  public Raycaster = Raycaster;
 
-  constructor(canvas?: HTMLCanvasElement, config: ConfigType = CONFIG) {
-    const canvass = document.getElementById(config.id);
+  constructor(canvas?: HTMLCanvasElement, config: Partial<ConfigType> = {}) {
+    const {
+      id = CONFIG.id,
+      size = CONFIG.size,
+      camera = CONFIG.camera,
+      renderer = CONFIG.renderer,
+    } = config;
+
+    const canvass = document.getElementById(id);
     if (!canvass && !canvas) {
       throw new Error("canvas has already been initialized.");
     }
     this._config = config;
     this._canvas = canvas || (canvass as HTMLCanvasElement);
     this.mousemove = new MouseMoveTracker(this._canvas);
-    this.sizes = new Sizes(config.size);
+    this.sizes = new Sizes(size);
     this.scene = new THREE.Scene();
     this.time = new Time();
-    this.camera = new Camera(config.camera, this);
+    this.camera = new Camera(camera, this);
     this._camera = this.camera.instance;
     this.raycaster = new Raycaster(this);
-    this.renderer = new Renderer(config.renderer, this);
+    this.renderer = new Renderer(renderer, this);
     this._renderer = this.renderer.instance;
     if (config.light) {
       this.light = new Light(config.light, this);
@@ -90,9 +98,9 @@ class ThreeAuto implements ThreeInstance {
         item.geometry?.dispose();
       };
       const removeObj = (obj: THREE.Object3D) => {
-        let arr = obj.children.filter((x: THREE.Mesh |  THREE.Object3D) => x);
-        arr.forEach((item: THREE.Mesh |  THREE.Object3D) => {
-          if (item.children instanceof THREE.Object3D ) {
+        let arr = obj.children.filter((x: THREE.Mesh | THREE.Object3D) => x);
+        arr.forEach((item: THREE.Mesh | THREE.Object3D) => {
+          if (item.children instanceof THREE.Object3D) {
             removeObj(item);
           }
           if (item instanceof THREE.Mesh) {

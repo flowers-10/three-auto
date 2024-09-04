@@ -92,7 +92,8 @@ Give a ⭐️ if this project helped you!
 - support physic
 - support animationMixer
 - support auto uniforms
-- preferences Raycaster
+- preferences Raycaster  ✅
+- add documentation
 - fix Three.js Reminders caused by inconsistent versions: 'Material: onBeforeRender() has been removed.'
 
 ***
