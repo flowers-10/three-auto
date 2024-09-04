@@ -11,6 +11,15 @@ const box = new THREE.Mesh(geometry, material);
 
 instance.scene.add(box);
 
+const customPass = new AUTO.MoebiusPass(instance,{
+  frequency: 0.04,
+  amplitude: 2,
+  mod:10,
+  tickness:1.5
+})
+
+
 instance.time.on("tick", () => {
+  customPass.render();
   box.rotation.y = instance.time.elapsedTime;
 });
