@@ -37,15 +37,17 @@ export class Camera extends BaseThree {
           this.cameraConfig.far
         );
       default:
-        throw new Error("Unknown camera")
+        return new THREE.PerspectiveCamera(
+          this.cameraConfig.fov,
+          this.sizes?.width / this.sizes?.height,
+          this.cameraConfig.near,
+          this.cameraConfig.far
+        );
     }
   }
   setInstance() {
-    this.instance.position.set(
-      this.cameraConfig.position.x,
-      this.cameraConfig.position.y,
-      this.cameraConfig.position.z
-    );
+    const position = this.cameraConfig.position
+    Object.assign( this.instance.position, position);
     if (this.cameraConfig.lookAt) {
       this.instance.lookAt(this.scene.position);
     }
@@ -54,12 +56,7 @@ export class Camera extends BaseThree {
   }
   setControls() {
     const controls = this.cameraConfig.controls;
-    this.controls.enableDamping = controls.enableDamping;
-    this.controls.minPolarAngle = controls.minPolarAngle;
-    this.controls.maxPolarAngle = controls.maxPolarAngle;
-    this.controls.minAzimuthAngle = controls.minAzimuthAngle;
-    this.controls.maxAzimuthAngle = controls.maxAzimuthAngle;
-    this.controls.enablePan = controls.enablePan;
+    Object.assign(this.controls, controls);
   }
   resize() {
     if (this.instance instanceof THREE.PerspectiveCamera) {

@@ -1,6 +1,6 @@
 type SizeType = "parent" | "window";
 type LightType = "point" | "ambient" | "hemisphere" | "spot";
-type CameraType = 'PerspectiveCamera' | 'OrthographicCamera'
+type CameraType = "PerspectiveCamera" | "OrthographicCamera" | null | undefined;
 
 type PositionType = {
   x: number;
@@ -28,7 +28,7 @@ export type SizeConfigType = {
   id: string;
 };
 export type CameraConfig = {
-  type: CameraType;
+  type?: CameraType;
   fov: number;
   near: number;
   far: number;
@@ -37,10 +37,10 @@ export type CameraConfig = {
   controls: {
     show: boolean;
     enableDamping: boolean;
-    minPolarAngle: number;
-    maxPolarAngle: number;
-    minAzimuthAngle: number;
-    maxAzimuthAngle: number;
+    minPolarAngle?: number;
+    maxPolarAngle?: number;
+    minAzimuthAngle?: number;
+    maxAzimuthAngle?: number;
     enablePan: boolean;
   };
 };
@@ -57,7 +57,6 @@ export type BloomConfigType = {
   radius: number;
   threshold: number;
 };
-
 
 export interface ConfigType {
   id: string;

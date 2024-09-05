@@ -17,10 +17,6 @@ export const CONFIG: ConfigType = {
     controls: {
       show: true,
       enableDamping: true,
-      minPolarAngle: Math.PI * 0.25,
-      maxPolarAngle: Math.PI * 0.75,
-      minAzimuthAngle: -Math.PI * 0.45,
-      maxAzimuthAngle: Math.PI * 0.25,
       enablePan: false,
     },
   },
