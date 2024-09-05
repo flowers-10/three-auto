@@ -29,13 +29,6 @@ export class Camera extends BaseThree {
           this.cameraConfig.near,
           this.cameraConfig.far
         );
-      case "PerspectiveCamera":
-        return new THREE.PerspectiveCamera(
-          this.cameraConfig.fov,
-          this.sizes?.width / this.sizes?.height,
-          this.cameraConfig.near,
-          this.cameraConfig.far
-        );
       default:
         return new THREE.PerspectiveCamera(
           this.cameraConfig.fov,

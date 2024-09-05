@@ -2,7 +2,7 @@ import * as AUTO from "three-auto";
 import * as THREE from "three";
 
 const instance = new AUTO.ThreeAuto();
-const geometry = new THREE.BoxGeometry(400, 400, 400);
+const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({
   color: "#E89ABE",
   transparent: true,

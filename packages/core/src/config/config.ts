@@ -17,7 +17,7 @@ export const CONFIG: ConfigType = {
     controls: {
       show: true,
       enableDamping: true,
-      enablePan: false,
+      enablePan: true,
     },
   },
   size: {

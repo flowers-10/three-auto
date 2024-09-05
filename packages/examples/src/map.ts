@@ -1,9 +1,27 @@
-import * as AUTO from "./src/index";
+import * as AUTO from "three-auto";
 import * as THREE from "three";
-import ZheJiangCity from '../examples/public/ZheJiangCity.json'
+import ZheJiangCity from '../public/ZheJiangCity.json'
 
+const light: AUTO.LightItems[] = [
+    {
+      type: "point", 
+      color: "#3e99e5", 
+      intensity: 400, 
+      distance: 100,
+      helper: true,
+      lightName: "光源1",
+      position: {
+        x: 4,
+        y: 3,
+        z: 14,
+      },
+    },
+   
+   
+  ];
 const instance = new AUTO.ThreeAuto();
-const map = new AUTO.Series([
+new AUTO.Light(light, instance);
+new AUTO.Series([
   {
     show: true,
     name: "轮廓地图",
