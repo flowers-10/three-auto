@@ -7,14 +7,43 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 async function updateVersion(filePath, version) {
   const packageJsonContent = await fs.readFile(filePath, 'utf8');
   const packageJson = JSON.parse(packageJsonContent);
+
+  // 更新版本号
   packageJson.version = version;
+
+  // 更新依赖项版本
+  updateDependencyVersions(packageJson, version);
+
   await fs.writeFile(filePath, JSON.stringify(packageJson, null, 2) + '\n');
 }
 
-function autoIncrementLastVersionPart(version) {
-  const parts = version.split('.').map(part => parseInt(part, 10));
-  parts[parts.length - 1] += 1;
-  return parts.join('.');
+function updateDependencyVersions(packageJson, version) {
+  // 更新 dependencies 中的版本号
+  if (packageJson.dependencies) {
+    Object.keys(packageJson.dependencies).forEach(dependency => {
+      if (packageJson.dependencies[dependency].startsWith('workspace:')) {
+        packageJson.dependencies[dependency] = `workspace:${version}`;
+      }
+    });
+  }
+
+  // 更新 devDependencies 中的版本号
+  if (packageJson.devDependencies) {
+    Object.keys(packageJson.devDependencies).forEach(dependency => {
+      if (packageJson.devDependencies[dependency].startsWith('workspace:')) {
+        packageJson.devDependencies[dependency] = `workspace:${version}`;
+      }
+    });
+  }
+
+  // 更新 peerDependencies 中的版本号
+  if (packageJson.peerDependencies) {
+    Object.keys(packageJson.peerDependencies).forEach(dependency => {
+      if (packageJson.peerDependencies[dependency].startsWith('workspace:')) {
+        packageJson.peerDependencies[dependency] = `workspace:${version}`;
+      }
+    });
+  }
 }
 
 async function updateVersions(version) {
@@ -53,6 +82,12 @@ if (args.length === 0) {
 } else {
   console.error('Usage: node update-versions.js [version]');
   process.exit(1);
+}
+
+function autoIncrementLastVersionPart(version) {
+  const parts = version.split('.').map(part => parseInt(part, 10));
+  parts[parts.length - 1] += 1;
+  return parts.join('.');
 }
 
 updateVersions(version);
