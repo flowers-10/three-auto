@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "three-auto": "workspace:^0.1.12"
+    "three-auto": "workspace:^0.2.0"
   },
   "peerDependencies": {
     "three": "^0.166.0",
