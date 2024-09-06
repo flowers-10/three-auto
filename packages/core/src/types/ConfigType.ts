@@ -1,3 +1,5 @@
+import { SeriesConfig } from "./SeriesType";
+
 type SizeType = "parent" | "window";
 type LightType = "point" | "ambient" | "hemisphere" | "spot";
 type CameraType = "PerspectiveCamera" | "OrthographicCamera" | null | undefined;
@@ -65,4 +67,5 @@ export interface ConfigType {
   size: SizeConfigType;
   light?: LightItems[];
   renderer: RendererConfig;
+  series: SeriesConfig[];
 }

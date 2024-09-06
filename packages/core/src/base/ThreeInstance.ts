@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { ConfigType } from "../types/ConfigType";
 import { CONFIG } from "../config/config";
 import { MouseMoveTracker, Time, Sizes, Raycaster, Resources } from "./index";
-import { Camera, Light, Renderer } from "../components";
+import { Camera, Light, Renderer, Series } from "../components";
 
 export interface ThreeInstance {
   time: Time;
@@ -35,10 +35,12 @@ class ThreeAuto implements ThreeInstance {
   public _renderer: THREE.WebGLRenderer;
   public mousemove: MouseMoveTracker;
   public raycaster: Raycaster;
+  public series?: Series;
   public light?: Light;
   public Light = Light;
   public Resources = Resources;
   public Raycaster = Raycaster;
+  public Series = Series;
 
   constructor(canvas?: HTMLCanvasElement, config: Partial<ConfigType> = {}) {
     const {
@@ -63,9 +65,14 @@ class ThreeAuto implements ThreeInstance {
     this.raycaster = new Raycaster(this);
     this.renderer = new Renderer(renderer, this);
     this._renderer = this.renderer.instance;
+
     if (config.light) {
       this.light = new Light(config.light, this);
     }
+    if(config.series) {
+      this.series = new Series(config.series, this);
+    }
+    
     this.sizes.on("resize", () => {
       this.resize();
     });
