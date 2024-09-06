@@ -5,7 +5,6 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { EventEmitter } from "./EventEmitter";
 import { CustomLoading } from "../components";
 import { SourcesItems, Loaders, LoadingType } from "../types";
-
 export class Resources extends EventEmitter {
   private sources: SourcesItems[];
   public items: Map<string, any>;
@@ -31,12 +30,14 @@ export class Resources extends EventEmitter {
     loadingManager?: LoadingType | THREE.LoadingManager
   ): THREE.LoadingManager {
     return loadingManager instanceof THREE.LoadingManager
-    ? loadingManager
-    : new CustomLoading(typeof loadingManager === "string" ? loadingManager : "default").loadingManager;
+      ? loadingManager
+      : new CustomLoading(
+          typeof loadingManager === "string" ? loadingManager : "default"
+        ).loadingManager;
   }
 
   private createLoaders(loadingManager: THREE.LoadingManager): Loaders {
-    const dracoLoader = new DRACOLoader().setDecoderPath("draco/");
+    const dracoLoader = new DRACOLoader().setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
     return {
       gltfLoader: new GLTFLoader(loadingManager).setDRACOLoader(dracoLoader),
       textureLoader: new THREE.TextureLoader(loadingManager),
@@ -47,7 +48,9 @@ export class Resources extends EventEmitter {
   }
 
   private loadSource(source: SourcesItems) {
-    const loaderMap: { [key: string]: (path: string, callback: (file: any) => void) => void } = {
+    const loaderMap: {
+      [key: string]: (path: string, callback: (file: any) => void) => void;
+    } = {
       GLTF: this.loaders.gltfLoader.load.bind(this.loaders.gltfLoader),
       TEXTURE: this.loaders.textureLoader.load.bind(this.loaders.textureLoader),
       FONT: this.loaders.fontLoader.load.bind(this.loaders.fontLoader),
@@ -55,12 +58,14 @@ export class Resources extends EventEmitter {
     };
 
     if (loaderMap[source.type]) {
-      loaderMap[source.type](source.path, (file) => this.sourceLoaded(source, file));
+      loaderMap[source.type](source.path, (file) =>
+        this.sourceLoaded(source, file)
+      );
     }
   }
 
   startLoading() {
-     this.sources.forEach(source => this.loadSource(source));
+    this.sources.forEach((source) => this.loadSource(source));
   }
 
   sourceLoaded(source: SourcesItems, file: any) {
