@@ -1,5 +1,4 @@
 import * as AUTO from "three-auto";
-import * as THREE from "three";
 
 const instance = new AUTO.ThreeAuto(undefined, {
   id: "_scene",
