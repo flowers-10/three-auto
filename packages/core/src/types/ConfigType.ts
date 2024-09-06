@@ -1,5 +1,6 @@
 import { MoebiusProps } from "../components";
 import { SeriesConfig } from "./SeriesType";
+import { SourcesItems } from "./SourcesType";
 
 type TodoType = 'Todo';
 type SizeType = "parent" | "window";
@@ -79,4 +80,5 @@ export interface ConfigType {
   renderer: RendererConfig;
   series?: SeriesConfig[];
   postprocess?: PostProcessConfig;
+  resource?: SourcesItems[]
 }

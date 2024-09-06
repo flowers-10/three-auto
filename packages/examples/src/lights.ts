@@ -19,12 +19,12 @@ new AUTO.Light(
       },
     },
     {
-        type: "ambient",
-        color: "#3e99e5",
-        intensity: 1,
-        helper: false, 
-        lightName: "ambient-light",
-      },
+      type: "ambient",
+      color: "#3e99e5",
+      intensity: 1,
+      helper: false,
+      lightName: "ambient-light",
+    },
   ],
   instance
 );

@@ -38,6 +38,7 @@ class ThreeAuto implements ThreeInstance {
   public series?: Series;
   public light?: Light;
   public postprocess?: PostProcess;
+  public resource?: Resources;
   public Light = Light;
   public Resources = Resources;
   public Raycaster = Raycaster;
@@ -77,7 +78,10 @@ class ThreeAuto implements ThreeInstance {
     if (config.postprocess) {
       this.postprocess = new PostProcess(config.postprocess, this);
     }
-
+    if(config.resource) {
+      this.resource = new Resources(config.resource);
+    }
+    
     this.sizes.on("resize", () => {
       this.resize();
     });
