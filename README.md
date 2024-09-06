@@ -84,7 +84,7 @@ Thank you to all the people who already contributed to three-auto!
 Give a ⭐️ if this project helped you!
 
 ## Features
-- support proxy config setting
+- support proxy config setting ✅
 - support customer compose renderer pass ✅
 - support generate low code
 - support webGPU
