@@ -90,7 +90,7 @@ Give a ⭐️ if this project helped you!
 - support webGPU
 - support environment
 - support physic
-- support animationMixer
+- support animationMixer ✅
 - support auto uniforms
 - support CSS3DRenderer
 - preferences Raycaster  ✅
