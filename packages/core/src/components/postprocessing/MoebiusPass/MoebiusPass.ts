@@ -9,17 +9,17 @@ export interface MoebiusProps {
   frequency?: number;
   amplitude?: number;
   mod?: number;
-  tickness?: number;
+  thickness?: number;
 }
 
 export class MoebiusPass extends CustomPass {
   effect: MoebiusEffect;
   depthRenderTarget: THREE.WebGLRenderTarget;
   normalRenderTarget: THREE.WebGLRenderTarget;
-  constructor(instance: ThreeInstance, config: MoebiusProps) {
+  constructor(config: MoebiusProps, instance: ThreeInstance) {
     super(instance);
     const { width, height } = this.sizes;
-    const { noiseTex, amplitude, frequency, mod, tickness } = config;
+    const { noiseTex, amplitude, frequency, mod, thickness } = config;
     const depthTexture = new THREE.DepthTexture(width, height);
     depthTexture.type = THREE.UnsignedShortType;
     depthTexture.format = THREE.DepthFormat;
@@ -46,7 +46,7 @@ export class MoebiusPass extends CustomPass {
       frequency,
       amplitude,
       mod,
-      tickness,
+      thickness,
     });
     this.composer.addPass(new EffectPass(this._camera, this.effect));
   }

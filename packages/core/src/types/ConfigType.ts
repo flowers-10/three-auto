@@ -1,5 +1,7 @@
+import { MoebiusProps } from "../components";
 import { SeriesConfig } from "./SeriesType";
 
+type TodoType = 'Todo';
 type SizeType = "parent" | "window";
 type LightType = "point" | "ambient" | "hemisphere" | "spot";
 type CameraType = "PerspectiveCamera" | "OrthographicCamera" | null | undefined;
@@ -60,6 +62,14 @@ export type BloomConfigType = {
   threshold: number;
 };
 
+type PostProcessConfigType = 'moebius';
+
+export type PostProcessConfig = {
+  type: PostProcessConfigType;
+  show: boolean;
+  options?: MoebiusProps | TodoType
+}
+
 export interface ConfigType {
   id: string;
   name: string;
@@ -67,5 +77,6 @@ export interface ConfigType {
   size: SizeConfigType;
   light?: LightItems[];
   renderer: RendererConfig;
-  series: SeriesConfig[];
+  series?: SeriesConfig[];
+  postprocess?: PostProcessConfig;
 }

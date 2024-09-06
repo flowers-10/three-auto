@@ -33,7 +33,7 @@ export class Time extends EventEmitter {
     this.delta = currentTime - this.current;
     this.current = currentTime;
     this.elapsedTime = this.clock.getElapsedTime();
-    let dt = this.clock.getDelta();
+    // let dt = this.clock.getDelta();
     // this.lerpValue = lerp(this.lerpValue, 1, clamp(dt,0,1))
 
     this.trigger("tick", null);

@@ -12,7 +12,7 @@ export interface MoebiusEffectProps {
   frequency?: number;
   amplitude?: number;
   mod?: number;
-  tickness?: number;
+  thickness?: number;
 }
 
 export class MoebiusEffect extends Effect {
@@ -29,7 +29,7 @@ export class MoebiusEffect extends Effect {
         ["uAmplitude", new THREE.Uniform(args.amplitude)],
         ["uNoiseTex", new THREE.Uniform(args.noiseTex)],
         ["uMod", new THREE.Uniform(args.mod || 0)],
-        ["uTickness", new THREE.Uniform(args.tickness || 0)],
+        ["uThickness", new THREE.Uniform(args.thickness || 0)],
       ]),
     });
     this.sizes = args.sizes;

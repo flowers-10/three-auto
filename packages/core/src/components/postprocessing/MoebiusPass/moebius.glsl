@@ -7,7 +7,7 @@ uniform vec2 uResolution;
 uniform float uFrequency;
 uniform float uAmplitude;
 uniform float uMod;
-uniform float uTickness;
+uniform float uThickness;
 
 const mat3 Sx = mat3(-1, -2, -1, 0, 0, 0, 1, 2, 1);
 const mat3 Sy = mat3(-1, 0, 1, -2, 0, 2, -1, 0, 1);
@@ -39,36 +39,36 @@ float getgradientValue(float value00, float value01, float value02, float value1
 
 }
 
-float getgradientDepth(sampler2D tex, vec2 uv, vec2 texel, float tickness) {
-  float depth00 = readDepth(tex, uv + tickness * texel * vec2(-1, 1));
-  float depth01 = readDepth(tex, uv + tickness * texel * vec2(-1, 0));
-  float depth02 = readDepth(tex, uv + tickness * texel * vec2(-1, -1));
+float getgradientDepth(sampler2D tex, vec2 uv, vec2 texel, float thickness) {
+  float depth00 = readDepth(tex, uv + thickness * texel * vec2(-1, 1));
+  float depth01 = readDepth(tex, uv + thickness * texel * vec2(-1, 0));
+  float depth02 = readDepth(tex, uv + thickness * texel * vec2(-1, -1));
 
-  float depth10 = readDepth(tex, uv + tickness * texel * vec2(0, -1));
-  float depth11 = readDepth(tex, uv + tickness * texel * vec2(0, 0));
-  float depth12 = readDepth(tex, uv + tickness * texel * vec2(0, 1));
+  float depth10 = readDepth(tex, uv + thickness * texel * vec2(0, -1));
+  float depth11 = readDepth(tex, uv + thickness * texel * vec2(0, 0));
+  float depth12 = readDepth(tex, uv + thickness * texel * vec2(0, 1));
 
-  float depth20 = readDepth(tex, uv + tickness * texel * vec2(1, -1));
-  float depth21 = readDepth(tex, uv + tickness * texel * vec2(1, 0));
-  float depth22 = readDepth(tex, uv + tickness * texel * vec2(1, 1));
+  float depth20 = readDepth(tex, uv + thickness * texel * vec2(1, -1));
+  float depth21 = readDepth(tex, uv + thickness * texel * vec2(1, 0));
+  float depth22 = readDepth(tex, uv + thickness * texel * vec2(1, 1));
 
   float gradientDepth = getgradientValue(depth00, depth01, depth02, depth10, depth11, depth12, depth20, depth21, depth22);
 
   return gradientDepth;
 }
 
-float getgradientNormal(sampler2D tex, vec2 uv, vec2 texel, float tickness) {
-  float normal00 = luminance(texture2D(tex, uv + tickness * texel * vec2(-1, 1)).rgb);
-  float normal01 = luminance(texture2D(tex, uv + tickness * texel * vec2(-1, 0)).rgb);
-  float normal02 = luminance(texture2D(tex, uv + tickness * texel * vec2(-1, -1)).rgb);
+float getgradientNormal(sampler2D tex, vec2 uv, vec2 texel, float thickness) {
+  float normal00 = luminance(texture2D(tex, uv + thickness * texel * vec2(-1, 1)).rgb);
+  float normal01 = luminance(texture2D(tex, uv + thickness * texel * vec2(-1, 0)).rgb);
+  float normal02 = luminance(texture2D(tex, uv + thickness * texel * vec2(-1, -1)).rgb);
 
-  float normal10 = luminance(texture2D(tex, uv + tickness * texel * vec2(0, -1)).rgb);
-  float normal11 = luminance(texture2D(tex, uv + tickness * texel * vec2(0, 0)).rgb);
-  float normal12 = luminance(texture2D(tex, uv + tickness * texel * vec2(0, 1)).rgb);
+  float normal10 = luminance(texture2D(tex, uv + thickness * texel * vec2(0, -1)).rgb);
+  float normal11 = luminance(texture2D(tex, uv + thickness * texel * vec2(0, 0)).rgb);
+  float normal12 = luminance(texture2D(tex, uv + thickness * texel * vec2(0, 1)).rgb);
 
-  float normal20 = luminance(texture2D(tex, uv + tickness * texel * vec2(1, -1)).rgb);
-  float normal21 = luminance(texture2D(tex, uv + tickness * texel * vec2(1, 0)).rgb);
-  float normal22 = luminance(texture2D(tex, uv + tickness * texel * vec2(1, 1)).rgb);
+  float normal20 = luminance(texture2D(tex, uv + thickness * texel * vec2(1, -1)).rgb);
+  float normal21 = luminance(texture2D(tex, uv + thickness * texel * vec2(1, 0)).rgb);
+  float normal22 = luminance(texture2D(tex, uv + thickness * texel * vec2(1, 1)).rgb);
 
   float gradientDepth = getgradientValue(normal00, normal01, normal02, normal10, normal11, normal12, normal20, normal21, normal22);
 
@@ -90,7 +90,7 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
 
   vec2 texel = vec2(1.0 / uResolution.x, 1.0 / uResolution.y);
 
-  float outlineThickness = uTickness;
+  float outlineThickness = uThickness;
 
   vec4 outlineColor = vec4(0.0, 0.0, 0.0, 1.0);
 

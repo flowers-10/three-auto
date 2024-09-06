@@ -11,12 +11,12 @@ const box = new THREE.Mesh(geometry, material);
 
 instance.scene.add(box);
 
-const customPass = new AUTO.MoebiusPass(instance,{
+const customPass = new AUTO.MoebiusPass({
   frequency: 0.04,
   amplitude: 2,
   mod:10,
-  tickness:1.5
-})
+  thickness:1.5
+},instance)
 
 
 instance.time.on("tick", () => {
