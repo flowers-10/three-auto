@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { spawn } from 'node:child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -68,6 +69,25 @@ async function updateVersions(version) {
   }
 
   console.log(`All projects updated to version ${version}`);
+
+  // 在所有项目版本更新后执行 pnpm install
+  const pnpmInstall = spawn('pnpm', ['install']);
+
+  pnpmInstall.on('exit', (code, signal) => {
+    if (code !== 0) {
+      console.error(`pnpm install exited with code ${code}`);
+    } else {
+      console.log('pnpm install completed successfully.');
+    }
+  });
+
+  pnpmInstall.stderr.on('data', data => {
+    console.error(`stderr: ${data}`);
+  });
+
+  pnpmInstall.stdout.on('data', data => {
+    console.log(`stdout: ${data}`);
+  });
 }
 
 // 获取命令行参数中的版本号
