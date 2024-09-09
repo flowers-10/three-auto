@@ -13,17 +13,17 @@ export class PostProcess extends BaseThree {
       case "moebius":
         const isMoebiusProps = generateTypeGuard<MoebiusProps>({});
         if (!config.options) {
-            config.options = {
-              frequency: 0.04,
-              amplitude: 2,
-              mod: 10,
-              thickness: 1.5, // 修正拼写错误
-            };
-          }
-          if (!isMoebiusProps(config.options)) {
-            throw new Error('config.options must be of type MoebiusProps');
-          }
-          this.customPass = new MoebiusPass(config.options, instance);
+          config.options = {
+            frequency: 0.04,
+            amplitude: 2,
+            mod: 10,
+            thickness: 1.5, // 修正拼写错误
+          };
+        }
+        if (!isMoebiusProps(config.options)) {
+          throw new Error("config.options must be of type MoebiusProps");
+        }
+        this.customPass = new MoebiusPass(config.options, instance);
         break;
     }
   }

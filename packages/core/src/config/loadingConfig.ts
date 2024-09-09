@@ -2,7 +2,7 @@ import { NodeObject } from "../components";
 
 export const defaultLoading: NodeObject = {
   tag: "div",
-  className: "_loading_page_",
+  className: "ta-loading",
   style: {
     position: "fixed",
     top: "0",
@@ -16,7 +16,7 @@ export const defaultLoading: NodeObject = {
   children: [
     {
       tag: "div",
-      className: "_loading_bar_",
+      className: "ta-loading__bar",
       style: {
         position: "absolute",
         top: "50%",
@@ -30,7 +30,7 @@ export const defaultLoading: NodeObject = {
     },
     {
       tag: "div",
-      className: "_loading_counter_",
+      className: "ta-loading__counter",
       style: {
         "font-size": "60px",
         position: "absolute",
@@ -47,7 +47,7 @@ export const defaultLoading: NodeObject = {
 const sum = 32;
 export const circleLoading: NodeObject = {
   tag: "div",
-  className: "_loading_page_",
+  className: "ta-loading",
   cssRules: Array.from({ length: sum }, (_, index) => ({
     selector: `._circle_:nth-child(${index + 1})`,
     rules: {
@@ -59,7 +59,7 @@ export const circleLoading: NodeObject = {
   })),
   keyframes: [
     {
-      name: "_spin_",
+      name: "ta-loading__spin",
       keyframes: [
         "from { opacity:0 }",
         "to { opacity:0.6; transform: translate3d(-4px, -4px, 670px) }",
@@ -77,7 +77,7 @@ export const circleLoading: NodeObject = {
   children: [
     {
       tag: "div",
-      className: "_loading_bar_",
+      className: "ta-loading__bar",
       style: {
         position: "absolute",
         top: "50%",
@@ -99,7 +99,7 @@ export const circleLoading: NodeObject = {
           opacity: "0",
           background: "rgba(255, 255, 255, 0.5)",
           "box-shadow": "0px 0px 10px rgba(255, 255, 255, 0.4)",
-          "animation-name": "_spin_",
+          "animation-name": "ta-loading__spin",
           "animation-duration": "3s",
           "animation-iteration-count": "infinite",
           "animation-timing-function": "ease-in-out",
@@ -108,7 +108,7 @@ export const circleLoading: NodeObject = {
     },
     {
       tag: "div",
-      className: "_loading_counter_",
+      className: "ta-loading__counter",
       style: {
         "font-size": "60px",
         position: "absolute",
@@ -126,17 +126,17 @@ const LOADING = "LOADING";
 const factor = [1, 2, 5, 10];
 export const fadeLoading: NodeObject = {
   tag: "div",
-  className: "_loading_page_",
+  className: "ta-loading",
   cssRules: [
     ...Array.from({ length: 7 }, (_, index) => ({
-      selector: `._load_str_ > span:nth-of-type(${index + 1})`,
+      selector: `.ta-loading__str > span:nth-of-type(${index + 1})`,
       rules: {
         animation: "_letter_fade_ 3s ease-in-out infinite",
         "animation-delay": `${(index + 1) * 0.3}s`,
       },
     })),
     ...Array.from({ length: 4 }, (_, index) => ({
-      selector: `._loading_ span:nth-child(${index + 1})`,
+      selector: `.ta-loading__bar span:nth-child(${index + 1})`,
       rules: {
         filter: `blur(${factor[index] * 5}px);`,
       },
@@ -152,7 +152,7 @@ export const fadeLoading: NodeObject = {
       ],
     },
     {
-      name: "_loading_fade_",
+      name: "ta-loading__fade",
       keyframes: [
         "from {transform: rotate(0);}",
         "to {transform: rotate(360deg);}",
@@ -173,14 +173,14 @@ export const fadeLoading: NodeObject = {
   children: [
     {
       tag: "div",
-      className: "_loading_",
+      className: "ta-loading__bar",
       style: {
         position: "relative",
         width: "200px",
         height: "200px",
         "border-radius": "50%",
         background: "linear-gradient(#14ffe9, #ffeb3b, #ff00e0)",
-        animation: "_loading_fade_ 0.5s linear infinite",
+        animation: "ta-loading__fade 0.5s linear infinite",
       },
       children: [...Array.from({ length: 4 }, () => ({
         tag: "span",
@@ -209,7 +209,7 @@ export const fadeLoading: NodeObject = {
     },
     {
       tag: "div",
-      className: "_load_str_",
+      className: "ta-loading__str",
       style: {
         position: "absolute",
         top: "50%",

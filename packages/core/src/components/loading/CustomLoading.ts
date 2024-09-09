@@ -27,7 +27,7 @@ export class CustomLoading {
   }
 
   private dispose() {
-    const element = document.querySelector("._loading_page_");
+    const element = document.querySelector(".ta-loading");
     if (element) element.remove();
   }
 }

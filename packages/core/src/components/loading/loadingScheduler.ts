@@ -13,10 +13,10 @@ export function createLoading(
 
 export function endLoading() {
   const loadingPageElement = document.querySelector(
-    "._loading_page_"
+    ".ta-loading"
   ) as HTMLElement | null;
   const loadingBarElement = document.querySelector(
-    "._loading_bar_"
+    ".ta-loading__bar"
   ) as HTMLElement | null;
   if (loadingPageElement) {
     gsap.set(loadingPageElement.style, { opacity: 1 });
@@ -42,7 +42,7 @@ export function progressLoading(
   total: number
 ) {
   const loadingCounterElement = document.querySelector(
-    "._loading_counter_"
+    ".ta-loading__counter"
   ) as HTMLElement | null;
   const progress = loaded / total;
 
@@ -51,7 +51,7 @@ export function progressLoading(
   }
   if (type === "default") {
     const loadingBarElement = document.querySelector(
-      "._loading_bar_"
+      ".ta-loading__bar"
     ) as HTMLElement | null;
     if (loadingBarElement) {
       loadingBarElement.style.transform = `scaleX(${progress})`;
