@@ -7,11 +7,20 @@ export class Animation extends BaseThree {
   clips: THREE.AnimationClip[];
   root: THREE.Object3D;
   mixer: THREE.AnimationMixer;
-  constructor(instance: ThreeInstance, clips: THREE.AnimationClip[], root: THREE.Object3D) {
-    super(instance)
+  constructor(
+    instance: ThreeInstance,
+    clips: THREE.AnimationClip[],
+    root: THREE.Object3D
+  ) {
+    super(instance);
     this.clips = clips;
     this.root = root;
     this.mixer = new THREE.AnimationMixer(root);
+  }
+   openSkeletonHelper() {
+    const skeletonHelper = new THREE.SkeletonHelper(this.root);
+    this.scene.add(skeletonHelper); 
+    return skeletonHelper
   }
   get names() {
     return this.clips.map((item) => item.name);
