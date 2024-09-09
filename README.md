@@ -84,16 +84,17 @@ Thank you to all the people who already contributed to three-auto!
 Give a ⭐️ if this project helped you!
 
 ## Features
-- support proxy config setting ✅
+- support proxy config setting (like gui)
 - support customer compose renderer pass ✅
 - support generate low code
 - support webGPU
 - support environment
 - support physic
-- support animationMixer ✅
+- support animationMixer ✅ （Skeleton）
 - support auto uniforms 
-- support CSS3DRenderer
+- support CSS2DRenderer and CSS3DRenderer 
 - preferences Raycaster  ✅
+- add more chart types(Curve\Bar\Pie\Scatter\Radar\Heatmap\Graph)
 - add documentation packages
 - fix Three.js Reminders caused by inconsistent versions: 'Material: onBeforeRender() has been removed.'
 
