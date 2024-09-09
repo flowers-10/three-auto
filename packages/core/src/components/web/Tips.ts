@@ -34,6 +34,7 @@ export class Tips extends BaseThree {
     }
     createTips(root: HTMLElement) {
         const tag = new objectMap[this.type](root);
+        root.style.pointerEvents = 'none';
         this.tips.add(tag)
         return tag
     }
