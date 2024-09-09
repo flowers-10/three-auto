@@ -90,9 +90,10 @@ Give a ⭐️ if this project helped you!
 - support webGPU
 - support environment
 - support physic
-- support animationMixer ✅ （Skeleton）
+- support animationMixer ✅ （Skeleton） ✅
+- support helpers
 - support auto uniforms 
-- support CSS2DRenderer and CSS3DRenderer 
+- support CSS2DRenderer ✅ and CSS3DRenderer ✅
 - preferences Raycaster  ✅
 - add more chart types(Curve\Bar\Pie\Scatter\Radar\Heatmap\Graph)
 - add documentation packages

@@ -52,7 +52,7 @@ export function addCSSRules(
   document.head.appendChild(styleElement);
 }
 
-export function htmlRender(obj: NodeObject, root: HTMLElement): void {
+export function htmlRender(obj: NodeObject, root: HTMLElement = document.body): HTMLElement {
   if (obj.cssRules) {
     addCSSRules(obj.cssRules, obj.keyframes);
   }
@@ -84,4 +84,5 @@ export function htmlRender(obj: NodeObject, root: HTMLElement): void {
   }
 
   root.appendChild(el);
+  return el
 }
