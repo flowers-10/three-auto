@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
 import { SeriesConfig } from "../../types";
-import {Map} from './Map'
+import { Map3D } from './Map3D'
 
 export class Series extends BaseThree {
   public seriesGroup: THREE.Group;
@@ -15,12 +15,12 @@ export class Series extends BaseThree {
       this.seriesScheduler(options)
     });
     this.scene.add(this.seriesGroup)
-    
+
   }
   seriesScheduler(options: SeriesConfig) {
     switch (options.type) {
       case "map":
-        const map = new Map(options,this._instance).map
+        const map = new Map3D(options, this._instance).map
         this.seriesGroup.add(map)
         break;
       case "line":

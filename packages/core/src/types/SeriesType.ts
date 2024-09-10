@@ -5,7 +5,7 @@ export interface LabelFilter {
   // value: string | number | boolean;
 }
 
-export interface LabelFilterList extends Array<LabelFilter> {}
+export interface LabelFilterList extends Array<LabelFilter> { }
 
 export interface LabelFilterStyle {
   arrangement: "vertical" | "horizontal";
@@ -18,7 +18,7 @@ export interface LabelFilterStyle {
 
 export interface LabelStyle {
   show: boolean;
-  depth: number;
+  distance: number;
   rotation: {
     x: number;
     y: number;
@@ -32,28 +32,19 @@ export interface LabelStyle {
     lineHeight: number;
     fontFamily: string;
   };
-  filterList: LabelFilterList;
-  filterStyle: LabelFilterStyle;
-}
-
-export interface ExtrudeFacesSettings {
-  depth: number;
-  bevelEnabled: boolean;
-  bevelSegments: number;
-  bevelSize: number;
-  bevelThickness: number;
+  formatter?: (params: Object | any[]) => string | void
 }
 
 export interface ExtrudeFaces {
   color: string;
-  transparent: boolean;
+  opacity: number;
   metalness: number;
   roughness: number;
-  extrudeSettings: ExtrudeFacesSettings;
+
 }
 
 export interface CrossSection {
-  transparent: boolean;
+  opacity: number;
   color: string;
 }
 
@@ -61,7 +52,18 @@ export interface LineStyle {
   show: boolean;
   depth: number;
   color: string;
-  linewidth: number;
+  width: number;
+}
+
+export interface ItemStyle {
+  extrudeFaces: ExtrudeFaces
+  crossSection: CrossSection;
+  lineStyle: LineStyle;
+  depth: number;
+  bevelEnabled: boolean;
+  bevelSegments: number;
+  bevelSize: number;
+  bevelThickness: number;
 }
 
 export type ChartType = 'map' | 'line' | 'bar' | 'pie';
@@ -71,13 +73,10 @@ export interface SeriesConfig {
   name?: string;
   id?: number | string;
   type?: ChartType;
-  shader?: boolean;
   castShadow?: boolean;
   receiveShadow?: boolean;
   code?: number | string;
   json?: any; // Replace 'any'
-  lineStyle?: LineStyle;
   label?: LabelStyle;
-  extrudeFaces?: ExtrudeFaces;
-  crossSection?: CrossSection;
+  itemStyle?: ItemStyle;
 }

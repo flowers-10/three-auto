@@ -94,6 +94,7 @@ Give a ⭐️ if this project helped you!
 - support helpers
 - support auto uniforms 
 - support CSS2DRenderer ✅ and CSS3DRenderer ✅
+- support tooltip config
 - preferences Raycaster  ✅
 - add more chart types(Curve\Bar\Pie\Scatter\Radar\Heatmap\Graph)
 - add documentation packages
