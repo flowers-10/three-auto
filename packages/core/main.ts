@@ -23,30 +23,12 @@ const instance = new AUTO.ThreeAuto();
 new AUTO.Light(light, instance);
 new AUTO.Series([
   {
-    show: true,
     name: "轮廓地图",
     id: 0,
     type: "map",
     castShadow: false,
     receiveShadow: false,
     json: ZheJiangCity,
-    label: {
-      show: true,
-      distance: 1,
-      rotation: {
-        x: 0,
-        y: 0,
-        z: 0,
-      },
-      textStyle: {
-        arrangement: "horizontal",
-        fontSize: 20,
-        color: "#ffffff",
-        bold: true,
-        lineHeight: 20,
-        fontFamily: "Arial",
-      },
-    },
     itemStyle: {
       depth: 1,
       bevelEnabled: false,
@@ -54,24 +36,45 @@ new AUTO.Series([
       bevelSize: 0,
       bevelThickness: 0,
       extrudeFaces: {
-        color: "#3EB8F3",
+        material: 'MeshNormalMaterial',
+        color: "#ccc",
         opacity: 1,
         metalness: 1,
         roughness: 1,
       },
       crossSection: {
-        opacity: 1,
-        color: "#2B61A6",
+        material: 'MeshNormalMaterial',
+        opacity: 0.8,
+        color: "#000",
       },
-      lineStyle:{
+      lineStyle: {
         show: true,
-        depth: 1.1,
         color: "#A0E5FF",
-        width: .5,
-      }
-
-    }
-
+        width: 2,
+      },
+      label: {
+        show: true,
+        distance: 1.6,
+        rotation: {
+          x: Math.PI / 2,
+          y: 0,
+          z: 0,
+        },
+        textStyle: {
+          padding: '8px',
+          'background': 'rgba(0,0,0,0.2)',
+          'font-size': '20px',
+          color: "#fff",
+          'background-color': 'rgba(1,1,1,0.1)',
+          bold: true,
+          'line-height': '20px',
+          'font-family': '"Ma Shan Zheng", cursive',
+          'font-weight': 400,
+          'font-style': 'normal',
+        },
+      },
+    },
+    data: [{ name: '', value: '', itemStyle: {} },]
   },
 ], instance);
 

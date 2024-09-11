@@ -1,75 +1,57 @@
-export interface LabelFilter {
-  // Define the structure of a single filter object if needed
-  // For example:
-  // key: string;
-  // value: string | number | boolean;
-}
+import * as THREE from "three";
 
-export interface LabelFilterList extends Array<LabelFilter> { }
+export type MaterialType = 'MeshBasicMaterial' | 'MeshDepthMaterial' | 'MeshLambertMaterial' | 'MeshMatcapMaterial' | 'MeshNormalMaterial' | 'MeshPhongMaterial' | 'MeshPhysicalMaterial' | 'MeshStandardMaterial' | 'MeshToonMaterial' | 'ShaderMaterial'
 
-export interface LabelFilterStyle {
-  arrangement: "vertical" | "horizontal";
-  fontSize: number;
-  color: string;
-  bold: boolean;
-  lineHeight: number;
-  fontFamily: string;
-}
+export type MaterialTypeOfTHREE = THREE.ShaderMaterial | THREE.MeshBasicMaterial | THREE.MeshDepthMaterial | THREE.MeshLambertMaterial | THREE.MeshMatcapMaterial | THREE.MeshNormalMaterial | THREE.MeshPhongMaterial | THREE.MeshStandardMaterial | THREE.MeshToonMaterial
+
 
 export interface LabelStyle {
-  show: boolean;
-  distance: number;
-  rotation: {
+  show?: boolean;
+  distance?: number;
+  rotation?: {
     x: number;
     y: number;
     z: number;
   };
-  textStyle: {
-    arrangement: "horizontal" | "vertical";
-    fontSize: number;
-    color: string;
-    bold: boolean;
-    lineHeight: number;
-    fontFamily: string;
-  };
+  textStyle?: any;
   formatter?: (params: Object | any[]) => string | void
 }
 
-export interface ExtrudeFaces {
-  color: string;
-  opacity: number;
-  metalness: number;
-  roughness: number;
-
-}
-
-export interface CrossSection {
-  opacity: number;
-  color: string;
+export interface MaterialConfig {
+  material?: MaterialType
+  color?: string;
+  opacity?: number;
+  metalness?: number;
+  roughness?: number;
 }
 
 export interface LineStyle {
-  show: boolean;
-  depth: number;
-  color: string;
-  width: number;
+  show?: boolean;
+  color?: string;
+  width?: number;
 }
 
 export interface ItemStyle {
-  extrudeFaces: ExtrudeFaces
-  crossSection: CrossSection;
-  lineStyle: LineStyle;
-  depth: number;
-  bevelEnabled: boolean;
-  bevelSegments: number;
-  bevelSize: number;
-  bevelThickness: number;
+  extrudeFaces?: MaterialConfig;
+  crossSection?: MaterialConfig;
+  lineStyle?:LineStyle;
+  label?: LabelStyle;
+  depth?: number;
+  bevelEnabled?: boolean;
+  bevelSegments?: number;
+  bevelSize?: number;
+  bevelThickness?: number;
+}
+
+export interface DataConfig  {
+    name?: string;
+    value?: string | number;
+    itemStyle?: ItemStyle;
 }
 
 export type ChartType = 'map' | 'line' | 'bar' | 'pie';
 
 export interface SeriesConfig {
-  show?: boolean;
   name?: string;
   id?: number | string;
   type?: ChartType;
@@ -77,6 +59,6 @@ export interface SeriesConfig {
   receiveShadow?: boolean;
   code?: number | string;
   json?: any; // Replace 'any'
-  label?: LabelStyle;
   itemStyle?: ItemStyle;
+  data?: DataConfig[]
 }

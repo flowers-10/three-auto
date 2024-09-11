@@ -6,8 +6,16 @@ import * as d3geo from "d3-geo";
 
 import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
-import { ChartType, ItemStyle, SeriesConfig } from "../../types";
+import { ChartType, ItemStyle, SeriesConfig, MaterialTypeOfTHREE } from "../../types";
+import { mergeDeep } from "../../shared";
+import { htmlRender, Tips } from "../web";
 
+
+type MaterialGroup = {
+  crossSectionMaterial: MaterialTypeOfTHREE,
+  extrudeFacesMaterial: MaterialTypeOfTHREE,
+  lineMaterial: LineMaterial
+}
 interface MapType extends THREE.Group {
   series: ChartType;
   properties: any;
@@ -16,12 +24,20 @@ interface MapType extends THREE.Group {
 export class Map3D extends BaseThree {
   public map: MapType;
   public projection: any;
-  constructor(options: SeriesConfig, instance: ThreeInstance) {
+  public css2Render: Tips;
+  constructor(options: Partial<SeriesConfig>, instance: ThreeInstance) {
     super(instance);
     this.map = new THREE.Group() as MapType;
     const { center, scale } = this.createCenter(options.json);
     this.projection = this.getProjection(center, scale);
+    this.css2Render = new Tips(instance, 'css3')
     this.createMap(options);
+    instance.sizes.on('resize', () => {
+      this.css2Render.resize()
+    })
+    instance.time.on("tick", () => {
+      this.css2Render.update()
+    });
   }
   getProjection(center: number[], scale: number) {
     return d3geo.geoMercator().center(center).scale(scale).translate([0, 0]);
@@ -43,7 +59,6 @@ export class Map3D extends BaseThree {
   createMap(options: SeriesConfig) {
     let {
       type,
-      show,
       json,
       name,
       // shader,
@@ -52,54 +67,44 @@ export class Map3D extends BaseThree {
       itemStyle,
       // label,
     } = options;
-
+    const style = this.initStyle(itemStyle)
     this.map.name = name || "Map";
     this.map.series = type || "map";
 
-    const { crossSectionMaterial, extrudeFacesMaterial, lineMaterial } = this.createMaterial(itemStyle)
+    const material = this.createMaterial(style)
 
 
     json.features.forEach((elem: any) => {
-      console.log(elem);
-      
       const regionGroup = new THREE.Group();
       const { coordinates } = elem.geometry;
+      this.createLabel(elem, style)
       coordinates.forEach((multiPolygon: any) => {
         multiPolygon.forEach((polygon: any) => {
-          if (show) {
-            const geometry = this.createShape(polygon, itemStyle)
-            const mesh = new THREE.Mesh(geometry, [
-              crossSectionMaterial,
-              extrudeFacesMaterial,
-            ]);
-            mesh.name = elem.properties.name;
-            regionGroup.add(mesh);
-          }
-          if (options?.itemStyle?.lineStyle?.show) {
-            const geometry = this.createLine(polygon, itemStyle)
-            const line = new Line2(geometry, lineMaterial);
-            line.name = elem.properties.name;
-            regionGroup.add(line);
-          }
+          this.createShape(elem, polygon, material, regionGroup, style)
+          this.createLine(elem, polygon, material, regionGroup, style)
         });
       });
       this.map.add(regionGroup);
     });
-    
   }
-  createMaterial(itemStyle?: ItemStyle) {
-    const { crossSection, extrudeFaces, lineStyle } = this.initStyle(itemStyle)
-    const crossSectionMaterial = new THREE.MeshPhongMaterial({
-      shininess: 200,
+  createMaterial(itemStyle: Required<ItemStyle>): MaterialGroup {
+    const { crossSection, extrudeFaces, lineStyle } = itemStyle
+    crossSection.material = crossSection.material || 'MeshBasicMaterial';
+    extrudeFaces.material = extrudeFaces.material || 'MeshBasicMaterial';
+
+    const crossSectionMaterial = new THREE[crossSection.material]({
       color: crossSection?.color,
       transparent: true,
+      opacity: crossSection?.opacity,
+      metalness: crossSection?.metalness,
+      roughness: crossSection?.roughness,
     });
-    crossSectionMaterial.color.convertSRGBToLinear();
-    const extrudeFacesMaterial = new THREE.MeshStandardMaterial({
-      metalness: extrudeFaces?.metalness,
-      roughness: extrudeFaces?.roughness,
+    const extrudeFacesMaterial = new THREE[extrudeFaces.material]({
       color: extrudeFaces?.color,
       transparent: true,
+      opacity: extrudeFaces?.opacity,
+      metalness: crossSection?.metalness,
+      roughness: crossSection?.roughness,
     });
     const lineMaterial = new LineMaterial({
       color: lineStyle.color,
@@ -113,8 +118,8 @@ export class Map3D extends BaseThree {
     }
     return material
   }
-  createShape(polygon: any, itemStyle?: ItemStyle) {
-    itemStyle = this.initStyle(itemStyle)
+  createShape(elem: any, polygon: any[], material: MaterialGroup, regionGroup: THREE.Group, itemStyle: ItemStyle) {
+    const { depth, bevelEnabled, bevelSegments, bevelSize, bevelThickness } = itemStyle
     const shape = new THREE.Shape();
     for (let i = 0; i < polygon.length; i++) {
       let [x, y] = this.projection(polygon[i]);
@@ -126,54 +131,91 @@ export class Map3D extends BaseThree {
     const geometry = new THREE.ExtrudeGeometry(
       shape,
       {
-        depth: itemStyle.depth,
-        bevelEnabled: itemStyle.bevelEnabled,
-        bevelSegments: itemStyle.bevelSegments,
-        bevelSize: itemStyle.bevelSize,
-        bevelThickness: itemStyle.bevelThickness,
+        depth: depth,
+        bevelEnabled: bevelEnabled,
+        bevelSegments: bevelSegments,
+        bevelSize: bevelSize,
+        bevelThickness: bevelThickness,
       }
     );
-    return geometry
+    const mesh = new THREE.Mesh(geometry, [
+      material.crossSectionMaterial,
+      material.extrudeFacesMaterial,
+    ]);
+    mesh.name = elem.properties.name;
+    regionGroup.add(mesh);
+
   }
-  createLine(polygon: any, itemStyle?: ItemStyle) {
+  createLine(elem: any, polygon: any, material: MaterialGroup, regionGroup: THREE.Group, itemStyle: Required<ItemStyle>) {
+    const { depth } = itemStyle
     const lineGeometry = new LineGeometry();
     const pointArray = [];
     for (let i = 0; i < polygon.length; i++) {
       let [x, y] = this.projection(polygon[i]);
-      pointArray.push(new THREE.Vector3(x, -y, itemStyle?.lineStyle?.depth || 1));
+      pointArray.push(new THREE.Vector3(x, -y, depth * 1.1 || 1));
     }
     lineGeometry.setPositions(
       pointArray.map(({ x, y, z }) => [x, y, z]).flat()
     );
-
-    return lineGeometry
+    const line = new Line2(lineGeometry, material.lineMaterial);
+    line.name = elem.properties.name;
+    regionGroup.add(line);
   }
-  initStyle(itemStyle?: ItemStyle) {
-    if (!itemStyle) {
-      itemStyle = {
-        depth: 1,
-        bevelEnabled: false,
-        bevelSegments: 1,
-        bevelSize: 0,
-        bevelThickness: 0,
-        extrudeFaces: {
-          color: "#3EB8F3",
-          opacity: 1,
-          metalness: 1,
-          roughness: 1,
+  createLabel(elem: any, itemStyle: Required<ItemStyle>) {
+    const { label } = itemStyle
+    const { show = false, distance = 1, rotation = {
+      x: 0,
+      y: 0,
+      z: 0,
+    }, textStyle } = label
+    show // todo: check
+    const labelElement = htmlRender({ tag: 'div', children: elem.properties.name, style: textStyle })
+    const tip = this.css2Render.createTips(labelElement)
+    tip.scale.set(0.02, 0.02, 1)
+    const { center } = this.createCenter(elem)
+    let [x, y] = this.projection(center)
+    tip.position.set(x, -y, distance)
+    tip.rotation.set(rotation.x, rotation.y, rotation.z)
+  }
+  initStyle(itemStyle?: ItemStyle): Required<ItemStyle> {
+    const defaults: ItemStyle = {
+      depth: 1,
+      bevelEnabled: false,
+      bevelSegments: 1,
+      bevelSize: 0,
+      bevelThickness: 0,
+      extrudeFaces: {
+        material: 'MeshToonMaterial',
+        color: "#ffffff",
+        opacity: 1,
+        metalness: 1,
+        roughness: 1,
+      },
+      crossSection: {
+        material: 'MeshToonMaterial',
+        opacity: 1,
+        color: "#ffffff",
+      },
+      lineStyle: {
+        show: true,
+        color: "#A0E5FF",
+        width: 0.5,
+      },
+      label: {
+        show: true,
+        distance: 1,
+        rotation: { x: 0, y: 0, z: 0 },
+        textStyle: {
+          'flex-direction': "horizontal",
+          'font-size': '20px',
+          color: "#ffffff",
+          'background-color': 'rgba(1,1,1,0.1)',
+          bold: true,
+          'line-height': '20px',
+          'font-family': "Arial",
         },
-        crossSection: {
-          opacity: 1,
-          color: "#2B61A6",
-        },
-        lineStyle: {
-          show: true,
-          depth: 1.1,
-          color: "#A0E5FF",
-          width: .5,
-        }
-      }
-    }
-    return itemStyle
+      },
+    };
+    return itemStyle ? mergeDeep(defaults, itemStyle) : defaults;
   }
 }

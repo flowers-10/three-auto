@@ -140,6 +140,7 @@ class ThreeAuto implements ThreeInstance {
     this.renderer.dispose();
     this.camera.dispose();
   }
+
 }
 
 export { ThreeAuto };

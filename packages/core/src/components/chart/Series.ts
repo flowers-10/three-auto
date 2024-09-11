@@ -15,7 +15,6 @@ export class Series extends BaseThree {
       this.seriesScheduler(options)
     });
     this.scene.add(this.seriesGroup)
-
   }
   seriesScheduler(options: SeriesConfig) {
     switch (options.type) {
