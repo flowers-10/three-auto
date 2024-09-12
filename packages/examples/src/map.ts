@@ -1,88 +1,86 @@
 import * as AUTO from "three-auto";
-import * as THREE from "three";
 import ZheJiangCity from '../public/ZheJiangCity.json'
 
-
-const light: AUTO.LightItems[] = [
-  {
-    type: "point",
-    color: "#3e99e5",
-    intensity: 400,
-    distance: 100,
-    helper: false,
-    lightName: "光源1",
+const instance = new AUTO.ThreeAuto(undefined, {
+  id: "_scene",
+  name: "Hello three auto",
+  camera: {
+    type: 'PerspectiveCamera',
+    fov: 75,
+    near: 0.1,
+    far: 1000,
     position: {
-      x: 4,
-      y: 3,
-      z: 14,
+      x: 0,
+      y: 0,
+      z: 20,
+    },
+    lookAt: true,
+    controls: {
+      show: true,
+      enableDamping: true,
+      enablePan: true,
     },
   },
-
-
-];
-const instance = new AUTO.ThreeAuto();
-new AUTO.Light(light, instance);
-new AUTO.Series([
-  {
-    name: "轮廓地图",
-    id: 0,
-    type: "map",
-    castShadow: false,
-    receiveShadow: false,
-    json: ZheJiangCity,
-    itemStyle: {
-      depth: 1,
-      bevelEnabled: false,
-      bevelSegments: 1,
-      bevelSize: 0,
-      bevelThickness: 0,
-      extrudeFaces: {
-        material: 'MeshNormalMaterial',
-        color: "#ccc",
-        opacity: 1,
-        metalness: 1,
-        roughness: 1,
-      },
-      crossSection: {
-        material: 'MeshNormalMaterial',
-        opacity: 0.8,
-        color: "#000",
-      },
-      lineStyle: {
-        show: true,
-        color: "#A0E5FF",
-        width: 2,
-      },
-      label: {
-        show: true,
-        distance: 1.6,
-        rotation: {
-          x: Math.PI / 2,
-          y: 0,
-          z: 0,
+  size: {
+    type: "window",
+  },
+  renderer: {
+    antialias: true,
+    alpha: true,
+    clearAlpha: 1,
+    clearColor: '#000000',
+  },
+  series: [
+    {
+      name: "轮廓地图",
+      id: 0,
+      type: "map",
+      castShadow: false,
+      receiveShadow: false,
+      json: ZheJiangCity,
+      itemStyle: {
+        depth: 1,
+        bevelEnabled: false,
+        bevelSegments: 1,
+        bevelSize: 0,
+        bevelThickness: 0,
+        extrudeFaces: {
+          material: 'MeshNormalMaterial',
+          color: "#ccc",
+          opacity: 1,
+          metalness: 1,
+          roughness: 1,
         },
-        textStyle: {
-          padding: '8px',
-          'background': 'rgba(0,0,0,0.2)',
-          'font-size': '20px',
-          color: "#fff",
-          'background-color': 'rgba(1,1,1,0.1)',
-          bold: true,
-          'line-height': '20px',
-          'font-family': '"Ma Shan Zheng", cursive',
-          'font-weight': 400,
-          'font-style': 'normal',
+        crossSection: {
+          material: 'MeshNormalMaterial',
+          opacity: 0.8,
+          color: "#000",
+        },
+        lineStyle: {
+          show: true,
+          color: "#A0E5FF",
+          width: 2,
+        },
+        label: {
+          show: true,
+          distance: 1.3,
+          rotation: {
+            x: 0,
+            y: 0,
+            z: 0,
+          },
+          textStyle: {
+            padding: '8px',
+            'font-size': '20px',
+            color: "#fff",
+            bold: true,
+            'font-weight': 400,
+            'font-style': 'normal',
+          },
         },
       },
     },
-    data: [{ name: '', value: '', itemStyle: {} },]
-  },
-], instance);
-
-(instance.camera.instance as THREE.PerspectiveCamera).fov = 75;
-instance.camera.instance.near = 0.1;
-instance.camera.instance.far = 1000;
-instance.camera.instance.position.set(0, 0, 20.0);
-
-instance.time.on("tick", () => {
+  ]
 });
+
+instance.time.on("tick", () => {});

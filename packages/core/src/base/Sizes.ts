@@ -13,7 +13,7 @@ export class Sizes extends EventEmitter {
     this.pixelRatio = Math.min(window.devicePixelRatio, 2);
     this.resizeHandler = () => {
       if (config.type === "parent") {
-        const dom = document.getElementById(config.id);
+        const dom = document.getElementById(config.id || '_scene');
         if (dom) {
           const container = dom.parentElement;
           if (container) {

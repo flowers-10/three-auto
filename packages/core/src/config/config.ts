@@ -22,7 +22,7 @@ export const CONFIG: ConfigType = {
   },
   size: {
     type: "window",
-    id: "_Background_3D",
+    id: "",
   },
   renderer: {
     antialias: true,

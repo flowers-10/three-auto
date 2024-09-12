@@ -206,12 +206,9 @@ export class Map3D extends BaseThree {
         distance: 1,
         rotation: { x: 0, y: 0, z: 0 },
         textStyle: {
-          'flex-direction': "horizontal",
           'font-size': '20px',
           color: "#ffffff",
-          'background-color': 'rgba(1,1,1,0.1)',
           bold: true,
-          'line-height': '20px',
           'font-family': "Arial",
         },
       },

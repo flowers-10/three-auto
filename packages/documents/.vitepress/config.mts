@@ -8,6 +8,9 @@ export default defineConfig({
   rewrites: {
     'zh/:rest*': ':rest*'
   },
+  lastUpdated: true,
+  cleanUrls: true,
+  metaChunk: true,
   locales: {
     root: {
       label: '简体中文',
@@ -33,5 +36,11 @@ export default defineConfig({
     socialLinks: [
       { icon: 'github', link: 'https://github.com/flowers-10/three-auto' }
     ]
+  },
+  markdown: {
+    image: {
+      // 默认禁用图片懒加载
+      lazyLoading: true
+    }
   }
 })

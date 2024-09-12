@@ -29,8 +29,8 @@ export type LightItems = {
 };
 
 export type SizeConfigType = {
-  type: SizeType;
-  id: string;
+  type?: SizeType;
+  id?: string;
 };
 export type CameraConfig = {
   type?: CameraType;
