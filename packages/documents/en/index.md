@@ -13,7 +13,10 @@ hero:
     - theme: alt
       text: Examples
       link: /examples/api-examples
-
+  image:
+    src: /three-auto.png
+    alt: ThreeAuto
+    
 features:
   - title: Quick Generation!
     details: Quickly generate the desired 3D scenes simply by configuring the options.

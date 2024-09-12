@@ -13,7 +13,9 @@ hero:
     - theme: alt
       text: 案例
       link: /examples/api-examples
-
+  image:
+    src: /three-auto.png
+    alt: ThreeAuto
 features:
   - title: 快速生成！
     details: 只需通过配置项快速生成想要的3D场景。

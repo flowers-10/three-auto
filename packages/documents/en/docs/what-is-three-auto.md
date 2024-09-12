@@ -7,7 +7,7 @@ outline: deep
 three-auto can quickly generate a Three.js scene through default configuration settings, without requiring users to manually declare basic classes like camera and renderer.
 
 ::: tip
-Just want to try it out? Skip to the [Quickstart](/starts).
+Just want to try it out? Skip to the [Quickstart](/en/docs/getting-started).
 :::
 
 ---

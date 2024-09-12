@@ -18,7 +18,18 @@ export default defineConfig({
       ...en
     },
   },
+  head: [
+    ['link', { rel: 'icon',  href: '/three-auto.ico' }],
+    ['meta', { name: 'theme-color', content: '#5f67ee' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:locale', content: 'zh' }],
+    ['meta', { property: 'og:title', content: 'quickly generate a Three.js scene' }],
+    ['meta', { property: 'og:site_name', content: 'three-auto' }],
+    ['meta', { property: 'og:url', content: '' }],
+  ],
+
   themeConfig: {
+    logo: { src: '/three-auto.png', width: 24, height: 24 },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/flowers-10/three-auto' }
     ]
