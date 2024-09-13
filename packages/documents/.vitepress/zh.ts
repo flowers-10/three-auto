@@ -37,15 +37,9 @@ export const zh = defineConfig({
                     base: '/docs/',
                     items: [
                         {
-                            text: '实例',link:'ThreeInstance'
+                            text: '应用实例',link:'ThreeInstance'
                         },
-                        {
-                            text: '通用类', items: [
-                                { text: 'Time', link: 'Time' },
-                                { text: 'Sizes', link: 'Sizes' },
-                                { text: 'MouseMoveTracker', link: 'MouseMoveTracker' },
-                            ]
-                        },
+                        
                     ]
                 },
                 {
