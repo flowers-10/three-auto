@@ -37,9 +37,11 @@ export const zh = defineConfig({
                     base: '/docs/',
                     items: [
                         {
-                            text: '应用实例',link:'ThreeInstance'
+                            text: '应用实例',link:'three-instance'
                         },
-                        
+                        {
+                            text: '通用', link: 'General'
+                        }
                     ]
                 },
                 {
