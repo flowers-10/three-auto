@@ -74,11 +74,11 @@ export type PostProcessConfig = {
 export interface ConfigType {
   id: string;
   name: string;
-  camera: CameraConfig;
-  size?: SizeConfigType;
+  size: SizeConfigType;
   light?: LightItems[];
-  renderer: RendererConfig;
+  camera: CameraConfig;
   series?: SeriesConfig[];
-  postprocess?: PostProcessConfig;
   resource?: SourcesItems[]
+  renderer: RendererConfig;
+  postprocess?: PostProcessConfig;
 }

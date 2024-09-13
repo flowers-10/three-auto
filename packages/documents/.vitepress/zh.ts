@@ -40,9 +40,10 @@ export const zh = defineConfig({
                             text: '实例',link:'ThreeInstance'
                         },
                         {
-                            text: '通用属性', items: [
+                            text: '通用类', items: [
                                 { text: 'Time', link: 'Time' },
                                 { text: 'Sizes', link: 'Sizes' },
+                                { text: 'MouseMoveTracker', link: 'MouseMoveTracker' },
                             ]
                         },
                     ]

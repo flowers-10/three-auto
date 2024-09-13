@@ -85,3 +85,7 @@ instance.camera.instance.position.set(0, 0, 20.0);
 
 instance.time.on("tick", () => {
 });
+
+instance.mousemove.on("mousemove", () => {
+  console.log(instance.mousemove) 
+});

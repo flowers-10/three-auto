@@ -4,7 +4,7 @@
 
 它可以通过全局配置项来选定监听的容器尺寸，默认监听window尺寸变化。
 
-可以更改配置项来选择监听父容器尺寸模式，见[配置项](/config/defaultConfig)。
+可以更改配置项来选择监听父容器尺寸变化的模式：[配置项](/config/defaultConfig)。
 
 ## sizes.on
 `Function`
@@ -31,7 +31,7 @@ instance.sizes.on("resize", () => {
 `info`可以打印监听的容器尺寸。
 
 ```typescript
-info(message = "Now size"):void
+instance.sizes.info(message = "Now size"):void
 ```
 
 - message: 打印辅助字符串，默认'Now size'。

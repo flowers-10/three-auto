@@ -6,7 +6,7 @@ export class Sizes extends EventEmitter {
   public height: number;
   public pixelRatio: number;
   private resizeHandler: () => void;
-  constructor(config: SizeConfigType = { type: 'window' }) {
+  constructor(config: SizeConfigType) {
     super();
     this.width = 0;
     this.height = 0;

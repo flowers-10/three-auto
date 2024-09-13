@@ -2,8 +2,8 @@ import * as THREE from "three";
 
 import { ConfigType } from "../types/ConfigType";
 import { CONFIG } from "../config/config";
-import { MouseMoveTracker, Time, Sizes, Raycaster, Resources,Renderer } from "./index";
-import { Camera, Light,  Series, PostProcess } from "../components";
+import { MouseMoveTracker, Time, Sizes, Raycaster, Resources,Renderer,Camera } from "./index";
+import { Light,  Series, PostProcess } from "../components";
 
 export interface ThreeInstance {
   time: Time;
@@ -11,7 +11,6 @@ export interface ThreeInstance {
   sizes: Sizes;
   camera: Camera;
   _camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
-  config: any;
   _config: Partial<ConfigType>;
   _canvas: HTMLCanvasElement;
   renderer: Renderer;
@@ -28,7 +27,6 @@ class ThreeAuto implements ThreeInstance {
   public sizes: Sizes;
   public camera: Camera;
   public _camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
-  public config: any;
   public _config: Partial<ConfigType>;
   public _canvas: HTMLCanvasElement;
   public renderer: Renderer;
