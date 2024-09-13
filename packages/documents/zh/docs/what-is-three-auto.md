@@ -18,7 +18,7 @@ three-auto能通过默认配置项快速生成一个[Three.js](https://threejs.o
 three-auto可以帮助你快速构筑你的3D场景和许多酷炫的特效。
 
 ::: tip
-快速查看 [案例](/docs/getting-started)。
+快速查看 [案例](/examples/api-examples)。
 :::
 
 - **图表**

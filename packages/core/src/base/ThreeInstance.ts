@@ -2,8 +2,8 @@ import * as THREE from "three";
 
 import { ConfigType } from "../types/ConfigType";
 import { CONFIG } from "../config/config";
-import { MouseMoveTracker, Time, Sizes, Raycaster, Resources } from "./index";
-import { Camera, Light, Renderer, Series, PostProcess } from "../components";
+import { MouseMoveTracker, Time, Sizes, Raycaster, Resources,Renderer } from "./index";
+import { Camera, Light,  Series, PostProcess } from "../components";
 
 export interface ThreeInstance {
   time: Time;

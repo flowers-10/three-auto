@@ -4,7 +4,7 @@ import { EventEmitter } from "./EventEmitter";
 
 export class Time extends EventEmitter {
   public clock: THREE.Clock;
-  public start: number;
+  private start: number;
   private current: number;
   public lerpValue: number;
   public delta: number;

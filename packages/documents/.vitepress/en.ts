@@ -9,6 +9,7 @@ export const en = defineConfig({
     themeConfig: {
         nav: [
             { text: 'Documents', link: '/en/docs/what-is-three-auto' },
+            { text: 'options', link: '/docs/what-is-three-auto' },
             { text: 'Examples', link: '/en/examples/markdown-examples' },
             {
                 text: pkg.version, items: [

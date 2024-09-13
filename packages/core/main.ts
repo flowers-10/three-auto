@@ -84,4 +84,5 @@ instance.camera.instance.far = 1000;
 instance.camera.instance.position.set(0, 0, 20.0);
 
 instance.time.on("tick", () => {
+   console.log(instance.time.elapsedTime);
 });

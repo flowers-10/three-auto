@@ -10,6 +10,7 @@ export const zh = defineConfig({
     themeConfig: {
         nav: [
             { text: '文档', link: '/docs/what-is-three-auto' },
+            { text: '配置项', link: '/docs/what-is-three-auto' },
             { text: '案例', link: '/examples/markdown-examples' },
             {
                 text: pkg.version, items: [
@@ -33,16 +34,16 @@ export const zh = defineConfig({
                 {
                     text: '核心',
                     collapsed: false,
-                    base: '/docs/core/',
+                    base: '/docs/',
                     items: [
-                        { text: 'BaseThree 基础', link: 'BaseThree' },
-                        { text: 'ThreeInstance 实例', link: 'ThreeInstance' },
-                        { text: 'Resource 资源', link: 'Resource' },
-                        { text: 'Size 尺寸', link: 'Size' },
-                        { text: 'Time 时间', link: 'Time' },
-                        { text: 'Mousemove 鼠标移动', link: 'Mousemove' },
-                        { text: 'Raycaster 射线检测', link: 'Raycaster' },
-                        { text: 'EventEmitter 发布订阅', link: 'EventEmitter' },
+                        {
+                            text: '实例',link:'ThreeInstance'
+                        },
+                        {
+                            text: '通用属性', items: [
+                                { text: 'Time', link: 'Time', collapsed: false }
+                            ]
+                        },
                     ]
                 },
                 {
@@ -56,17 +57,7 @@ export const zh = defineConfig({
                         { text: 'Lights 灯光', link: 'Lights' },
                         { text: 'Loading 加载器', link: 'Loading' },
                         { text: 'Postprocessing 后处理', link: 'Postprocessing' },
-                        { text: 'Renderers 渲染器', link: 'Renderers' },
                         { text: 'Web 浏览器', link: 'Web' },
-                    ]
-                },
-                {
-                    text: '配置项',
-                    collapsed: false,
-                    base: '/docs/config',
-                    items: [
-                        { text: 'Default Config 默认配置', link: '/docs/default-config' },
-                        { text: 'Loading Config 加载配置', link: 'loading-config' },
                     ]
                 },
             ],
