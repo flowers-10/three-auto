@@ -6,7 +6,7 @@ import * as AUTO from "./src/index";
 const instance = new AUTO.ThreeAuto();
 ```
 
-## 构造函数
+## ThreeAuto
 它的构造函数可以接受两个参数
 
 `constructor`
@@ -25,17 +25,35 @@ constructor(canvas?: HTMLCanvasElement, config: Partial<ConfigType> = {})
 
 配置项参数。具体请见[配置项手册](/config/defaultConfig)。
 
-## 所有属性
 实例上还有许多three.js需要的属性，我们可以通过实例直接使用它们。
 
-### instance.dispose {#instance.dispose}
+## instance.dispose {#instance.dispose}
 `Function`
 销毁实例，实例销毁后无法再被使用。
 
-### time
+## instance.scene
+`THREE.Scene`
+
+Three.js的[Scene](https://threejs.org/docs/index.html?q=Sce#api/en/scenes/Scene)类。
+
+Scene允许您设置 three.js 要渲染的内容和位置。这是您放置对象、灯光和相机的地方。
+
+## instance.time
 `Object`
 
-通过`Time`类生成的实例属性，由`ThreeAuto`内部封装，用来控住整个循环`loop`，核心是`requestAnimationFrame`的递归调用，来保证渲染器每一帧都能触发。
+由`ThreeAuto`内部封装`Time`类生成的实例属性，，用来控住整个循环`loop`，核心是`requestAnimationFrame`的递归调用，来保证渲染器每一帧都能触发。
 
 具体请见通用属性:[Time](/docs/Time)
+
+
+
+## instance.sizes
+`Object`
+
+由`ThreeAuto`内部封装`Sizes`类生成的实例属性，用来监听容器尺寸变化，来实时改变渲染器的尺寸大小。
+
+具体请见通用属性:[Sizes](/docs/Sizes)
+
+
+
 

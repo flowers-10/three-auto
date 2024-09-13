@@ -41,7 +41,8 @@ export const zh = defineConfig({
                         },
                         {
                             text: '通用属性', items: [
-                                { text: 'Time', link: 'Time', collapsed: false }
+                                { text: 'Time', link: 'Time' },
+                                { text: 'Sizes', link: 'Sizes' },
                             ]
                         },
                     ]

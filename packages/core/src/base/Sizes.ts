@@ -6,10 +6,10 @@ export class Sizes extends EventEmitter {
   public height: number;
   public pixelRatio: number;
   private resizeHandler: () => void;
-  constructor(config: SizeConfigType) {
+  constructor(config: SizeConfigType = { type: 'window' }) {
     super();
-    this.width = 100;
-    this.height = 100;
+    this.width = 0;
+    this.height = 0;
     this.pixelRatio = Math.min(window.devicePixelRatio, 2);
     this.resizeHandler = () => {
       if (config.type === "parent") {
@@ -21,13 +21,13 @@ export class Sizes extends EventEmitter {
             this.height = container.clientHeight;
           } else {
             console.error(
-              "tips: The parent document cannot be found. Please put the current component inside the parent document ID according to the configuration item."
+              "ThreeAuto.Sizes:The parent document is not found. Please make sure that the current canvas scene is wrapped in a parent container."
             );
           }
         } else {
           this.release();
           console.error(
-            "tips: Could not find parent element ID, please check the configuration"
+            "ThreeAuto.Sizes: Could not find parent element ID, please check the configuration"
           );
         }
       } else {

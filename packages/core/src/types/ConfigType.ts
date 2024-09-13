@@ -75,7 +75,7 @@ export interface ConfigType {
   id: string;
   name: string;
   camera: CameraConfig;
-  size: SizeConfigType;
+  size?: SizeConfigType;
   light?: LightItems[];
   renderer: RendererConfig;
   series?: SeriesConfig[];

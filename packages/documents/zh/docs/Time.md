@@ -16,14 +16,14 @@ on("tick", callback:Function):void
 
 ```typescript {1,3}
 instance.time.on("tick", () => {
-    console.log("1") 
+    console.log("每一帧都会触发") 
 });
 ```
 
 ## time.delayInterval
 `Function`
 
-延迟方法，当我们需要`loop`中每隔`interval`毫秒触发时使用。
+延迟方法，当我们需要`loop`中每隔`interval`毫秒触发时使用，默认是1000毫秒。
 
 ```typescript
 (cb: (e: number) => void, interval:number = 1000)
@@ -34,14 +34,14 @@ instance.time.on("tick", () => {
 
 ```typescript {1,3}
 instance.time.delayInterval(() => {
-    console.log("1") // 每隔2秒触发
+    console.log("每隔两秒触发一次")
 },2000);
 ```
 
 ## time.clock
 `THREE.Clock`
 
-Three.js的[Clock](https://threejs.org/docs/index.html?q=Clock#api/en/core/Clock)方法。
+Three.js的[Clock](https://threejs.org/docs/index.html?q=Clock#api/en/core/Clock)类。
 
 ## time.delta
 `Number`
@@ -50,7 +50,7 @@ Three.js的[Clock](https://threejs.org/docs/index.html?q=Clock#api/en/core/Clock
 
 ```typescript
 instance.time.on("tick", () => {
-   console.log(instance.time.delta); // [!code ++]
+   console.log("每一帧触发时的间隔时间:",instance.time.delta,("毫秒")); // [!code ++]
 });
 ```
 
@@ -61,7 +61,7 @@ instance.time.on("tick", () => {
 
 ```typescript 
 instance.time.on("tick", () => {
-   console.log(instance.time.elapsedTime); // [!code ++]
+   console.log("已经用了的时间",instance.time.elapsedTime,"（秒）"); // [!code ++]
 });
 ```
 
