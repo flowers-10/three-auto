@@ -40,7 +40,7 @@ export const zh = defineConfig({
                             text: '应用实例',link:'three-instance'
                         },
                         {
-                            text: '通用', link: 'General'
+                            text: '通用', link: 'general'
                         }
                     ]
                 },
@@ -50,7 +50,6 @@ export const zh = defineConfig({
                     base: '/docs/components/',
                     items: [
                         { text: 'Animation 动画', link: 'Animation' },
-                        { text: 'Cameras 相机', link: 'Cameras' },
                         { text: 'Charts 图表', link: 'Charts' },
                         { text: 'Lights 灯光', link: 'Lights' },
                         { text: 'Loading 加载器', link: 'Loading' },

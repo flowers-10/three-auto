@@ -83,6 +83,16 @@ instance.time.on("tick", () => {
 ## 图表模式
 上面介绍了如何引入three-auto到项目中，但是显然这还不够，让我看下怎么渲染出一张3D地图吧！
 
+:::tip 注意
+`import ZheJiangCity from '../public/ZheJiangCity.json'`
+
+首先你需要制作一个地理JSON文件。
+
+[中国地图JSON文件](https://datav.aliyun.com/portal/school/atlas/area_selector)
+
+[世界地图JSON文件](https://geojson.io/#map=2/20/0)
+:::
+
 - `main.ts`
 ```ts
 import * as AUTO from "three-auto";
