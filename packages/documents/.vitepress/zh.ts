@@ -37,10 +37,10 @@ export const zh = defineConfig({
                     base: '/docs/',
                     items: [
                         {
-                            text: '应用实例',link:'three-instance'
+                            text: '常用属性',link:'three-instance'
                         },
                         {
-                            text: '通用', link: 'general'
+                            text: '通用方法', link: 'general-method'
                         }
                     ]
                 },
@@ -49,11 +49,12 @@ export const zh = defineConfig({
                     collapsed: false,
                     base: '/docs/components/',
                     items: [
-                        { text: 'Animation 动画', link: 'Animation' },
-                        { text: 'Charts 图表', link: 'Charts' },
-                        { text: 'Lights 灯光', link: 'Lights' },
-                        { text: 'Loading 加载器', link: 'Loading' },
-                        { text: 'Postprocessing 后处理', link: 'Postprocessing' },
+                        { text: 'Series 系列', link: 'series' },
+                        { text: 'Animation 动画', link: 'animation' },
+                        { text: 'Charts 图表', link: 'charts' },
+                        { text: 'Lights 灯光', link: 'lights' },
+                        { text: 'Loading 加载器', link: 'loading' },
+                        { text: 'Postprocessing 后处理', link: 'postprocessing' },
                         { text: 'Web 浏览器', link: 'Web' },
                     ]
                 },

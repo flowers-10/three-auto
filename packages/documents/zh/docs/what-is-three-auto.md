@@ -37,8 +37,6 @@ three-auto本质基于[Three.js](https://threejs.org/docs/index.html#manual/en/i
 ## 感谢
 首先，请允许我对[Bruno Simon](https://github.com/brunosimon)表示谢意。他的[课程](https://threejs-journey.com/)为我打开了新的思考方向,这对我来说意义非凡。
 
-是的，我的灵感来自threejs-journey的[第二十六课](https://threejs-journey.com/lessons/code-structuring-for-bigger-projects)，当我看完课程文档时，我就强烈的想要创造一个仓库来保存这份架构。
-
-我深深地感到，在这个不断进步和发展的领域里，每一份灵感都是一次宝贵的财富积累。而[Bruno Simon](https://github.com/brunosimon)的慷慨分享无疑是我这次项目取得进展的关键所在!
+是的，我的灵感来自[threejs-journey](https://threejs-journey.com/)，当我看完课程文档时，我就强烈的想要创造一个仓库来保存这份架构。
 
 

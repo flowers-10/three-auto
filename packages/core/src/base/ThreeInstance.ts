@@ -2,8 +2,16 @@ import * as THREE from "three";
 
 import { ConfigType } from "../types/ConfigType";
 import { CONFIG } from "../config/config";
-import { MouseMoveTracker, Time, Sizes, Raycaster, Resources,Renderer,Camera } from "./index";
-import { Light,  Series, PostProcess } from "../components";
+import {
+  MouseMoveTracker,
+  Time,
+  Sizes,
+  Raycaster,
+  Resources,
+  Renderer,
+  Camera,
+} from "./index";
+import { Light, Series, PostProcess } from "../components";
 
 export interface ThreeInstance {
   time: Time;
@@ -17,8 +25,6 @@ export interface ThreeInstance {
   _renderer: THREE.WebGLRenderer;
   mousemove: MouseMoveTracker;
   raycaster: Raycaster;
-  resize(): void;
-  update(): void;
   dispose(): void;
 }
 class ThreeAuto implements ThreeInstance {
@@ -76,10 +82,10 @@ class ThreeAuto implements ThreeInstance {
     if (config.postprocess) {
       this.postprocess = new PostProcess(config.postprocess, this);
     }
-    if(config.resource) {
+    if (config.resource) {
       this.resource = new Resources(config.resource);
     }
-    
+
     this.sizes.on("resize", () => {
       this.resize();
     });
@@ -87,19 +93,16 @@ class ThreeAuto implements ThreeInstance {
       this.update();
     });
   }
-
-  public resize() {
+  protected resize() {
     this.camera?.resize();
     this.renderer?.resize();
   }
-
-  public update() {
+  protected update() {
     this.camera.update();
     this.raycaster.update();
     this.renderer.update();
     this.postprocess?.render();
   }
-
   public dispose() {
     this.sizes.off("resize");
     this.sizes.release();
@@ -138,7 +141,48 @@ class ThreeAuto implements ThreeInstance {
     this.renderer.dispose();
     this.camera.dispose();
   }
-
+  public onTick(cb: Function) {
+    this.time.on("tick", cb);
+  }
+  public delayInterval(cb: (e?: number) => void, interval?: number) {
+    this.time.delayInterval(cb, interval);
+  }
+  get delta() {
+    return this.time.delta;
+  }
+  get elapsedTime() {
+    return this.time.elapsedTime;
+  }
+  public onResize(cb: Function) {
+    this.sizes.on("resize", cb);
+  }
+  public getSizeInfo(message: string) {
+    return this.sizes.info(message);
+  }
+  get width() {
+    return this.sizes.width;
+  }
+  get height() {
+    return this.sizes.height;
+  }
+  get pixelRatio() {
+    return this.sizes.pixelRatio;
+  }
+  public onMousemove(cb: Function) {
+    this.mousemove.on("mousemove", cb);
+  }
+  get eventOffset() {
+    return this.mousemove.eventOffset;
+  }
+  get mouse() {
+    return this.mousemove.mouse;
+  }
+  public onRaycasting(isLog: boolean = false, targets?: THREE.Object3D[]) {
+    this.raycaster.onRaycasting(isLog, targets)
+  }
+  public isTargetIntersected(target: THREE.Mesh) {
+    this.raycaster.isTargetIntersected(target);
+  }
 }
 
 export { ThreeAuto };

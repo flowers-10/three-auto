@@ -37,7 +37,7 @@ three-auto 是仅 ESM 的软件包。不要使用 `require()` 导入它，并确
 
 ## 引入到项目中
 
-想要创建一个 auto-three 实例时，首先你需要一个 canvas DOM 根节点或一个虚拟 DOM 节点（像 Vue 和 React 这样的框架支持的）来渲染 Three.js 场景。
+首先想要创建一个 auto-three 的实例时，你需要一个 canvas DOM 根节点或一个虚拟 DOM 节点（像 Vue 和 React 这样的框架支持的）来渲染 Three.js 场景。
 
 
 - `index.html`
@@ -47,7 +47,7 @@ three-auto 是仅 ESM 的软件包。不要使用 `require()` 导入它，并确
 ```
 
 
-:::tip
+:::tip 注意
 请给canvas或者canvas的父容器一个宽高，这样才能展示出场景。
 :::
 
@@ -72,7 +72,7 @@ instance.time.on("tick", () => {
 
 ```
 
-:::tip
+:::tip 注意
 默认情况下，如果canvas的容器id是`_scene`时，我们就不用手动获取DOM元素。
 :::
 
@@ -187,7 +187,7 @@ console.log(instance)
 
 ```
 
-:::tip
+:::tip 注意
 这样你的第一个图表就诞生了！
 :::
 

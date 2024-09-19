@@ -3,7 +3,7 @@ import * as THREE from "three";
 import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
 import { SeriesConfig } from "../../types";
-import { Map3D } from './Map3D'
+import { Map3D } from './Map3D/Map3D'
 
 export class Series extends BaseThree {
   public seriesGroup: THREE.Group;

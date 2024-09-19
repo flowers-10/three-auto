@@ -1,20 +1,14 @@
-# 核心 ThreeAuto
+# 常用属性
+ThreeAuto 应用实例[ThreeInstance](https://github.com/flowers-10/three-auto/blob/main/packages/core/src/base/ThreeInstance.ts),不能在单个容器上初始化多个 ThreeAuto 实例。
 
-第一步,我们需要创建一个 ThreeAuto 应用实例，它返回一个 ThreeInstance,不能在单个容器上初始化多个 ThreeAuto 实例。
+## instance
 
-```typescript
-import * as AUTO from "./src/index";
-const instance = new AUTO.ThreeAuto();
-```
-
-## ThreeAuto
-
-它的构造函数可以接受两个参数
+`ThreeAuto`的构造函数可以接受两个参数
 
 `constructor`
 
 ```typescript
-constructor(canvas?: HTMLCanvasElement, config: Partial<ConfigType> = {})
+constructor(canvas?: HTMLCanvasElement, config)
 ```
 
 - `canvas`
@@ -26,15 +20,15 @@ constructor(canvas?: HTMLCanvasElement, config: Partial<ConfigType> = {})
 
 - `config`
 
-配置项参数。具体请见配置项手册[id](/config/defaultConfig)。
+配置项参数。具体请见[配置项手册](/config/defaultConfig)。
 
-实例上还有许多 three.js 需要的属性，我们可以通过实例直接使用它们。
+```typescript
+import * as AUTO from "./src/index";
+const instance = new AUTO.ThreeAuto();
+```
 
-## instance.dispose {#instance.dispose}
+实例上还有许多 three.js 需要的属性和方法，我们可以通过实例直接访问它们。
 
-`Function`
-
-销毁实例，实例销毁后无法再被使用。
 
 ## instance.scene
 
@@ -46,9 +40,13 @@ Scene 允许您设置 three.js 要渲染的内容和位置。这是您放置对�
 
 ## instance.\_canvas
 
+`HTMLCanvasElement`
+
 实例容器，是一个具有高宽的 canvas 元素，用户内部检查。
 
 ## instance.\_camera
+
+`THREE.Camera`
 
 `ThreeAuto`内部封装`Camera`类生成的实例属性，用来生成 Three.js 的相机。
 
@@ -58,13 +56,15 @@ Scene 允许您设置 three.js 要渲染的内容和位置。这是您放置对�
 
 具体请见配置项手册：[camera](/config/defaultConfig)。
 
-使用方法和 three.js 的 camera 属性一样：
+使用方法和 three.js 的 `camera` 属性一样：
 
 ```typescript
 instance._camera.position.x = 6;
 ```
 
 ## instance.\_renderer
+
+`THREE.Renderer`
 
 `ThreeAuto`内部封装`Renderer`类生成的实例属性，用来生成 Three.js 的渲染器。
 
@@ -80,79 +80,28 @@ instance._camera.position.x = 6;
 instance._renderer.setClearColor("#ffffff", 0.1);
 ```
 
-## instance.\_config
-
-实例生成后保存的内部配置项，更改此配置项无法更新`ThreeAuto`实例，只能用于内部检查。
-
-具体配置项手册：[config](/config/defaultConfig)。
-
 ## instance.time
 
-`Object`
+`Time`
 
-由`ThreeAuto`内部封装`Time`类生成的实例属性，，用来控住整个循环`loop`，核心是`requestAnimationFrame`的递归调用，来保证渲染器每一帧都能触发。
+由`ThreeAuto`内部封装`Time`类生成的实例属性，用来控住整个循环`loop`，核心是`requestAnimationFrame`的递归调用，来保证渲染器每一帧都能触发。
 
 具体请见通用类：[Time](https://github.com/flowers-10/three-auto/blob/main/packages/core/src/base/Time.ts)。
 
-## instance.time.on
 
-`Function`
-
-`on`方法会在每一帧开始时触发。
-
-```typescript
-on("tick", callback:Function):void
-```
-
-- 第一个参数名`tick`是固定的。
-
-- 第二个`callback`参数中，一般我们拿来更新材质的`uniforms`和播放动画。
-
-```typescript {1,3}
-instance.time.on("tick", () => {
-  console.log("每一帧都会触发");
-});
-```
-
-## instance.time.delayInterval
-
-`Function`
-
-延迟方法，当我们需要`loop`中每隔`interval`毫秒触发时使用，默认是 1000 毫秒。
-
-```typescript
-(cb: (e: number) => void, interval:number = 1000)
-```
-
-- 第一个`callback`参数中，一般我们拿来更新材质的`uniforms`和动画。
-
-- 第二个`interval`参数，来设定延迟时间
-
-```typescript {1,3}
-instance.time.delayInterval(() => {
-  console.log("每隔两秒触发一次");
-}, 2000);
-```
-
-## instance.time.clock
-
-`THREE.Clock`
-
-Three.js 的[Clock](https://threejs.org/docs/index.html?q=Clock#api/en/core/Clock)类。
-
-## instance.time.delta
+## instance.delta
 
 `Number`
 
 每一帧触发时的间隔时间（毫秒）。
 
 ```typescript
-instance.time.on("tick", () => {
-  console.log("每一帧触发时的间隔时间:", instance.time.delta, "毫秒"); // [!code ++]
+instance.onTick(() => {
+  console.log("每一帧触发时的间隔时间:", instance.delta, "毫秒"); // [!code ++]
 });
 ```
 
-## instance.time.elapsedTime
+## instance.elapsedTime
 
 `Number`
 
@@ -160,11 +109,11 @@ instance.time.on("tick", () => {
 
 ```typescript
 instance.time.on("tick", () => {
-  console.log("已经用了的时间", instance.time.elapsedTime, "（秒）"); // [!code ++]
+  console.log("已经用了的时间", instance.elapsedTime, "（秒）"); // [!code ++]
 });
 ```
 
-## instance.time.lerpValue
+## instance.lerpValue
 
 `Number`
 
@@ -172,7 +121,7 @@ instance.time.on("tick", () => {
 
 ## instance.sizes
 
-`Object`
+`Sizes`
 
 由`ThreeAuto`内部封装`Sizes`类生成的实例属性，用来监听容器尺寸变化，来实时改变渲染器的尺寸大小。
 
@@ -184,213 +133,59 @@ instance.time.on("tick", () => {
 可以更改配置项来选择监听父容器尺寸变化的模式具体见配置项手册[size](/config/defaultConfig)。
 :::
 
-## instance.sizes.on
-
-`Function`
-
-`on`方法会在浏览器尺寸变化开始时触发。
-
-```typescript
-on("resize", callback:Function):void
-```
-
-- 第一个参数名`resize`是固定的。
-
-- 第二个`callback`参数中，一般我们拿来更新画布尺寸。
-
-```typescript {1,3}
-instance.sizes.on("resize", () => {
-  console.log("浏览器尺寸发生了变化");
-});
-```
-
-## instance.sizes.info
-
-`Function`
-
-`info`可以打印监听的容器尺寸。
-
-```typescript
-instance.sizes.info(message = "Now size"):void
-```
-
-- message: 打印辅助字符串，默认'Now size'。
-
-```typescript
-instance.sizes.on("resize", () => {
-  instance.sizes.info(); // [!code ++]
-});
-```
-
-## instance.sizes.release
-
-`Function`
-
-`release`移除当前的尺寸变化监听，释放内存。
-
-```typescript
-instance.sizes.release(); // [!code ++]
-```
-
-## instance.sizes.width
+## instance.width
 
 `Number`
 
 获得当前的容器宽度。
 
-## instance.sizes.height
+## instance.height
 
 `Number`
 
 获得当前的容器高度。
 
-## instance.sizes.pixelRatio
+## instance.pixelRatio
 
 `Number`
 
 获得当前的屏幕像素比。
 
 ```typescript
-instance.sizes.on("tick", () => {
-  console.log(instance.sizes.pixelRatio); // [!code ++]
+instance.onResize(() => {
+  console.log(instance.pixelRatio); // [!code ++]
 });
 ```
 
 ## instance.mousemove
 
+`MouseMoveTracker`
+
 `ThreeAuto`内部封装`MouseMoveTracker`类生成的实例属性，用来监听鼠标移动生成鼠标当前的屏幕坐标`（x,y）`，主要为射线检测服务。
 
 具体请见通用类：[MouseMoveTracker](https://github.com/flowers-10/three-auto/blob/main/packages/core/src/base/Mousemove.ts)。
 
-## instance.mousemove.on
 
-`Function`
-
-`on`方法会在鼠标移动变化开始时触发。
-
-```typescript
-on("mousemove", callback:Function):void
-```
-
-- 第一个参数名`mousemove`是固定的。
-
-- 第二个`callback`参数中，一般我们拿来监听鼠标变化。
-
-```typescript {1,3}
-instance.mousemove.on("mousemove", () => {
-  console.log("鼠标开始移动");
-});
-```
-
-## instance.mousemove.dispose
-
-`Function`
-
-`dispose`移除当前的鼠标移动变化监听，释放内存。
-
-```typescript
-instance.mousemove.dispose(); // [!code ++]
-```
-
-## instance.mousemove.eventOffset
+## instance.eventOffset
 
 `THREE.Vector2`
 
-当前的屏幕坐标（像素 px）
+返回当前的屏幕坐标（像素 px）
 
 ```typescript
-instance.mousemove.on("mousemove", () => {
-  console.log(instance.mousemove.eventOffset); // [!code ++]
+instance.onMousemove(() => {
+  console.log(instance.eventOffset); // [!code ++]
 });
 ```
 
-## instance.mousemove.mouse
+## instance.mouse
 
 `THREE.Vector2`
 
-当前的归一化坐标（范围 0.0~1.0）
+返回当前的归一化坐标（范围 0.0~1.0）
 
 ```typescript
-instance.mousemove.on("mousemove", () => {
-  console.log(instance.mousemove.mouse); // [!code ++]
+instance.onMousemove(() => {
+  console.log(instance.mouse); // [!code ++]
 });
-```
-
-## instance.raycaster
-
-`THREE.Raycaster`
-
-`ThreeAuto`内部封装`Raycaster`类生成的实例属性。
-核心根据`Three.js`的`Raycaster`类拓展了几个方法和属性，提供射线检测服务。
-
-具体请见通用类：[Raycaster](https://github.com/flowers-10/three-auto/blob/main/packages/core/src/base/Raycaster.ts)。
-
-## instance.raycaster.onRaycasting
-
-`Function`
-
-`onRaycasting`方法会对提供的对象进行射线检测
-
-```typescript
-onRaycasting(isLog:boolean = false, targets:THREE.Object3D = this.scene.children)
-```
-
-- `isLog`：是否打印当前射线检测到的对象，默认`false`。
-- `targets`：提供检测对象组合，默认检测所有对象。
-
-使用方法：
-
-```typescript
-import * as AUTO from "three-auto";
-import * as THREE from "three";
-
-const instance = new AUTO.ThreeAuto();
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({
-  color: "#E89ABE",
-  transparent: true,
-});
-const box = new THREE.Mesh(geometry, material);
-const sceneDom = document.getElementById("_scene") as HTMLCanvasElement;
-
-sceneDom.onclick = function () {
-  const intersects = instance.raycaster.onRaycasting(true);
-  console.log("Monitor all raycast-detected objects:", intersects);
-};
-```
-
-## instance.raycaster.isTargetIntersected
-
-`Function`
-
-`isTargetIntersected`方法只检测传入的当前对象是否被射线选中。
-
-```typescript
-isTargetIntersected(target:THREE.Mesh)
-```
-
-- `target`：提供的检测对象。
-
-使用方法：
-
-```typescript
-import * as AUTO from "three-auto";
-import * as THREE from "three";
-
-const instance = new AUTO.ThreeAuto();
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({
-  color: "#E89ABE",
-  transparent: true,
-});
-const box = new THREE.Mesh(geometry, material);
-const sceneDom = document.getElementById("_scene") as HTMLCanvasElement;
-
-sceneDom.onclick = function () {
-  const obj = instance.raycaster.isTargetIntersected(box);
-  console.log("Check if the passed target is triggered:", obj);
-  if (obj) {
-    obj.object.position.x += 1;
-  }
-};
 ```

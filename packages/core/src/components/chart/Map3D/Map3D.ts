@@ -4,11 +4,11 @@ import { LineGeometry } from "three/examples/jsm/lines/LineGeometry.js";
 import { LineMaterial } from "three/examples/jsm/lines/LineMaterial.js";
 import * as d3geo from "d3-geo";
 
-import { ThreeInstance } from "../../base/ThreeInstance";
-import BaseThree from "../../base/BaseThree";
-import { ChartType, ItemStyle, SeriesConfig, MaterialTypeOfTHREE } from "../../types";
-import { mergeDeep } from "../../shared";
-import { htmlRender, Tips } from "../web";
+import { ThreeInstance } from "../../../base/ThreeInstance";
+import BaseThree from "../../../base/BaseThree";
+import { ChartType, ItemStyle, SeriesConfig, MaterialTypeOfTHREE } from "../../../types";
+import { mergeDeep } from "../../../shared";
+import { htmlRender, Tips } from "../../web";
 
 
 type MaterialGroup = {

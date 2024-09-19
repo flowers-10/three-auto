@@ -9,7 +9,7 @@ export type SourcesItems = {
   name: string;
   type: SourcesType;
   path: string;
-  show: boolean;
+  show?: boolean;
 };
 
 export type Loaders = {
