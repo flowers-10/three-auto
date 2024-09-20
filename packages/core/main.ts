@@ -3,13 +3,13 @@ import * as THREE from "three";
 import ZheJiangCity from '../examples/public/ZheJiangCity.json'
 
 const instance = new AUTO.ThreeAuto();
+const earth = new AUTO.Earth({},instance);
 (instance.camera.instance as THREE.PerspectiveCamera).fov = 75;
 instance.camera.instance.near = 0.1;
 instance.camera.instance.far = 1000;
-instance.camera.instance.position.set(0, 0, 20.0);
-
-
+instance.camera.instance.position.set(0, 0, 5.0);
+instance._renderer.setClearColor('#000')
 instance.onTick(() => {
-    console.log();
-})
+    earth.update()
+});
 
