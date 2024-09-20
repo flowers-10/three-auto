@@ -77,7 +77,7 @@ export interface ConfigType {
   size: SizeConfigType;
   light?: LightItems[];
   camera: CameraConfig;
-  series?: SeriesConfig[];
+  series?: Partial<SeriesConfig>[];
   resource?: SourcesItems[]
   renderer: RendererConfig;
   postprocess?: PostProcessConfig;

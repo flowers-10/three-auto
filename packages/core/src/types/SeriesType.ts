@@ -32,14 +32,14 @@ export interface LineStyle {
 }
 
 export interface ItemStyle {
-  extrudeFaces?: MaterialConfig;
-  crossSection?: MaterialConfig;
-  lineStyle?:LineStyle;
-  label?: LabelStyle;
-  depth?: number;
-  bevelEnabled?: boolean;
-  bevelSegments?: number;
-  bevelSize?: number;
+  extrudeFaces: MaterialConfig;
+  crossSection: MaterialConfig;
+  lineStyle:LineStyle;
+  label: LabelStyle;
+  depth: number;
+  bevelEnabled: boolean;
+  bevelSegments: number;
+  bevelSize: number;
   bevelThickness?: number;
 }
 
@@ -52,13 +52,14 @@ export interface DataConfig  {
 export type ChartType = 'map' | 'line' | 'bar' | 'pie';
 
 export interface SeriesConfig {
-  name?: string;
-  id?: number | string;
-  type?: ChartType;
-  castShadow?: boolean;
-  receiveShadow?: boolean;
+  name: string;
+  id: number | string;
+  type: ChartType;
+  castShadow: boolean;
+  receiveShadow: boolean;
   code?: number | string;
-  json?: any; // Replace 'any'
-  itemStyle?: ItemStyle;
+  json: any; // Replace 'any'
+  itemStyle: ItemStyle;
   data?: DataConfig[]
 }
+

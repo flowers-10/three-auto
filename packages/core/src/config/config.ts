@@ -29,6 +29,9 @@ export const CONFIG: ConfigType = {
     alpha: true,
     clearAlpha: 0,
     clearColor: '#000000',
-  }
+  },
+  resource: undefined,
+  light: undefined,
+  postprocess: undefined
 };
 

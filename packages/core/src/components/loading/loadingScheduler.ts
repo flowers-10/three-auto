@@ -1,13 +1,13 @@
 import { gsap } from "gsap";
 import { htmlRender, NodeObject } from "../web";
 import { LoadingType } from "../../types";
-import { defaultLoading, loadingMap } from "../../config";
+import { DEFAULT_LOADING, LOADING_MAP } from "../../config";
 
 export function createLoading(
   type: LoadingType = "default",
-  node: NodeObject = defaultLoading
+  node: NodeObject = DEFAULT_LOADING
 ) {
-  const loadingNode = loadingMap.get(type) || node;
+  const loadingNode = LOADING_MAP.get(type) || node;
   htmlRender(loadingNode, document.body);
 }
 

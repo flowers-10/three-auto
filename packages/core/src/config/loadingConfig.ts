@@ -1,6 +1,6 @@
 import { NodeObject } from "../components";
 
-export const defaultLoading: NodeObject = {
+export const DEFAULT_LOADING: NodeObject = {
   tag: "div",
   className: "ta-loading",
   style: {
@@ -45,7 +45,7 @@ export const defaultLoading: NodeObject = {
 };
 
 const sum = 32;
-export const circleLoading: NodeObject = {
+export const CIRCLE_LOADING: NodeObject = {
   tag: "div",
   className: "ta-loading",
   cssRules: Array.from({ length: sum }, (_, index) => ({
@@ -124,7 +124,7 @@ export const circleLoading: NodeObject = {
 
 const LOADING = "LOADING";
 const factor = [1, 2, 5, 10];
-export const fadeLoading: NodeObject = {
+export const FADE_LOADING: NodeObject = {
   tag: "div",
   className: "ta-loading",
   cssRules: [
@@ -231,7 +231,7 @@ export const fadeLoading: NodeObject = {
   ],
 };
 
-export const loadingMap = new Map();
-loadingMap.set("default", defaultLoading);
-loadingMap.set("circle", circleLoading);
-loadingMap.set("fade", fadeLoading);
+export const LOADING_MAP = new Map();
+LOADING_MAP.set("default", DEFAULT_LOADING);
+LOADING_MAP.set("circle", CIRCLE_LOADING);
+LOADING_MAP.set("fade", FADE_LOADING);

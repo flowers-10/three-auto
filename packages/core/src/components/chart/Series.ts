@@ -7,16 +7,16 @@ import { Map3D } from './Map3D/Map3D'
 
 export class Series extends BaseThree {
   public seriesGroup: THREE.Group;
-  constructor(series: SeriesConfig[], instance: ThreeInstance) {
+  constructor(series: Partial<SeriesConfig>[], instance: ThreeInstance) {
     super(instance);
     this.seriesGroup = new THREE.Group();
     this.seriesGroup.name = "series";
-    series.forEach((options: SeriesConfig) => {
+    series.forEach((options: Partial<SeriesConfig>) => {
       this.seriesScheduler(options)
     });
     this.scene.add(this.seriesGroup)
   }
-  seriesScheduler(options: SeriesConfig) {
+  seriesScheduler(options: Partial<SeriesConfig>) {
     switch (options.type) {
       case "map":
         const map = new Map3D(options, this._instance).map

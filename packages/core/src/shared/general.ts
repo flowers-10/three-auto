@@ -23,3 +23,21 @@ export const mergeDeep = (target: any, source: any): any => {
   }
   return target;
 }
+
+export function mergeConfig<T>(target: T, source: Partial<T>): T {
+  for (const key in source) {
+    if (Object.prototype.hasOwnProperty.call(source, key)) {
+      const targetValue = target[key];
+      const sourceValue = source[key];
+
+      if (typeof targetValue === 'object' && targetValue !== null && typeof sourceValue === 'object' && sourceValue !== null) {
+        target[key] = mergeConfig(targetValue, sourceValue);
+      } else {
+        if (sourceValue !== undefined) {
+          target[key] = sourceValue;
+        }
+      }
+    }
+  }
+  return target;
+}

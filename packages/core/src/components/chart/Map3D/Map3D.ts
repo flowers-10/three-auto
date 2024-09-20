@@ -6,9 +6,10 @@ import * as d3geo from "d3-geo";
 
 import { ThreeInstance } from "../../../base/ThreeInstance";
 import BaseThree from "../../../base/BaseThree";
-import { ChartType, ItemStyle, SeriesConfig, MaterialTypeOfTHREE } from "../../../types";
-import { mergeDeep } from "../../../shared";
+import { ChartType, SeriesConfig, MaterialTypeOfTHREE } from "../../../types";
+import { mergeConfig } from "../../../shared";
 import { htmlRender, Tips } from "../../web";
+import { ITEM_STYLE_CONFIG, MAP_CONFIG } from "../../../config/mapConfig";
 
 
 type MaterialGroup = {
@@ -25,13 +26,15 @@ export class Map3D extends BaseThree {
   public map: MapType;
   public projection: any;
   public css2Render: Tips;
-  constructor(options: Partial<SeriesConfig>, instance: ThreeInstance) {
+  public config: SeriesConfig;
+  constructor(config: Partial<SeriesConfig>, instance: ThreeInstance) {
     super(instance);
     this.map = new THREE.Group() as MapType;
-    const { center, scale } = this.createCenter(options.json);
+    const { center, scale } = this.createCenter(config.json);
     this.projection = this.getProjection(center, scale);
     this.css2Render = new Tips(instance, 'css3')
-    this.createMap(options);
+    this.config = mergeConfig(MAP_CONFIG, config)
+    this.createMap();
     instance.onResize(() => {
       this.css2Render.resize()
     })
@@ -56,41 +59,39 @@ export class Map3D extends BaseThree {
     ];
     return { center, scale };
   }
-  createMap(options: SeriesConfig) {
+  createMap() {
     let {
       type,
       json,
       name,
       // shader,
-      itemStyle,
-    } = options;
-    const style = this.initStyle(itemStyle)
+      // castShadow,
+      // receiveShadow,
+    } = this.config;
     this.map.name = name || "Map";
     this.map.series = type || "map";
-
-    const material = this.createMaterial(style)
-
+    const material = this.createMaterial()
 
     json.features.forEach((elem: any) => {
       const regionGroup = new THREE.Group();
       const { coordinates } = elem.geometry;
-      this.createLabel(elem, style)
+      this.createLabel(elem)
       coordinates.forEach((multiPolygon: any) => {
         const lineGeometry = new LineGeometry();
         const line2 = new Line2(lineGeometry, material.lineMaterial);
         line2.name = elem.properties.name;
 
         multiPolygon.forEach((polygon: any) => {
-          this.createShape(elem, polygon, material, regionGroup, style)
-          this.createLine(polygon, line2, style.depth)
+          this.createShape(elem, polygon, material, regionGroup)
+          this.createLine(polygon, line2, this.config.itemStyle.depth)
         });
         regionGroup.add(line2)
       });
       this.map.add(regionGroup);
     });
   }
-  createMaterial(itemStyle: Required<ItemStyle>): MaterialGroup {
-    const { crossSection, extrudeFaces, lineStyle } = itemStyle
+  createMaterial(): MaterialGroup {
+    const { crossSection, extrudeFaces, lineStyle } = this.config.itemStyle
     crossSection.material = crossSection.material || 'MeshBasicMaterial';
     extrudeFaces.material = extrudeFaces.material || 'MeshBasicMaterial';
 
@@ -119,8 +120,8 @@ export class Map3D extends BaseThree {
       lineMaterial
     }
   }
-  createShape(elem: any, polygon: any[], material: MaterialGroup, regionGroup: THREE.Group, itemStyle: ItemStyle) {
-    const { depth, bevelEnabled, bevelSegments, bevelSize, bevelThickness } = itemStyle
+  createShape(elem: any, polygon: any[], material: MaterialGroup, regionGroup: THREE.Group) {
+    const { depth, bevelEnabled, bevelSegments, bevelSize, bevelThickness } = this.config.itemStyle
     const shape = new THREE.Shape();
     for (let i = 0; i < polygon.length; i++) {
       let [x, y] = this.projection(polygon[i]);
@@ -156,8 +157,8 @@ export class Map3D extends BaseThree {
       pointArray.map(({ x, y, z }) => [x, y, z]).flat()
     );
   }
-  createLabel(elem: any, itemStyle: Required<ItemStyle>) {
-    const { label } = itemStyle
+  createLabel(elem: any) {
+    const { label } = this.config.itemStyle
     const { show = false, distance = 1, rotation = {
       x: 0,
       y: 0,
@@ -171,43 +172,5 @@ export class Map3D extends BaseThree {
     let [x, y] = this.projection(center)
     tip.position.set(x, -y, distance)
     tip.rotation.set(rotation.x, rotation.y, rotation.z)
-  }
-  initStyle(itemStyle?: ItemStyle): Required<ItemStyle> {
-    const defaults: ItemStyle = {
-      depth: 1,
-      bevelEnabled: false,
-      bevelSegments: 1,
-      bevelSize: 0,
-      bevelThickness: 0,
-      extrudeFaces: {
-        material: 'MeshToonMaterial',
-        color: "#ffffff",
-        opacity: 1,
-        metalness: 1,
-        roughness: 1,
-      },
-      crossSection: {
-        material: 'MeshToonMaterial',
-        opacity: 1,
-        color: "#ffffff",
-      },
-      lineStyle: {
-        show: true,
-        color: "#A0E5FF",
-        width: 0.5,
-      },
-      label: {
-        show: true,
-        distance: 1,
-        rotation: { x: 0, y: 0, z: 0 },
-        textStyle: {
-          'font-size': '20px',
-          color: "#ffffff",
-          bold: true,
-          'font-family': "Arial",
-        },
-      },
-    };
-    return itemStyle ? mergeDeep(defaults, itemStyle) : defaults;
   }
 }
