@@ -99,7 +99,6 @@ Give a ⭐️ if this project helped you!
 - preferences Raycaster  ✅
 - add more chart types(Curve\Bar\Pie\Scatter\Radar\Heatmap\Graph)
 - add documentation packages
-- fix Three.js Reminders caused by inconsistent versions: 'Material: onBeforeRender() has been removed.'
-
+- fix picture sizes
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
