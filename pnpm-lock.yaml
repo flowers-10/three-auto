@@ -44,7 +44,7 @@ importers:
 
   packages/examples:
     specifiers:
-      three-auto: workspace:0.2.3
+      three-auto: workspace:0.2.4
     dependencies:
       three-auto: link:../core
 

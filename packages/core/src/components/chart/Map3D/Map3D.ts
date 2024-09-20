@@ -9,7 +9,7 @@ import BaseThree from "../../../base/BaseThree";
 import { ChartType, SeriesConfig, MaterialTypeOfTHREE, ItemStyle } from "../../../types";
 import { mergeConfig } from "../../../shared";
 import { htmlRender, Tips } from "../../web";
-import { ITEM_STYLE_CONFIG, MAP_CONFIG } from "../../../config/mapConfig";
+import { ITEM_STYLE_CONFIG, MAP_CONFIG } from "../../../config";
 
 
 type MaterialGroup = {
