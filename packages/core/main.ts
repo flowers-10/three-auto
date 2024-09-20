@@ -1,6 +1,6 @@
 import * as AUTO from "./src/index";
 import * as THREE from "three";
-import ZheJiangCity from "../examples/public/ZheJiangCity.json";
+import ChinaJson from "../examples/public/China.json";
 
 const instance = new AUTO.ThreeAuto();
 const earth = new AUTO.Earth(
@@ -10,7 +10,7 @@ const earth = new AUTO.Earth(
     atmosphereThickness: 1.04,
     rotation: true,
     revolution: true,
-    json: ZheJiangCity,
+    json: ChinaJson,
   },
   instance
 );
