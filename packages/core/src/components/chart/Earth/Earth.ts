@@ -15,7 +15,6 @@ type EarthOptions = {
     atmosphereDayColor: string,
     atmosphereTwilightColor: string,
     rotation: boolean,
-    revolution: boolean,
     atmosphereThickness: number,
     json: any
 }
@@ -26,14 +25,13 @@ export class Earth extends BaseThree {
     atmosphere: THREE.Mesh | null;
     sunDirection: THREE.Vector3;
     sunSpherical: THREE.Spherical;
-    theta: number;
     option: EarthOptions;
+    lineGroup: THREE.Group;
     constructor(option: Partial<EarthOptions> = {
         atmosphereDayColor: '#00aaff',
         atmosphereTwilightColor: '#ff6600',
         atmosphereThickness: 1.04,
         rotation: true,
-        revolution: true,
     }, instance: ThreeInstance) {
         super(instance);
         this.resources = new Resources([
@@ -59,13 +57,13 @@ export class Earth extends BaseThree {
             atmosphereTwilightColor: '#ff6600',
             atmosphereThickness: 1.04,
             rotation: true,
-            revolution: true, json: null,
+            json: null,
             ...option
         };
         const earthGeometry = new THREE.SphereGeometry(2, 64, 64);
         this.sunDirection = new THREE.Vector3();
         this.sunSpherical = new THREE.Spherical(1, Math.PI * 0.5, 0);
-        this.theta = Math.PI ;
+        this.lineGroup = new THREE.Group()
         this.createEarth(earthGeometry);
         this.createAtmosphere(earthGeometry);
         this.createSun();
@@ -124,6 +122,7 @@ export class Earth extends BaseThree {
         this.scene.add(debugSun);
     }
     createMap() {
+        this.scene.add(this.lineGroup)
         this.option.json.features.forEach((elem: any) => {
             const { coordinates } = elem.geometry;
             coordinates.forEach((multiPolygon: any) => {
@@ -147,7 +146,7 @@ export class Earth extends BaseThree {
                 pointArray.map(({ x, y, z }) => [x, y, z]).flat()
             );
             const line = new Line2(lineGeometry, lineMaterial);
-            this.scene.add(line)
+            this.lineGroup.add(line)
         }
     }
     geoToSpherical(lng: number, lat: number) {
@@ -159,17 +158,16 @@ export class Earth extends BaseThree {
     }
     updateUniforms() {
         // Sun direction
-        this.sunSpherical.set(1, Math.PI * 0.5, this.theta);
+        this.sunSpherical.set(1, Math.PI * 0.5, 0.1);
         this.sunDirection.setFromSpherical(this.sunSpherical);
         // Uniforms
-        if (this.earth && this.earth.rotation) {
+        if (this.earth && this.lineGroup) {
             if (this.option.rotation) {
                 this.earth.rotation.y = -this.time.elapsedTime * 0.1;
-            }
-            if (this.option.revolution) {
-                this.theta = this.time.elapsedTime * 0.1;
+                this.lineGroup.rotation.y = -this.time.elapsedTime * 0.1;
             }
             (this.earth.material as THREE.ShaderMaterial)?.uniforms.uSunDirection.value.copy(this.sunDirection);
+            
         }
 
         (this.atmosphere?.material as THREE.ShaderMaterial)?.uniforms.uSunDirection.value.copy(this.sunDirection);
