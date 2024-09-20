@@ -123,32 +123,57 @@ export class Earth extends BaseThree {
     }
     createMap() {
         this.scene.add(this.lineGroup)
+        const pointArray: Array<any> = [];
         this.option.json.features.forEach((elem: any) => {
             const { coordinates } = elem.geometry;
             coordinates.forEach((multiPolygon: any) => {
                 multiPolygon.forEach((polygon: any) => {
-                    this.createLine(polygon)
+                    this.initLineData(polygon, pointArray)
                 })
             })
         })
     }
-    createLine(polygon: any) {
+    // createLine(polygon: any) {
+    //     const lineMaterial = new LineMaterial({
+    //         color: '#fff',
+    //         linewidth: 1,
+    //     });
+    //     const lineGeometry = new LineGeometry();
+    //     const pointArray = [];
+    //     for (let i = 0; i < polygon.length; i++) {
+    //         const coordinates = this.geoToSpherical(polygon[i][0], polygon[i][1]);
+    //         pointArray.push(coordinates);
+    //         lineGeometry.setPositions(
+    //             pointArray.map(({ x, y, z }) => [x, y, z]).flat()
+    //         );
+    //         const line = new Line2(lineGeometry, lineMaterial);
+    //         this.lineGroup.add(line)
+    //     }
+    // }
+
+    initLineData(polygon: any, pointArray: Array<any>) {
+        for (let i = 0; i < polygon.length; i++) {
+            const coordinates = this.geoToSpherical(polygon[i][0], polygon[i][1]);
+            pointArray.push(coordinates);
+        }
+        this.createLine(pointArray)
+    }
+
+
+    createLine(pointArray: Array<any>) {
         const lineMaterial = new LineMaterial({
             color: '#fff',
             linewidth: 1,
         });
         const lineGeometry = new LineGeometry();
-        const pointArray = [];
-        for (let i = 0; i < polygon.length; i++) {
-            const coordinates = this.geoToSpherical(polygon[i][0], polygon[i][1]);
-            pointArray.push(coordinates);
-            lineGeometry.setPositions(
-                pointArray.map(({ x, y, z }) => [x, y, z]).flat()
-            );
-            const line = new Line2(lineGeometry, lineMaterial);
-            this.lineGroup.add(line)
-        }
+        lineGeometry.setPositions(
+            pointArray.map(({ x, y, z }) => [x, y, z]).flat()
+        );
+        const line2 = new Line2(lineGeometry, lineMaterial);
+        this.lineGroup.add(line2)
     }
+
+
     geoToSpherical(lng: number, lat: number) {
         // 以z轴正方向为起点的水平方向弧度值
         const theta = (90 + lng) * (Math.PI / 180)
@@ -167,7 +192,7 @@ export class Earth extends BaseThree {
                 this.lineGroup.rotation.y = -this.time.elapsedTime * 0.1;
             }
             (this.earth.material as THREE.ShaderMaterial)?.uniforms.uSunDirection.value.copy(this.sunDirection);
-            
+
         }
 
         (this.atmosphere?.material as THREE.ShaderMaterial)?.uniforms.uSunDirection.value.copy(this.sunDirection);
