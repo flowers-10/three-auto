@@ -8,7 +8,7 @@ const earth = new AUTO.Earth(
     atmosphereDayColor: "#00aaff",
     atmosphereTwilightColor: "#ff6600",
     atmosphereThickness: 1.04,
-    rotation: true,
+    rotation: false,
     json: ChinaJson,
   },
   instance

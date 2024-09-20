@@ -60,16 +60,19 @@ export class Earth extends BaseThree {
             json: null,
             ...option
         };
+        this.lineGroup = new THREE.Group()
+        this.earth = null;
+        this.atmosphere = null;
+
         const earthGeometry = new THREE.SphereGeometry(2, 64, 64);
         this.sunDirection = new THREE.Vector3();
         this.sunSpherical = new THREE.Spherical(1, Math.PI * 0.5, 0);
-        this.lineGroup = new THREE.Group()
+    
         this.createEarth(earthGeometry);
         this.createAtmosphere(earthGeometry);
         this.createSun();
         this.createMap()
-        this.earth = null;
-        this.atmosphere = null;
+       
     }
     createEarth(earthGeometry: THREE.SphereGeometry) {
         this.resources.on('ready', () => {
@@ -136,7 +139,7 @@ export class Earth extends BaseThree {
                 multiPolygon.forEach((polygon: any) => {
                     this.createLine(polygon, line2)
                 })
-                this.scene.add(line2)
+                this.lineGroup.add(line2)
             })
         })
     }

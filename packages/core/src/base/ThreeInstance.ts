@@ -26,6 +26,10 @@ export interface ThreeInstance {
   mousemove: MouseMoveTracker;
   raycaster: Raycaster;
   dispose(): void;
+  onTick(cb: Function): void;
+  onResize(cb: Function): void;
+  onMousemove(cb: Function): void;
+  onRaycasting(isLog: boolean, targets?: THREE.Object3D[]): void;
 }
 class ThreeAuto implements ThreeInstance {
   public time: Time;

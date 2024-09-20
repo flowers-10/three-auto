@@ -32,10 +32,10 @@ export class Map3D extends BaseThree {
     this.projection = this.getProjection(center, scale);
     this.css2Render = new Tips(instance, 'css3')
     this.createMap(options);
-    instance.sizes.on('resize', () => {
+    instance.onResize(() => {
       this.css2Render.resize()
     })
-    instance.time.on("tick", () => {
+    instance.onTick(() => {
       this.css2Render.update()
     });
   }
@@ -62,10 +62,7 @@ export class Map3D extends BaseThree {
       json,
       name,
       // shader,
-      // castShadow,
-      // receiveShadow,
       itemStyle,
-      // label,
     } = options;
     const style = this.initStyle(itemStyle)
     this.map.name = name || "Map";
@@ -79,10 +76,15 @@ export class Map3D extends BaseThree {
       const { coordinates } = elem.geometry;
       this.createLabel(elem, style)
       coordinates.forEach((multiPolygon: any) => {
+        const lineGeometry = new LineGeometry();
+        const line2 = new Line2(lineGeometry, material.lineMaterial);
+        line2.name = elem.properties.name;
+
         multiPolygon.forEach((polygon: any) => {
           this.createShape(elem, polygon, material, regionGroup, style)
-          this.createLine(elem, polygon, material, regionGroup, style)
+          this.createLine(polygon, line2, style.depth)
         });
+        regionGroup.add(line2)
       });
       this.map.add(regionGroup);
     });
@@ -111,12 +113,11 @@ export class Map3D extends BaseThree {
       linewidth: lineStyle.width,
     });
 
-    const material = {
-      crossSectionMaterial: crossSectionMaterial,
-      extrudeFacesMaterial: extrudeFacesMaterial,
-      lineMaterial: lineMaterial
+    return {
+      crossSectionMaterial,
+      extrudeFacesMaterial,
+      lineMaterial
     }
-    return material
   }
   createShape(elem: any, polygon: any[], material: MaterialGroup, regionGroup: THREE.Group, itemStyle: ItemStyle) {
     const { depth, bevelEnabled, bevelSegments, bevelSize, bevelThickness } = itemStyle
@@ -144,22 +145,16 @@ export class Map3D extends BaseThree {
     ]);
     mesh.name = elem.properties.name;
     regionGroup.add(mesh);
-
   }
-  createLine(elem: any, polygon: any, material: MaterialGroup, regionGroup: THREE.Group, itemStyle: Required<ItemStyle>) {
-    const { depth } = itemStyle
-    const lineGeometry = new LineGeometry();
+  createLine(polygon: any, line: Line2, depth: number) {
     const pointArray = [];
     for (let i = 0; i < polygon.length; i++) {
       let [x, y] = this.projection(polygon[i]);
       pointArray.push(new THREE.Vector3(x, -y, depth * 1.1 || 1));
     }
-    lineGeometry.setPositions(
+    line.geometry.setPositions(
       pointArray.map(({ x, y, z }) => [x, y, z]).flat()
     );
-    const line = new Line2(lineGeometry, material.lineMaterial);
-    line.name = elem.properties.name;
-    regionGroup.add(line);
   }
   createLabel(elem: any, itemStyle: Required<ItemStyle>) {
     const { label } = itemStyle
