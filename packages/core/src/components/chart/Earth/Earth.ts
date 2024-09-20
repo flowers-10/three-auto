@@ -123,12 +123,13 @@ export class Earth extends BaseThree {
     }
     createMap() {
         this.scene.add(this.lineGroup)
+        const lineMaterial = new LineMaterial({
+            color: '#fff',
+            linewidth: 1,
+        });
         this.option.json.features.forEach((elem: any) => {
             const { coordinates } = elem.geometry;
-            const lineMaterial = new LineMaterial({
-                color: '#fff',
-                linewidth: 1,
-            });
+
             coordinates.forEach((multiPolygon: any) => {
                 const lineGeometry = new LineGeometry();
                 const line2 = new Line2(lineGeometry, lineMaterial);
