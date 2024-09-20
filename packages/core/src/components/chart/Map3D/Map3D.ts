@@ -6,7 +6,7 @@ import * as d3geo from "d3-geo";
 
 import { ThreeInstance } from "../../../base/ThreeInstance";
 import BaseThree from "../../../base/BaseThree";
-import { ChartType, SeriesConfig, MaterialTypeOfTHREE } from "../../../types";
+import { ChartType, SeriesConfig, MaterialTypeOfTHREE, ItemStyle } from "../../../types";
 import { mergeConfig } from "../../../shared";
 import { htmlRender, Tips } from "../../web";
 import { ITEM_STYLE_CONFIG, MAP_CONFIG } from "../../../config/mapConfig";
@@ -67,15 +67,17 @@ export class Map3D extends BaseThree {
       // shader,
       // castShadow,
       // receiveShadow,
+      itemStyle
     } = this.config;
     this.map.name = name || "Map";
     this.map.series = type || "map";
-    const material = this.createMaterial()
+    const style = mergeConfig(ITEM_STYLE_CONFIG, itemStyle)
+    const material = this.createMaterial(style)
 
     json.features.forEach((elem: any) => {
       const regionGroup = new THREE.Group();
       const { coordinates } = elem.geometry;
-      this.createLabel(elem)
+      this.createLabel(elem, style)
       coordinates.forEach((multiPolygon: any) => {
         const lineGeometry = new LineGeometry();
         const line2 = new Line2(lineGeometry, material.lineMaterial);
@@ -83,15 +85,15 @@ export class Map3D extends BaseThree {
 
         multiPolygon.forEach((polygon: any) => {
           this.createShape(elem, polygon, material, regionGroup)
-          this.createLine(polygon, line2, this.config.itemStyle.depth)
+          this.createLine(polygon, line2, style.depth)
         });
         regionGroup.add(line2)
       });
       this.map.add(regionGroup);
     });
   }
-  createMaterial(): MaterialGroup {
-    const { crossSection, extrudeFaces, lineStyle } = this.config.itemStyle
+  createMaterial(style: ItemStyle): MaterialGroup {
+    const { crossSection, extrudeFaces, lineStyle } = style
     crossSection.material = crossSection.material || 'MeshBasicMaterial';
     extrudeFaces.material = extrudeFaces.material || 'MeshBasicMaterial';
 
@@ -157,8 +159,8 @@ export class Map3D extends BaseThree {
       pointArray.map(({ x, y, z }) => [x, y, z]).flat()
     );
   }
-  createLabel(elem: any) {
-    const { label } = this.config.itemStyle
+  createLabel(elem: any, style: ItemStyle) {
+    const { label } = style
     const { show = false, distance = 1, rotation = {
       x: 0,
       y: 0,

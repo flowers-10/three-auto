@@ -12,19 +12,7 @@ export const hasChanged = (val:any, newVal:any) => {
 
 export const hasOwn = (val:any, key:string) => Object.prototype.hasOwnProperty.call(val, key)
 
-export const mergeDeep = (target: any, source: any): any => {
-  for (const key of Object.keys(source)) {
-    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-      target[key] = target[key] || {};
-      mergeDeep(target[key], source[key]);
-    } else {
-      target[key] = source[key];
-    }
-  }
-  return target;
-}
-
-export function mergeConfig<T>(target: T, source: Partial<T>): T {
+export function mergeConfig(target: any, source: any): any {
   for (const key in source) {
     if (Object.prototype.hasOwnProperty.call(source, key)) {
       const targetValue = target[key];

@@ -59,7 +59,7 @@ export interface SeriesConfig {
   receiveShadow: boolean;
   code?: number | string;
   json: any; // Replace 'any'
-  itemStyle: ItemStyle;
+  itemStyle: Partial<ItemStyle>;
   data?: DataConfig[]
 }
 
