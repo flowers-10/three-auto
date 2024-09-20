@@ -1,6 +1,6 @@
-import * as AUTO from "./src/index";
+import * as AUTO from "three-auto";
 import * as THREE from "three";
-import ZheJiangCity from "../examples/public/ZheJiangCity.json";
+import ZheJiangCity from '../public/ZheJiangCity.json'
 
 const instance = new AUTO.ThreeAuto();
 const earth = new AUTO.Earth(
