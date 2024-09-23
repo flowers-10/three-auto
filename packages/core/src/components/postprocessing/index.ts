@@ -1,3 +1,5 @@
 export * from './CustomPass'
 export * from './PostProcess'
+export * from  './MoebiusPass/MoebiusEffect'
 export * from  './MoebiusPass/MoebiusPass'
+export * from './BloomPass/BloomPass'

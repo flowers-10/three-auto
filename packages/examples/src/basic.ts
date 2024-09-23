@@ -49,7 +49,6 @@ const instance = new AUTO.ThreeAuto(undefined, {
   ],
   postprocess: {
     type: 'moebius',
-    show: true,
   }
 });
 

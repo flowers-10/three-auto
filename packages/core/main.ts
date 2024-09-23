@@ -1,5 +1,4 @@
 import * as AUTO from "./src/index";
-import * as THREE from "three";
 import ChinaJson from "../examples/public/China.json";
 
 const instance = new AUTO.ThreeAuto(undefined, {
@@ -30,6 +29,15 @@ const instance = new AUTO.ThreeAuto(undefined, {
     clearAlpha: 1,
     clearColor: '#000000',
   },
+  postprocess: {
+    type: 'bloom',
+    options:{
+      luminanceThreshold:0.6,
+      intensity:2,
+      radius:0.15,
+      mipmapBlur:true,
+    },
+  },
   series: [
     {
       name: "轮廓地图",
@@ -45,4 +53,6 @@ const instance = new AUTO.ThreeAuto(undefined, {
   ]
 });
 
-instance.time.on("tick", () => {});
+instance.time.on("tick", () => {
+  
+});

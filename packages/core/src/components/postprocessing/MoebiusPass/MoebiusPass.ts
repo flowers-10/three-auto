@@ -3,6 +3,7 @@ import { ThreeInstance } from "../../../base";
 import { CustomPass } from "../CustomPass";
 import { MoebiusEffect } from "./MoebiusEffect";
 import { EffectPass } from "postprocessing";
+import { mergeConfig } from "../../../shared";
 
 export interface MoebiusProps {
   noiseTex?: THREE.Texture;
@@ -12,14 +13,23 @@ export interface MoebiusProps {
   thickness?: number;
 }
 
+const CONFIG = {
+  frequency: 0.04,
+  amplitude: 2,
+  mod: 10,
+  thickness: 1.5,
+};
+
 export class MoebiusPass extends CustomPass {
   effect: MoebiusEffect;
   depthRenderTarget: THREE.WebGLRenderTarget;
   normalRenderTarget: THREE.WebGLRenderTarget;
   constructor(config: MoebiusProps, instance: ThreeInstance) {
     super(instance);
+    const newConfig = mergeConfig(CONFIG,config)
+    const { noiseTex, amplitude, frequency, mod, thickness } = newConfig;
+
     const { width, height } = this.sizes;
-    const { noiseTex, amplitude, frequency, mod, thickness } = config;
     const depthTexture = new THREE.DepthTexture(width, height);
     depthTexture.type = THREE.UnsignedShortType;
     depthTexture.format = THREE.DepthFormat;

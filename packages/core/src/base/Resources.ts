@@ -6,7 +6,7 @@ import { EventEmitter } from "./EventEmitter";
 import { CustomLoading } from "../components";
 import { SourcesItems, Loaders, LoadingType } from "../types";
 export class Resources extends EventEmitter {
-  private sources: SourcesItems[];
+  public sources: SourcesItems[];
   public items: Map<string, any>;
   public toLoad: number;
   public loaded: number;
