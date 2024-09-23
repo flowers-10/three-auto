@@ -71,7 +71,7 @@ export class Earth extends BaseThree {
         this.createEarth(earthGeometry);
         this.createAtmosphere(earthGeometry);
         this.createSun();
-        this.createMap()
+        this.createMap();
        
     }
     createEarth(earthGeometry: THREE.SphereGeometry) {
@@ -115,7 +115,7 @@ export class Earth extends BaseThree {
         });
         this.atmosphere = new THREE.Mesh(earthGeometry, atmosphereMaterial);
         this.atmosphere.scale.set(this.option.atmosphereThickness, this.option.atmosphereThickness, this.option.atmosphereThickness);
-        // this.scene.add(this.atmosphere);
+        this.scene.add(this.atmosphere);
     }
     createSun() {
         const debugSun = new THREE.Mesh(

@@ -6,7 +6,7 @@ interface CSSRule {
 export interface NodeObject {
   tag: string;
   className?: string;
-  style?: Record<string, string>;
+  style?: Record<string, string | number>;
   children?: (NodeObject | string)[] | string;
   cssRules?: Partial<CSSRule[]>;
   keyframes?: CSSKeyframesRule[];
@@ -65,7 +65,7 @@ export function htmlRender(obj: NodeObject, root: HTMLElement = document.body): 
 
   if (obj.style) {
     Object.entries(obj.style).forEach(([prop, value]) => {
-      el.style[prop as any] = value;
+      el.style[prop as any] = String(value);
     });
   }
 

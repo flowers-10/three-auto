@@ -4,6 +4,7 @@ export const DEFAULT_LOADING: NodeObject = {
   tag: "div",
   className: "ta-loading",
   style: {
+    "z-index": 9999,
     position: "fixed",
     top: "0",
     left: "0",
@@ -48,12 +49,20 @@ const sum = 32;
 export const CIRCLE_LOADING: NodeObject = {
   tag: "div",
   className: "ta-loading",
+  style: {
+    "z-index": 9999,
+    position: "absolute",
+    top: "0",
+    overflow: "hidden",
+    width: "100%",
+    height: "100vh",
+    "background-color": "#111111",
+  },
   cssRules: Array.from({ length: sum }, (_, index) => ({
     selector: `._circle_:nth-child(${index + 1})`,
     rules: {
-      transform: `rotate(${
-        (360 / sum) * (index + 1)
-      }deg) translate3d(120px, 0, 0)`,
+      transform: `rotate(${(360 / sum) * (index + 1)
+        }deg) translate3d(120px, 0, 0)`,
       "animation-delay": `${index * (3 / sum)}s`,
     },
   })),
@@ -66,14 +75,6 @@ export const CIRCLE_LOADING: NodeObject = {
       ],
     },
   ],
-  style: {
-    position: "absolute",
-    top: "0",
-    overflow: "hidden",
-    width: "100%",
-    height: "100vh",
-    "background-color": "#111111",
-  },
   children: [
     {
       tag: "div",
@@ -127,6 +128,18 @@ const factor = [1, 2, 5, 10];
 export const FADE_LOADING: NodeObject = {
   tag: "div",
   className: "ta-loading",
+  style: {
+    "z-index": 9999,
+    position: "absolute",
+    top: "0",
+    overflow: "hidden",
+    width: "100%",
+    height: "100vh",
+    "background-color": "#000",
+    display: "flex",
+    "justify-content": "center",
+    "align-items": "center",
+  },
   cssRules: [
     ...Array.from({ length: 7 }, (_, index) => ({
       selector: `.ta-loading__str > span:nth-of-type(${index + 1})`,
@@ -159,17 +172,6 @@ export const FADE_LOADING: NodeObject = {
       ],
     },
   ],
-  style: {
-    position: "absolute",
-    top: "0",
-    overflow: "hidden",
-    width: "100%",
-    height: "100vh",
-    "background-color": "#000",
-    display: "flex",
-    "justify-content": "center",
-    "align-items": "center",
-  },
   children: [
     {
       tag: "div",
@@ -193,7 +195,7 @@ export const FADE_LOADING: NodeObject = {
         },
       })),
       {
-        tag:'div',
+        tag: 'div',
         style: {
           position: "absolute",
           top: "10px",
@@ -205,7 +207,7 @@ export const FADE_LOADING: NodeObject = {
           "z-index": "1",
         }
       }
-    ]
+      ]
     },
     {
       tag: "div",
