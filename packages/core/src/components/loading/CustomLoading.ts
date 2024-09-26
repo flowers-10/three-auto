@@ -19,6 +19,10 @@ export class CustomLoading {
       (_, loaded, total) => this.progressBar(type, loaded, total),
       (e) => console.error("Loading error:", e)
     );
+    // finally
+    setTimeout(() => {
+      this.loadedBar()
+    }, 30000);
   }
   private createBar(type: LoadingType = "default") {
     this.dispose();
@@ -34,7 +38,7 @@ export class CustomLoading {
         ease: "power1.inOut",
         onComplete: () => this.loadingDom?.remove(),
       });
-    } 
+    }
 
     setTimeout(() => {
       if (this.loadingBarDom) {
@@ -43,6 +47,7 @@ export class CustomLoading {
         this.loadingBarDom.style.transition = "transform 0.8s ease-in-out";
       }
     }, 600);
+
   }
   private progressBar(type: LoadingType = "default", loaded: number, total: number) {
     const progress = loaded / total;

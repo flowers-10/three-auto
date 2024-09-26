@@ -17,6 +17,9 @@ export class Resources extends EventEmitter {
     loadingManager?: LoadingType | THREE.LoadingManager
   ) {
     super();
+    if(!sources.length) {
+      throw console.error('ThreeAuto.Resources:Sources items not provided;');
+    }
     this.sources = sources;
     this.items = new Map();
     this.toLoad = this.sources.length || 0;

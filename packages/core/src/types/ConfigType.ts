@@ -1,14 +1,14 @@
 import { SeriesConfig } from "./SeriesType";
-import { SourcesItems } from "./SourcesType";
+import { LoadingType, SourcesItems } from "./SourcesType";
 
 type SizeType = "parent" | "window";
 type LightType = "point" | "ambient" | "hemisphere" | "spot";
 type CameraType = "PerspectiveCamera" | "OrthographicCamera" | null | undefined;
 
 type PositionType = {
-  x: number;
-  y: number;
-  z: number;
+  x?: number;
+  y?: number;
+  z?: number;
 };
 
 export type LightItems = {
@@ -36,8 +36,8 @@ export type CameraConfig = {
   near: number;
   far: number;
   position: PositionType;
-  lookAt: boolean;
-  controls: {
+  lookAt?: boolean;
+  controls?: {
     show: boolean;
     enableDamping: boolean;
     minPolarAngle?: number;
@@ -76,6 +76,7 @@ export interface ConfigType {
   camera: CameraConfig;
   series?: Partial<SeriesConfig>[];
   resource?: SourcesItems[]
+  loadingType?: LoadingType;
   renderer: RendererConfig;
   postprocess?: PostProcessConfig;
 }

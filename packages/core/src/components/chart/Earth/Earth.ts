@@ -16,12 +16,14 @@ type EarthOptions = {
     atmosphereTwilightColor: string,
     rotation: boolean,
     atmosphereThickness: number,
+    radius: number,
     json: any
 }
 
 export class Earth extends BaseThree {
     resources: Resources;
     earth: THREE.Mesh | null;
+    group: THREE.Group;
     atmosphere: THREE.Mesh | null;
     sunDirection: THREE.Vector3;
     sunSpherical: THREE.Spherical;
@@ -32,6 +34,7 @@ export class Earth extends BaseThree {
         atmosphereTwilightColor: '#ff6600',
         atmosphereThickness: 1.04,
         rotation: true,
+        radius: 2,
     }, instance: ThreeInstance) {
         super(instance);
         this.resources = new Resources([
@@ -57,22 +60,24 @@ export class Earth extends BaseThree {
             atmosphereTwilightColor: '#ff6600',
             atmosphereThickness: 1.04,
             rotation: true,
+            radius: 2,
             json: null,
             ...option
         };
+        this.group = new THREE.Group();
         this.lineGroup = new THREE.Group()
         this.earth = null;
         this.atmosphere = null;
 
-        const earthGeometry = new THREE.SphereGeometry(2, 64, 64);
+        const earthGeometry = new THREE.SphereGeometry(this.option.radius, 64, 64);
         this.sunDirection = new THREE.Vector3();
         this.sunSpherical = new THREE.Spherical(1, Math.PI * 0.5, 0);
-    
+        this.scene.add(this.group)
         this.createEarth(earthGeometry);
         this.createAtmosphere(earthGeometry);
         this.createSun();
         this.createMap();
-       
+        this.update()
     }
     createEarth(earthGeometry: THREE.SphereGeometry) {
         this.resources.on('ready', () => {
@@ -97,7 +102,8 @@ export class Earth extends BaseThree {
                 },
             })
             this.earth = new THREE.Mesh(earthGeometry, earthMaterial)
-            this.scene.add(this.earth)
+            this.earth.name = 'earth';
+            this.group.add(this.earth);
         })
     }
     createAtmosphere(earthGeometry: THREE.SphereGeometry) {
@@ -115,17 +121,21 @@ export class Earth extends BaseThree {
         });
         this.atmosphere = new THREE.Mesh(earthGeometry, atmosphereMaterial);
         this.atmosphere.scale.set(this.option.atmosphereThickness, this.option.atmosphereThickness, this.option.atmosphereThickness);
-        this.scene.add(this.atmosphere);
+        this.atmosphere.name = "atmosphere";
+        this.group.add(this.atmosphere);
     }
     createSun() {
         const debugSun = new THREE.Mesh(
-            new THREE.IcosahedronGeometry(0.1, 2),
+            new THREE.IcosahedronGeometry(0.1, this.option.radius),
             new THREE.MeshBasicMaterial()
         );
-        this.scene.add(debugSun);
+        debugSun.name = "debugSun";
+        this.group.add(debugSun);
     }
     createMap() {
-        this.scene.add(this.lineGroup)
+        if(!this.option.json) return
+        this.group.add(this.lineGroup)
+        this.lineGroup.name = "lineGroup";
         const lineMaterial = new LineMaterial({
             color: '#fff',
             linewidth: 1,
@@ -159,7 +169,7 @@ export class Earth extends BaseThree {
         const theta = (90 + lng) * (Math.PI / 180)
         // 以y轴正方向为起点的垂直方向弧度值
         const phi = (90 - lat) * (Math.PI / 180)
-        return new THREE.Vector3().setFromSpherical(new THREE.Spherical(2, phi, theta))
+        return new THREE.Vector3().setFromSpherical(new THREE.Spherical(this.option.radius, phi, theta))
     }
     updateUniforms() {
         // Sun direction
@@ -179,6 +189,9 @@ export class Earth extends BaseThree {
 
     }
     update() {
-        this.updateUniforms();
+        this._instance.onTick(() => {
+            this.updateUniforms();
+
+        })
     }
 }

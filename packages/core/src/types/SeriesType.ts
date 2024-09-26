@@ -49,7 +49,7 @@ export interface DataConfig  {
     itemStyle?: ItemStyle;
 }
 
-export type ChartType = 'map' | 'line' | 'bar' | 'pie';
+export type ChartType = 'map' | 'line' | 'bar' | 'pie' | 'earth';
 
 export interface SeriesConfig {
   name: string;

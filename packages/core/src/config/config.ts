@@ -22,7 +22,6 @@ export const CONFIG: ConfigType = {
   },
   size: {
     type: "window",
-    id: "",
   },
   renderer: {
     antialias: true,
@@ -30,8 +29,21 @@ export const CONFIG: ConfigType = {
     clearAlpha: 0,
     clearColor: '#000000',
   },
+  light: [
+    {
+      lightName: "point-light",
+      type: "point",
+      color: "#fff",
+      intensity: 1,
+      helper: false,
+      position:{
+        x: 10,
+        y: 10,
+        z: 10
+      }
+    },
+  ],
   resource: undefined,
-  light: undefined,
   postprocess: undefined
 };
 

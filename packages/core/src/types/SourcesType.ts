@@ -20,4 +20,4 @@ export type Loaders = {
   audioLoader: THREE.AudioLoader;
 };
 
-export type LoadingType = 'default' | 'circle' | 'fade';
+export type LoadingType = 'default' | 'circle' | 'fade' | null | undefined;

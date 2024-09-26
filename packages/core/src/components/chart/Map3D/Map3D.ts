@@ -18,7 +18,6 @@ type MaterialGroup = {
   lineMaterial: LineMaterial
 }
 interface MapType extends THREE.Group {
-  series: ChartType;
   properties: any;
 }
 
@@ -70,7 +69,6 @@ export class Map3D extends BaseThree {
       itemStyle
     } = this.config;
     this.map.name = name || "Map";
-    this.map.series = type || "map";
     const style = mergeConfig(ITEM_STYLE_CONFIG, itemStyle)
     const material = this.createMaterial(style)
 
@@ -175,4 +173,5 @@ export class Map3D extends BaseThree {
     tip.position.set(x, -y, distance)
     tip.rotation.set(rotation.x, rotation.y, rotation.z)
   }
+  update() {}
 }

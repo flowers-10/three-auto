@@ -76,14 +76,14 @@ class ThreeAuto implements ThreeInstance {
     if (config.light) {
       this.light = new Light(config.light, this);
     }
-    if (config.series) {
+    if (config.series && config.series.length) {
       this.series = new Series(config.series, this);
     }
     if (config.postprocess) {
       this.postprocess = new PostProcess(config.postprocess, this);
     }
-    if (config.resource) {
-      this.resource = new Resources(config.resource);
+    if (config.resource && config.resource.length) {
+      this.resource = new Resources(config.resource,config.loadingType);
     }
 
     this.sizes.on("resize", () => {

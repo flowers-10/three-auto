@@ -1,23 +1,21 @@
 import * as AUTO from "./src/index";
-import ChinaJson from "../examples/public/China.json";
-import * as THREE from "three";
-
-const instance = new AUTO.ThreeAuto();
-const earth = new AUTO.Earth(
-  {
-    atmosphereDayColor: "#00aaff",
-    atmosphereTwilightColor: "#ff6600",
-    atmosphereThickness: 1.04,
-    rotation: true,
-    json: ChinaJson,
-  },
-  instance
-);
-(instance.camera.instance as THREE.PerspectiveCamera).fov = 75;
-instance.camera.instance.near = 0.1;
-instance.camera.instance.far = 1000;
-instance.camera.instance.position.set(0, 0, 5.0);
-instance._renderer.setClearColor("#000");
-instance.onTick(() => {
-  earth.update();
+const instance = new AUTO.ThreeAuto(undefined, {
+  series: [
+    {
+      name: 'earth',
+      type: 'earth',
+    },
+  ],
+  camera: {
+    fov: 75,
+    near: 0.1,
+    far: 1000,
+    position: {
+      z: 3
+    }
+  }
 });
+
+instance.onTick(() => {
+});
+
