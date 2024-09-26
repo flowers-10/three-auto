@@ -6,7 +6,7 @@ import * as d3geo from "d3-geo";
 
 import { ThreeInstance } from "../../../base/ThreeInstance";
 import BaseThree from "../../../base/BaseThree";
-import { ChartType, SeriesConfig, MaterialTypeOfTHREE, ItemStyle } from "../../../types";
+import { SeriesConfig, MaterialTypeOfTHREE, ItemStyle } from "../../../types";
 import { mergeConfig } from "../../../shared";
 import { htmlRender, Tips } from "../../web";
 import { ITEM_STYLE_CONFIG, MAP_CONFIG } from "../../../config";
@@ -60,7 +60,6 @@ export class Map3D extends BaseThree {
   }
   createMap() {
     let {
-      type,
       json,
       name,
       // shader,
