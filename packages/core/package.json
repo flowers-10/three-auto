@@ -1,7 +1,7 @@
 {
   "name": "three-auto",
   "private": false,
-  "version": "0.2.4",
+  "version": "0.2.5",
   "main": "./dist/three-auto.umd.js",
   "module": "./dist/three-auto.es.js",
   "types": "./dist/index.d.ts",
@@ -27,7 +27,5 @@
   "peerDependencies": {
     "three": ">=0.154"
   },
-  "dependencies": {
-    
-  }
+  "dependencies": {}
 }

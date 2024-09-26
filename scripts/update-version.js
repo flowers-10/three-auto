@@ -56,15 +56,24 @@ async function updateVersions(version) {
   const subProjectsPath = path.join(__dirname, '..', 'packages');
   const subProjects = await fs.readdir(subProjectsPath);
   for (const subProject of subProjects) {
-    const subProjectPath = path.join(subProjectsPath, subProject, 'package.json');
+    const subProjectFullPath = path.join(subProjectsPath, subProject);
+    
     try {
-      await updateVersion(subProjectPath, version);
-    } catch (err) {
-      if (err.code === 'ENOENT') {
-        console.warn(`Warning: Could not find package.json in ${subProject}`);
-      } else {
-        throw err;
+      const stats = await fs.stat(subProjectFullPath);
+      if (stats.isDirectory()) {
+        const subProjectPath = path.join(subProjectFullPath, 'package.json');
+        try {
+          await updateVersion(subProjectPath, version);
+        } catch (err) {
+          if (err.code === 'ENOENT') {
+            console.warn(`Warning: Could not find package.json in ${subProject}`);
+          } else {
+            throw err;
+          }
+        }
       }
+    } catch (err) {
+      console.error(`Error checking or updating ${subProject}:`, err);
     }
   }
 
