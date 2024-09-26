@@ -49,9 +49,9 @@ export type CameraConfig = {
 };
 
 export type RendererConfig = {
-  antialias: boolean;
-  alpha: boolean;
-  clearAlpha: number;
+  antialias?: boolean;
+  alpha?: boolean;
+  clearAlpha?: number;
   clearColor: string;
 };
 

@@ -10,6 +10,7 @@ import earthVertexShader from "./shaders/earth/vertex.glsl";
 import earthFragmentShader from "./shaders/earth/fragment.glsl";
 import atmosphereVertexShader from "./shaders/atmosphere/vertex.glsl";
 import atmosphereFragmentShader from "./shaders/atmosphere/fragment.glsl";
+import { SeriesConfig } from "../../../types";
 
 type EarthOptions = {
     atmosphereDayColor: string,
@@ -29,13 +30,7 @@ export class Earth extends BaseThree {
     sunSpherical: THREE.Spherical;
     option: EarthOptions;
     lineGroup: THREE.Group;
-    constructor(option: Partial<EarthOptions> = {
-        atmosphereDayColor: '#00aaff',
-        atmosphereTwilightColor: '#ff6600',
-        atmosphereThickness: 1.04,
-        rotation: true,
-        radius: 2,
-    }, instance: ThreeInstance) {
+    constructor(option: Partial<SeriesConfig>, instance: ThreeInstance) {
         super(instance);
         this.resources = new Resources([
             {

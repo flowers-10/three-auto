@@ -60,6 +60,7 @@ export interface SeriesConfig {
   code?: number | string;
   json: any; // Replace 'any'
   itemStyle: Partial<ItemStyle>;
-  data?: DataConfig[]
+  data?: DataConfig[];
+  [key :string] : any
 }
 
