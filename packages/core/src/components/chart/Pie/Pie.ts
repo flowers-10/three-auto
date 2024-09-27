@@ -1,27 +1,25 @@
 import * as THREE from "three";
 import BaseThree from "../../../base/BaseThree";
 import { ThreeInstance } from "../../../base/ThreeInstance";
+import { htmlRender } from "../../web";
+import { LabelStyle } from "../../../types";
 
 export class Pie extends BaseThree {
     group: THREE.Group;
-
+    previous: THREE.Object3D | null = null;
     constructor(option: any = {}, instance: ThreeInstance) {
         super(instance);
         this.group = new THREE.Group();
         this.scene.add(this.group);
         this.createPie(option);
-
-        const helper = new THREE.AxesHelper(5);
-        this.scene.add(helper);
+        this.dispatchEvent()
     }
 
     createPie(option: any) {
-        const { data, baseHeight, radius, maxHeight } = option;
+        const { data, height, radius, gap } = option;
         let sum = 0;
         let min = Number.MAX_SAFE_INTEGER;
         let max = 0;
-
-        // 计算总和、最小值和最大值
         data.forEach((item: any) => {
             sum += item.value;
             if (min > item.value) {
@@ -33,16 +31,15 @@ export class Pie extends BaseThree {
         });
 
         const valLen = max - min;
-        const allHeight = maxHeight - baseHeight;
-
         let startAngle = 0;
 
-        data.forEach((item: any, index: number) => {
+        data.forEach((item: any) => {
             const pieSlice = new THREE.Group()
             pieSlice.name = item.name;
             this.group.add(pieSlice)
+
             const angle = (item.value / sum) * Math.PI * 2;
-            const h = baseHeight + ((item.value - min) / valLen) * allHeight;
+            const h = height + ((item.value - min) / valLen) * height;
             const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent: true, opacity: .5 });
             const geometry = new THREE.CylinderGeometry(
                 radius,
@@ -55,16 +52,15 @@ export class Pie extends BaseThree {
                 angle
             );
             const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.y = h * 0.5;
 
             // 计算方向向量
             const centerAngle = startAngle + angle / 2;
-
             const direction = new THREE.Vector3(Math.sin(centerAngle), 0, Math.cos(centerAngle));
             direction.normalize();
             pieSlice.userData.dir = direction
             pieSlice.userData.reverseDir = direction.clone().negate();
-    
-            mesh.position.y = h * 0.5;
+            pieSlice.position.addScaledVector(direction, gap)
             pieSlice.add(mesh);
 
             const planeGeometry = new THREE.PlaneGeometry(radius, h);
@@ -75,7 +71,7 @@ export class Pie extends BaseThree {
             plane1.position.z = 0;
             plane1.rotation.y = startAngle + Math.PI * 0.5;
             plane1.translateOnAxis(new THREE.Vector3(1, 0, 0), -radius * 0.5);
-            // pieSlice.add(plane1);
+            pieSlice.add(plane1);
 
             const plane2 = new THREE.Mesh(planeGeometry, material);
             plane2.position.y = h * 0.5;
@@ -83,12 +79,49 @@ export class Pie extends BaseThree {
             plane2.position.z = 0;
             plane2.rotation.y = startAngle + angle + Math.PI * 0.5;
             plane2.translateOnAxis(new THREE.Vector3(1, 0, 0), -radius * 0.5);
-            // pieSlice.add(plane2);
+            pieSlice.add(plane2);
+
+            if (option.label.show) {
+                this.createLabel(item.name, h, direction, option.label)
+            }
 
             startAngle += angle;
         });
     }
+    createLabel(label: string, height: number, direction: THREE.Vector3, option: LabelStyle) {
+        const { distance = 0, rotation = {
+            x: 0,
+            y: 0,
+            z: 0,
+        }, textStyle } = option
 
+        const labelElement = htmlRender({
+            tag: 'div', children: label, style: textStyle,
+        })
+        const tips = this._instance.createTips(labelElement)
+        tips.position.y = height + (distance || 0);
+        tips.rotation.set(rotation.x, rotation.y, rotation.z)
+        tips.position.addScaledVector(direction, 30 /2)
+    }
+    dispatchEvent(eventName: string = 'click') {
+        this._canvas.addEventListener(eventName, () => {
+            const intersects = this._raycaster.onRaycasting();
+            if (this.previous) {
+                const dir = this.previous.userData.dir
+                this.previous.position.addScaledVector(dir, -2)
+                this.previous = null
+            }
+            this.group.children.forEach(item => {
+                item.children.forEach(itemX => {
+                    if (intersects && intersects[0].object.uuid === itemX.uuid) {
+                        this.previous = item
+                        const dir = item.userData.dir
+                        item.position.addScaledVector(dir, 2)
+                    }
+                })
+            })
+        })
+    }
     update() {
     }
 }

@@ -11,10 +11,13 @@ export default class BaseThree implements BaseThreeInterface {
   protected canvas;
   protected camera;
   protected _camera;
+  protected _canvas: HTMLCanvasElement;
   protected time;
   protected mouse;
   protected eventOffset;
   protected renderer;
+  protected _raycaster;
+
   constructor(protected _instance: ThreeInstance) {
     this.sizes = _instance.sizes;
     this.scene = _instance.scene;
@@ -25,6 +28,8 @@ export default class BaseThree implements BaseThreeInterface {
     this.eventOffset = _instance.mousemove?.eventOffset;
     this.canvas = _instance._canvas;
     this.renderer = _instance.renderer;
+    this._canvas = _instance._canvas;
+    this._raycaster = _instance.raycaster;
   }
   resize(): void {}
   update(): void {}

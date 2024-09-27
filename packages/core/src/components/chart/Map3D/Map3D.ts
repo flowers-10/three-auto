@@ -17,18 +17,15 @@ type MaterialGroup = {
   extrudeFacesMaterial: MaterialTypeOfTHREE,
   lineMaterial: LineMaterial
 }
-interface MapType extends THREE.Group {
-  properties: any;
-}
 
 export class Map3D extends BaseThree {
-  public map: MapType;
+  public map: THREE.Group;
   public projection: any;
   public css2Render: Tips;
   public config: SeriesConfig;
   constructor(config: Partial<SeriesConfig>, instance: ThreeInstance) {
     super(instance);
-    this.map = new THREE.Group() as MapType;
+    this.map = new THREE.Group();
     const { center, scale } = this.createCenter(config.json);
     this.projection = this.getProjection(center, scale);
     this.css2Render = new Tips(instance, 'css3')
@@ -73,6 +70,7 @@ export class Map3D extends BaseThree {
 
     json.features.forEach((elem: any) => {
       const regionGroup = new THREE.Group();
+      regionGroup.userData = elem.properties
       const { coordinates } = elem.geometry;
       this.createLabel(elem, style)
       coordinates.forEach((multiPolygon: any) => {
@@ -163,7 +161,7 @@ export class Map3D extends BaseThree {
       y: 0,
       z: 0,
     }, textStyle } = label
-    show // todo: check
+    if(!show) return
     const labelElement = htmlRender({ tag: 'div', children: elem.properties.name, style: textStyle })
     const tip = this.css2Render.createTips(labelElement)
     tip.scale.set(0.02, 0.02, 1)

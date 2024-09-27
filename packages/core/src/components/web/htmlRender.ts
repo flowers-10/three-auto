@@ -6,7 +6,7 @@ interface CSSRule {
 export interface NodeObject {
   tag: string;
   className?: string;
-  style?: Record<string, string | number>;
+  style?: Record<string, string | number | boolean>;
   children?: (NodeObject | string)[] | string;
   cssRules?: Partial<CSSRule[]>;
   keyframes?: CSSKeyframesRule[];

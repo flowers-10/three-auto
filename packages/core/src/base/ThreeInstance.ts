@@ -11,7 +11,7 @@ import {
   Renderer,
   Camera,
 } from "./index";
-import { Light, Series, PostProcess } from "../components";
+import { Light, Series, PostProcess, Tips } from "../components";
 import { mergeConfig } from "../shared";
 
 export interface ThreeInstance {
@@ -31,8 +31,10 @@ export interface ThreeInstance {
   onResize(cb: Function): void;
   onMousemove(cb: Function): void;
   onRaycasting(isLog: boolean, targets?: THREE.Object3D[]): void;
+  createTips(root: HTMLElement): any
 }
 class ThreeAuto implements ThreeInstance {
+  public tips: Tips;
   public time: Time;
   public scene: THREE.Scene;
   public sizes: Sizes;
@@ -72,6 +74,7 @@ class ThreeAuto implements ThreeInstance {
     this.raycaster = new Raycaster(this);
     this.renderer = new Renderer(renderer, this);
     this._renderer = this.renderer.instance;
+    this.tips = new Tips(this)
 
     if (config.light) {
       this.light = new Light(config.light, this);
@@ -83,7 +86,7 @@ class ThreeAuto implements ThreeInstance {
       this.postprocess = new PostProcess(config.postprocess, this);
     }
     if (config.resource && config.resource.length) {
-      this.resource = new Resources(config.resource,config.loadingType);
+      this.resource = new Resources(config.resource, config.loadingType);
     }
 
     this.sizes.on("resize", () => {
@@ -96,11 +99,13 @@ class ThreeAuto implements ThreeInstance {
   protected resize() {
     this.camera?.resize();
     this.renderer?.resize();
+    this.tips.resize()
   }
   protected update() {
     this.camera.update();
     this.raycaster.update();
     this.renderer.update();
+    this.tips.update();
     this.postprocess?.render();
   }
   public dispose() {
@@ -182,6 +187,9 @@ class ThreeAuto implements ThreeInstance {
   }
   public isTargetIntersected(target: THREE.Mesh) {
     this.raycaster.isTargetIntersected(target);
+  }
+  public createTips(root: HTMLElement) {
+    return this.tips.createTips(root)
   }
 }
 
