@@ -10,6 +10,9 @@ export class Pie extends BaseThree {
         this.group = new THREE.Group();
         this.scene.add(this.group);
         this.createPie(option);
+
+        const helper = new THREE.AxesHelper(5);
+        this.scene.add(helper);
     }
 
     createPie(option: any) {
@@ -34,13 +37,13 @@ export class Pie extends BaseThree {
 
         let startAngle = 0;
 
-        data.forEach((item: any) => {
+        data.forEach((item: any, index: number) => {
             const pieSlice = new THREE.Group()
             pieSlice.name = item.name;
             this.group.add(pieSlice)
             const angle = (item.value / sum) * Math.PI * 2;
             const h = baseHeight + ((item.value - min) / valLen) * allHeight;
-            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide,transparent: true, opacity: .5 });
+            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent: true, opacity: .5 });
             const geometry = new THREE.CylinderGeometry(
                 radius,
                 radius,
@@ -52,6 +55,18 @@ export class Pie extends BaseThree {
                 angle
             );
             const mesh = new THREE.Mesh(geometry, material);
+
+            // 计算方向向量
+            const centerAngle = startAngle + angle / 2;
+
+            const direction = new THREE.Vector3(Math.sin(centerAngle), 0, Math.cos(centerAngle));
+            pieSlice.userData.direction = direction
+
+            const test = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: item.color }));
+
+            test.position.copy(direction.multiplyScalar(radius * 2));
+            pieSlice.add(test);
+
             mesh.position.y = h * 0.5;
             pieSlice.add(mesh);
 
@@ -63,7 +78,7 @@ export class Pie extends BaseThree {
             plane1.position.z = 0;
             plane1.rotation.y = startAngle + Math.PI * 0.5;
             plane1.translateOnAxis(new THREE.Vector3(1, 0, 0), -radius * 0.5);
-            pieSlice.add(plane1);
+            // pieSlice.add(plane1);
 
             const plane2 = new THREE.Mesh(planeGeometry, material);
             plane2.position.y = h * 0.5;
@@ -71,7 +86,7 @@ export class Pie extends BaseThree {
             plane2.position.z = 0;
             plane2.rotation.y = startAngle + angle + Math.PI * 0.5;
             plane2.translateOnAxis(new THREE.Vector3(1, 0, 0), -radius * 0.5);
-            pieSlice.add(plane2);
+            // pieSlice.add(plane2);
 
             startAngle += angle;
         });
