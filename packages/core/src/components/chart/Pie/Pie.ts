@@ -60,13 +60,10 @@ export class Pie extends BaseThree {
             const centerAngle = startAngle + angle / 2;
 
             const direction = new THREE.Vector3(Math.sin(centerAngle), 0, Math.cos(centerAngle));
-            pieSlice.userData.direction = direction
-
-            const test = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color: item.color }));
-
-            test.position.copy(direction.multiplyScalar(radius * 2));
-            pieSlice.add(test);
-
+            direction.normalize();
+            pieSlice.userData.dir = direction
+            pieSlice.userData.reverseDir = direction.clone().negate();
+    
             mesh.position.y = h * 0.5;
             pieSlice.add(mesh);
 

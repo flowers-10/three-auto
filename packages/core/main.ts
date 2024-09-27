@@ -33,16 +33,21 @@ const sceneDom = document.getElementById("_scene") as HTMLCanvasElement;
 
 sceneDom.onclick = function () {
   const intersects = instance.raycaster.onRaycasting();
-  // if (previous) {
-  //   previous.position.set(previous.position.x - 10, 0, 0)
-  //   previous = null
-  // }
+  if (previous) {
+    const dir = previous.userData.dir
+    /* 如果不想用负scale可以用
+    previous.userData.reverseDir
+    previous.position.addScaledVector(previous.userData.reverseDir, 2)
+    */
+    previous.position.addScaledVector(dir, -2)
+    previous = null
+  }
   pie.group.children.forEach(item => {
     item.children.forEach(itemX => {
       if (intersects && intersects[0].object.uuid === itemX.uuid) {
+        console.log('@@@@@');
         previous = item
-        const dir = item.userData.direction
-        dir.normalize()
+        const dir = item.userData.dir
         item.position.addScaledVector(dir, 2)
       }
     })
