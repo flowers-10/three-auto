@@ -1,12 +1,11 @@
 import * as AUTO from "./src/index";
-import ChinaJson from "../examples/public/China.json";
 import * as THREE from "three";
 
 const instance = new AUTO.ThreeAuto(undefined, {
   series: [
     {
       type: 'pie',
-      name: 'pie',
+      name: 'three-auto-pie',
       data: [
         { name: '小学', value: 100, color: '#fcc02a' },
         { name: '中学', value: 200, color: '#f16b91' },
@@ -34,6 +33,10 @@ const instance = new AUTO.ThreeAuto(undefined, {
           'font-style': 'normal',
         },
       },
+      tooltip: {
+        show: true,
+        hideDelay: 100,
+      }
     }
   ]
 });

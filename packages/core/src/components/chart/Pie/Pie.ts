@@ -3,6 +3,7 @@ import BaseThree from "../../../base/BaseThree";
 import { ThreeInstance } from "../../../base/ThreeInstance";
 import { htmlRender } from "../../web";
 import { LabelStyle, SeriesConfig } from "../../../types";
+import { Tooltip } from "../../web/Tooltip";
 
 export class Pie extends BaseThree {
     group: THREE.Group;
@@ -12,9 +13,13 @@ export class Pie extends BaseThree {
         this.group = new THREE.Group();
         this.scene.add(this.group);
         this.createPie(option);
-        this.dispatchEvent()
+        this.dispatchEvent();
+        if(option.tooltip.show) {
+            new Tooltip(instance, this.group, option.tooltip)
+        }
     }
 
+   
     createPie(option: any) {
         const { data, height, radius, gap } = option;
         let sum = 0;
@@ -36,6 +41,8 @@ export class Pie extends BaseThree {
         data.forEach((item: any) => {
             const pieSlice = new THREE.Group()
             pieSlice.name = item.name;
+            pieSlice.userData = { ...pieSlice.userData, ...item };
+            pieSlice.userData.title = option.name;
             this.group.add(pieSlice)
 
             const angle = (item.value / sum) * Math.PI * 2;
@@ -93,14 +100,14 @@ export class Pie extends BaseThree {
             x: 0,
             y: 0,
             z: 0,
-        }, textStyle ,scale = 1} = option
+        }, textStyle, scale = 1 } = option
 
         const labelElement = htmlRender({
             tag: 'div', children: label, style: textStyle,
         })
         const tips = this._instance.createTips(labelElement)
         tips.position.y = height + (distance || 0);
-        tips.scale.set(scale,scale,scale)
+        tips.scale.set(scale, scale, scale)
         tips.rotation.set(rotation.x, rotation.y, rotation.z)
         tips.position.addScaledVector(direction, 30 / 2)
     }
@@ -124,5 +131,12 @@ export class Pie extends BaseThree {
         })
     }
     update() {
+        this._instance.onTick(() => {
+            document.body.style.cursor = 'auto';
+            const intersects = this._raycaster.onRaycasting();
+            if(intersects) {
+                document.body.style.cursor = 'pointer';
+            }
+        })
     }
 }

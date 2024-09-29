@@ -2,8 +2,6 @@ import * as THREE from "three";
 import { ThreeInstance } from "./ThreeInstance";
 import BaseThree from "./BaseThree";
 
-// import { eventBus } from '@BI/utils/eventBus'
-
 export class Raycaster extends BaseThree {
   public raycaster: THREE.Raycaster;
   constructor(instance: ThreeInstance) {

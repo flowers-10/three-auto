@@ -7,7 +7,7 @@ export interface NodeObject {
   tag: string;
   className?: string;
   style?: Record<string, string | number | boolean>;
-  children?: (NodeObject | string)[] | string;
+  children?: (NodeObject | string)[] | string | number;
   cssRules?: Partial<CSSRule[]>;
   keyframes?: CSSKeyframesRule[];
 }
@@ -69,8 +69,8 @@ export function htmlRender(obj: NodeObject, root: HTMLElement = document.body): 
     });
   }
 
-  if (typeof obj.children === "string") {
-    const text = document.createTextNode(obj.children);
+  if (typeof obj.children === "string" || typeof obj.children === "number") {
+    const text = document.createTextNode(String(obj.children));
     el.appendChild(text);
   } else if (Array.isArray(obj.children)) {
     obj.children.forEach((child) => {

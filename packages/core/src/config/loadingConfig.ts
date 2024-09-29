@@ -11,7 +11,6 @@ export const DEFAULT_LOADING: NodeObject = {
     width: "100%",
     height: "100vh",
     "background-color": "rgba(0, 0, 0, 0.7)",
-    "pointer-events": "none",
   },
   cssRules: [],
   children: [

@@ -10,19 +10,19 @@ export class MouseMoveTracker extends EventEmitter {
   constructor(canvas: HTMLCanvasElement) {
     super();
     this.canvas = canvas;
-    this.mouse = new THREE.Vector2();
+    this.mouse = new THREE.Vector2(1,1);
     this.eventOffset = new THREE.Vector2();
 
     const handleMouseMove = (event: MouseEvent) => {
       const { left, top, width, height } = this.canvas.getBoundingClientRect();
+      
       const clientX = event.clientX - left;
       const clientY = event.clientY - top;
-
+      
       this.mouse.set((clientX / width) * 2 - 1, -(clientY / height) * 2 + 1);
       this.eventOffset.set(clientX, clientY);
       this.trigger("mousemove", this.eventOffset);
     };
-
     this.mouseMoveHandler = handleMouseMove;
     if (this.canvas) {
       window.addEventListener("mousemove", this.mouseMoveHandler);

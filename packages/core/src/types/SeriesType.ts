@@ -58,7 +58,7 @@ export type ChartType = 'map' | 'line' | 'bar' | 'pie' | 'earth';
 
 export interface SeriesConfig {
   name: string;
-  id: number | string;
+  id?: number | string;
   type: ChartType;
   castShadow?: boolean;
   receiveShadow?: boolean;
