@@ -66,11 +66,9 @@ export class Pie extends BaseThree {
             const centerAngle = startAngle + angle / 2;
             const direction = new THREE.Vector3(Math.sin(centerAngle), 0, Math.cos(centerAngle));
             direction.normalize();
-            // pieSlice.userData.dir = direction
-            // pieSlice.userData.reverseDir = direction.clone().negate();
+            pieSlice.position.addScaledVector(direction, gap)
             pieSlice.userData.toTarget = pieSlice.position.clone().addScaledVector(direction, 3);
             pieSlice.userData.backTarget = pieSlice.userData.toTarget.clone().addScaledVector(direction, -3);
-            pieSlice.position.addScaledVector(direction, gap)
             pieSlice.add(mesh);
 
             const planeGeometry = new THREE.PlaneGeometry(radius, h);
@@ -117,7 +115,7 @@ export class Pie extends BaseThree {
     dispatchEvent(eventName: string = 'click') {
         this._canvas.addEventListener(eventName, () => {
             const intersects = this._raycaster.onRaycasting();
-            if (this.previous && intersects?.length) {
+            if (this.previous) {
 
                 const target = this.previous.userData.backTarget
                 gsap.killTweensOf(this.previous.position);
