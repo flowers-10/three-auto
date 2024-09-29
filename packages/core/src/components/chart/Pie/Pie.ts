@@ -4,6 +4,7 @@ import { ThreeInstance } from "../../../base/ThreeInstance";
 import { htmlRender } from "../../web";
 import { LabelStyle, SeriesConfig } from "../../../types";
 import { Tooltip } from "../../web/Tooltip";
+import gsap from "gsap";
 
 export class Pie extends BaseThree {
     group: THREE.Group;
@@ -14,12 +15,12 @@ export class Pie extends BaseThree {
         this.scene.add(this.group);
         this.createPie(option);
         this.dispatchEvent();
-        if(option.tooltip.show) {
+        if (option.tooltip.show) {
             new Tooltip(instance, this.group, option.tooltip)
         }
     }
 
-   
+
     createPie(option: any) {
         const { data, height, radius, gap } = option;
         let sum = 0;
@@ -47,7 +48,7 @@ export class Pie extends BaseThree {
 
             const angle = (item.value / sum) * Math.PI * 2;
             const h = height + ((item.value - min) / valLen) * height;
-            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent: true, opacity: .5 });
+            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent: true, opacity: .5, depthWrite: false });
             const geometry = new THREE.CylinderGeometry(
                 radius,
                 radius,
@@ -65,8 +66,10 @@ export class Pie extends BaseThree {
             const centerAngle = startAngle + angle / 2;
             const direction = new THREE.Vector3(Math.sin(centerAngle), 0, Math.cos(centerAngle));
             direction.normalize();
-            pieSlice.userData.dir = direction
-            pieSlice.userData.reverseDir = direction.clone().negate();
+            // pieSlice.userData.dir = direction
+            // pieSlice.userData.reverseDir = direction.clone().negate();
+            pieSlice.userData.toTarget = pieSlice.position.clone().addScaledVector(direction, 3);
+            pieSlice.userData.backTarget = pieSlice.userData.toTarget.clone().addScaledVector(direction, -3);
             pieSlice.position.addScaledVector(direction, gap)
             pieSlice.add(mesh);
 
@@ -114,17 +117,35 @@ export class Pie extends BaseThree {
     dispatchEvent(eventName: string = 'click') {
         this._canvas.addEventListener(eventName, () => {
             const intersects = this._raycaster.onRaycasting();
-            if (this.previous) {
-                const dir = this.previous.userData.dir
-                this.previous.position.addScaledVector(dir, -2)
+            if (this.previous && intersects?.length) {
+
+                const target = this.previous.userData.backTarget
+                gsap.killTweensOf(this.previous.position);
+                gsap.to(this.previous.position, {
+                    x: target.x,
+                    y: target.y,
+                    z: target.z,
+                    duration: 0.35,
+                    ease: 'power1.inOut'
+                })
+
                 this.previous = null
             }
             this.group.children.forEach(item => {
                 item.children.forEach(itemX => {
                     if (intersects && intersects[0].object.uuid === itemX.uuid) {
+
+                        const target = item.userData.toTarget
+                        gsap.killTweensOf(item.position);
+                        gsap.to(item.position, {
+                            x: target.x,
+                            y: target.y,
+                            z: target.z,
+                            duration: 0.35,
+                            ease: 'power1.inOut'
+                        })
                         this.previous = item
-                        const dir = item.userData.dir
-                        item.position.addScaledVector(dir, 2)
+
                     }
                 })
             })
@@ -134,7 +155,7 @@ export class Pie extends BaseThree {
         this._instance.onTick(() => {
             document.body.style.cursor = 'auto';
             const intersects = this._raycaster.onRaycasting();
-            if(intersects) {
+            if (intersects) {
                 document.body.style.cursor = 'pointer';
             }
         })
