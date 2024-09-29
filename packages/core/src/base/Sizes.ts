@@ -15,15 +15,8 @@ export class Sizes extends EventEmitter {
       if (config.type === "parent") {
         const dom = document.getElementById(config.id || '_scene');
         if (dom) {
-          const container = dom.parentElement;
-          if (container) {
-            this.width = container.clientWidth;
-            this.height = container.clientHeight;
-          } else {
-            console.error(
-              "ThreeAuto.Sizes:The parent document is not found. Please make sure that the current canvas scene is wrapped in a parent container."
-            );
-          }
+          this.width = dom.clientWidth;
+          this.height = dom.clientHeight;
         } else {
           this.release();
           console.error(

@@ -5,6 +5,7 @@ import BaseThree from "../../base/BaseThree";
 import { SeriesConfig } from "../../types";
 import { Map3D } from './Map3D/Map3D'
 import { Earth } from "./Earth/Earth";
+import { Pie } from "./Pie/Pie";
 
 export class Series extends BaseThree {
   public seriesGroup: THREE.Group;
@@ -20,7 +21,7 @@ export class Series extends BaseThree {
   seriesScheduler(options: Partial<SeriesConfig>) {
     switch (options.type) {
       case "map":
-        const map = new Map3D(options, this._instance).map
+        const map = new Map3D(options, this._instance).group
         this.seriesGroup.add(map)
         break;
       case "earth":
@@ -32,11 +33,13 @@ export class Series extends BaseThree {
       case "bar":
         break;
       case "pie":
+        const pie = new Pie(options, this._instance).group
+        this.seriesGroup.add(pie)
         break;
       default:
         console.warn('Please specify a series type');
         break;
     }
   }
-  
+
 }

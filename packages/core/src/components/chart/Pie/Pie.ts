@@ -2,12 +2,12 @@ import * as THREE from "three";
 import BaseThree from "../../../base/BaseThree";
 import { ThreeInstance } from "../../../base/ThreeInstance";
 import { htmlRender } from "../../web";
-import { LabelStyle } from "../../../types";
+import { LabelStyle, SeriesConfig } from "../../../types";
 
 export class Pie extends BaseThree {
     group: THREE.Group;
     previous: THREE.Object3D | null = null;
-    constructor(option: any = {}, instance: ThreeInstance) {
+    constructor(option: Partial<SeriesConfig>, instance: ThreeInstance) {
         super(instance);
         this.group = new THREE.Group();
         this.scene.add(this.group);
@@ -93,15 +93,16 @@ export class Pie extends BaseThree {
             x: 0,
             y: 0,
             z: 0,
-        }, textStyle } = option
+        }, textStyle ,scale = 1} = option
 
         const labelElement = htmlRender({
             tag: 'div', children: label, style: textStyle,
         })
         const tips = this._instance.createTips(labelElement)
         tips.position.y = height + (distance || 0);
+        tips.scale.set(scale,scale,scale)
         tips.rotation.set(rotation.x, rotation.y, rotation.z)
-        tips.position.addScaledVector(direction, 30 /2)
+        tips.position.addScaledVector(direction, 30 / 2)
     }
     dispatchEvent(eventName: string = 'click') {
         this._canvas.addEventListener(eventName, () => {

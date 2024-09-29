@@ -6,6 +6,7 @@ export const ITEM_STYLE_CONFIG: ItemStyle = {
     bevelSegments: 1,
     bevelSize: 0,
     bevelThickness: 0,
+    color: '',
     extrudeFaces: {
         material: 'MeshNormalMaterial',
         color: "#ccc",

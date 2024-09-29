@@ -19,13 +19,13 @@ type MaterialGroup = {
 }
 
 export class Map3D extends BaseThree {
-  public map: THREE.Group;
+  public group: THREE.Group;
   public projection: any;
   public css2Render: Tips;
   public config: SeriesConfig;
   constructor(config: Partial<SeriesConfig>, instance: ThreeInstance) {
     super(instance);
-    this.map = new THREE.Group();
+    this.group = new THREE.Group();
     const { center, scale } = this.createCenter(config.json);
     this.projection = this.getProjection(center, scale);
     this.css2Render = new Tips(instance, 'css3')
@@ -64,7 +64,7 @@ export class Map3D extends BaseThree {
       // receiveShadow,
       itemStyle
     } = this.config;
-    this.map.name = name || "Map";
+    this.group.name = name || "Map";
     const style = mergeConfig(ITEM_STYLE_CONFIG, itemStyle)
     const material = this.createMaterial(style)
 
@@ -84,7 +84,7 @@ export class Map3D extends BaseThree {
         });
         regionGroup.add(line2)
       });
-      this.map.add(regionGroup);
+      this.group.add(regionGroup);
     });
   }
   createMaterial(style: ItemStyle): MaterialGroup {
