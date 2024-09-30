@@ -161,7 +161,7 @@ export class Map3D extends BaseThree {
       y: 0,
       z: 0,
     }, textStyle } = label
-    if(!show) return
+    if (!show) return
     const labelElement = htmlRender({ tag: 'div', children: elem.properties.name, style: textStyle })
     const tip = this.css2Render.createTips(labelElement)
     tip.scale.set(0.02, 0.02, 1)
@@ -170,5 +170,5 @@ export class Map3D extends BaseThree {
     tip.position.set(x, -y, distance)
     tip.rotation.set(rotation.x, rotation.y, rotation.z)
   }
-  update() {}
+  update() { }
 }

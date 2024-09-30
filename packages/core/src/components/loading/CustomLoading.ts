@@ -17,7 +17,7 @@ export class CustomLoading {
     this.loadingManager = new THREE.LoadingManager(
       this.loadedBar.bind(this),
       (_, loaded, total) => this.progressBar(type, loaded, total),
-      (e) => console.error("Loading error:", e)
+      (e) => console.error("ThreeAuto.CustomLoading:", e)
     );
     // finally
     setTimeout(() => {

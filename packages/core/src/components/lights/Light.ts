@@ -14,7 +14,7 @@ export class Light extends BaseThree {
   // 设置灯光
   setLight(config: LightItems[]) {
     if (Array.isArray(config) && !config.length)
-      return console.error("please add light configuration");
+      return console.error("ThreeAuto.Lights:Please add light configuration");
     let light: any;
     let lightHelper: any;
     config.forEach(

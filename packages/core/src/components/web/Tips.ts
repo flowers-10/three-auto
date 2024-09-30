@@ -19,7 +19,7 @@ export class Tips extends BaseThree {
     public domElement: HTMLElement
     public tips: THREE.Group
     public type: TipsType
-    constructor(instance: ThreeInstance,type: TipsType = 'css3') {
+    constructor(instance: ThreeInstance,type: TipsType = 'css2') {
         super(instance);
         this.type = type
         this.tips = new THREE.Group()

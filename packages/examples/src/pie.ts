@@ -1,4 +1,4 @@
-import * as AUTO from "./src/index";
+import * as AUTO from "three-auto";
 import * as THREE from "three";
 
 const instance = new AUTO.ThreeAuto(undefined, {

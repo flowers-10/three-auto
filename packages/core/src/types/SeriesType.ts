@@ -65,11 +65,11 @@ export interface SeriesConfig {
   code?: number | string;
   json?: any; // Replace 'any'
   itemStyle: Partial<ItemStyle>;
-  label?: LabelStyle;
-  data?: DataConfig[];
-  height?: number;
-  radius?: number;
-  gap?: number;
+  label: LabelStyle;
+  data: DataConfig[];
+  height: number;
+  radius: number;
+  gap: number;
   atmosphereDayColor?: string;
   atmosphereTwilightColor?: string;
   atmosphereThickness?: number;

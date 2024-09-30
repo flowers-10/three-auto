@@ -62,7 +62,7 @@ class ThreeAuto implements ThreeInstance {
 
     const canvass = document.getElementById(id);
     if (!canvass && !canvas) {
-      throw new Error("canvas has already been initialized.");
+      throw new Error("ThreeAuto:Canvas has already been initialized.");
     }
     this._canvas = canvas || (canvass as HTMLCanvasElement);
     this.mousemove = new MouseMoveTracker(this._canvas);

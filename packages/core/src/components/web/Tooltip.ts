@@ -11,27 +11,32 @@ export class Tooltip extends BaseThree {
     group: THREE.Group;
     constructor(instance: ThreeInstance, group: THREE.Group, options: any) {
         super(instance);
-        const {hideDelay} = options
+        const { hideDelay, className = 'three-auto-tooltip', background = 'rgba(255,255,255,1)', borderWidth = 1, borderStyle = 'solid', padding = '6px 12px', textStyle = {
+            'font-size': '18px',
+            color: "#000000",
+            'font-weight': 400,
+            'font-style': 'normal',
+        }, } = options
+
         this.tooltipElement = htmlRender({
-            tag: 'div', style: {
-                '': 'none',
+            tag: 'div', className, style: {
+                'z-index': 9999,
                 '-webkit-user-select': 'none',
                 '-moz-user-select': 'none',
                 '-ms-user-select': 'none',
                 'user-select': 'none',
-                padding: '6px 12px',
                 'border-radius': '8px',
-                'font-size': '16px',
-                color: "#000",
                 'box-shadow': '2.8px 2.8px 2.2px rgba(0, 0, 0, 0.05),6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028), 12.5px 12.5px 10px rgba(0, 0, 0, 0.035)',
-                bold: true,
-                'font-weight': 400,
-                'font-style': 'normal',
-                'background-color': '#fff',
+                'background': background,
                 'position': 'absolute',
                 'top': '0px',
+                'left': '0px',
+                borderWidth: borderWidth + 'px',
+                padding,
+                borderStyle,
                 transition: 'opacity ' + hideDelay / 1000 + 's',
-                opacity: 0
+                opacity: 0,
+                ...textStyle
             }
         }, document.body);
         this.group = group;
@@ -42,10 +47,7 @@ export class Tooltip extends BaseThree {
         root.innerHTML = ''
         if (option.title) {
             htmlRender({
-                tag: 'div', children: option.title, style: {
-                    'font-size': '16px',
-                    color: "#000",
-                }
+                tag: 'div', children: option.title
             }, root)
         }
         const list = []
@@ -66,14 +68,12 @@ export class Tooltip extends BaseThree {
         }
         if (option.value) {
             list.push({
-                tag: 'span', children: String(option.value), style: { 'font-weight': 'bold', 'margin-left': '30px' }
+                tag: 'span', children: String(option.value), style: { 'margin-left': '30px' }
             })
         }
         htmlRender({
             tag: 'div', children: list, style: {
                 padding: '6px 0',
-                'font-size': '16px',
-                color: "#000",
                 display: 'flex',
                 'align-items': 'center'
             }
@@ -92,7 +92,7 @@ export class Tooltip extends BaseThree {
                         this.tooltipElement.style.left = this.eventOffset.x + 20 + 'px'
                         this.tooltipElement.style.top = this.eventOffset.y + 20 + 'px'
                         this.tooltipElement.style.opacity = '1'
-                        this.tooltipElement.style.border = '1px solid ' + item.userData.color
+                        this.tooltipElement.style.borderColor = item.userData.color
 
                         if (!this.uuid || this.uuid !== item.uuid) {
                             this.uuid = item.uuid

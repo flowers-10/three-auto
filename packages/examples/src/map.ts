@@ -80,7 +80,10 @@ const instance = new AUTO.ThreeAuto(undefined, {
         },
       },
     },
-  ]
+  ],
+  // postprocess: {
+  //   type: 'moebius',
+  // }
 });
 
 instance.time.on("tick", () => {});

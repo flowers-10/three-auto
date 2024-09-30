@@ -1,4 +1,4 @@
-import { ItemStyle, SeriesConfig } from "../types";
+import { ItemStyle } from "../types";
 
 export const ITEM_STYLE_CONFIG: ItemStyle = {
     depth: 1,
@@ -43,7 +43,7 @@ export const ITEM_STYLE_CONFIG: ItemStyle = {
     },
 }
 
-export const MAP_CONFIG: SeriesConfig = {
+export const MAP_CONFIG = {
     name: "three-auto-map",
     id: 0,
     type: "map",

@@ -2,28 +2,37 @@ import * as THREE from "three";
 import BaseThree from "../../../base/BaseThree";
 import { ThreeInstance } from "../../../base/ThreeInstance";
 import { htmlRender } from "../../web";
-import { LabelStyle, SeriesConfig } from "../../../types";
+import { SeriesConfig } from "../../../types";
 import { Tooltip } from "../../web/Tooltip";
 import gsap from "gsap";
+import { mergeConfig } from "../../../shared";
+import { PIE_CONFIG } from "../../../config";
 
 export class Pie extends BaseThree {
     group: THREE.Group;
     previous: THREE.Object3D | null = null;
+    config: SeriesConfig;
     constructor(option: Partial<SeriesConfig>, instance: ThreeInstance) {
         super(instance);
         this.group = new THREE.Group();
         this.scene.add(this.group);
-        this.createPie(option);
-        this.dispatchEvent();
-        if (option.tooltip.show) {
-            new Tooltip(instance, this.group, option.tooltip)
+        this.config = mergeConfig(PIE_CONFIG, option)
+        if (option.data && option.data.length) {
+            this.createPie();
+            this.dispatchEvent(option.eventName);
+        } else {
+            throw new Error("ThreeAuto.Pie:Data must be provided")
+        }
+        console.log(this.config);
+        
+        if (this.config.tooltip.show) {
+            new Tooltip(instance, this.group, this.config.tooltip)
         }
     }
-
-
-    createPie(option: any) {
-        const { data, height, radius, gap } = option;
+    createPie() {
+        const { data, height, radius, gap, opacity, selectedOffset = 5, heightMode = 'auto', name, label } = this.config;
         let sum = 0;
+        let h = 0;
         let min = Number.MAX_SAFE_INTEGER;
         let max = 0;
         data.forEach((item: any) => {
@@ -43,12 +52,16 @@ export class Pie extends BaseThree {
             const pieSlice = new THREE.Group()
             pieSlice.name = item.name;
             pieSlice.userData = { ...pieSlice.userData, ...item };
-            pieSlice.userData.title = option.name;
+            pieSlice.userData.title = name;
             this.group.add(pieSlice)
 
             const angle = (item.value / sum) * Math.PI * 2;
-            const h = height + ((item.value - min) / valLen) * height;
-            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent: true, opacity: .5, depthWrite: false });
+            if (heightMode === 'auto') {
+                h = height + ((item.value - min) / valLen) * height;
+            } else {
+                h = height
+            }
+            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent: true, opacity, depthWrite: false });
             const geometry = new THREE.CylinderGeometry(
                 radius,
                 radius,
@@ -67,8 +80,8 @@ export class Pie extends BaseThree {
             const direction = new THREE.Vector3(Math.sin(centerAngle), 0, Math.cos(centerAngle));
             direction.normalize();
             pieSlice.position.addScaledVector(direction, gap)
-            pieSlice.userData.toTarget = pieSlice.position.clone().addScaledVector(direction, 3);
-            pieSlice.userData.backTarget = pieSlice.userData.toTarget.clone().addScaledVector(direction, -3);
+            pieSlice.userData.toTarget = pieSlice.position.clone().addScaledVector(direction, selectedOffset);
+            pieSlice.userData.backTarget = pieSlice.userData.toTarget.clone().addScaledVector(direction, -selectedOffset);
             pieSlice.add(mesh);
 
             const planeGeometry = new THREE.PlaneGeometry(radius, h);
@@ -89,28 +102,29 @@ export class Pie extends BaseThree {
             plane2.translateOnAxis(new THREE.Vector3(1, 0, 0), -radius * 0.5);
             pieSlice.add(plane2);
 
-            if (option.label.show) {
-                this.createLabel(item.name, h, direction, option.label)
+            if (label && label.show) {
+                this.createLabel(item.name, h, direction)
             }
 
             startAngle += angle;
         });
     }
-    createLabel(label: string, height: number, direction: THREE.Vector3, option: LabelStyle) {
+    createLabel(name: string, height: number, direction: THREE.Vector3) {
+        const { radius, label } = this.config;
         const { distance = 0, rotation = {
             x: 0,
             y: 0,
             z: 0,
-        }, textStyle, scale = 1 } = option
+        }, textStyle, scale = 1, } = label
 
         const labelElement = htmlRender({
-            tag: 'div', children: label, style: textStyle,
+            tag: 'div', children: name, style: textStyle,
         })
         const tips = this._instance.createTips(labelElement)
-        tips.position.y = height + (distance || 0);
+        tips.position.y = height + distance;
         tips.scale.set(scale, scale, scale)
         tips.rotation.set(rotation.x, rotation.y, rotation.z)
-        tips.position.addScaledVector(direction, 30 / 2)
+        tips.position.addScaledVector(direction, radius * 0.65)
     }
     dispatchEvent(eventName: string = 'click') {
         this._canvas.addEventListener(eventName, () => {
