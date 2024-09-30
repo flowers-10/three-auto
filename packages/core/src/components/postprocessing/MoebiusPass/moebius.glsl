@@ -113,6 +113,8 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
 
   float modVal = uMod;
 
+  #ifdef SHADOW
+
   if(diffuseluma <= 0.25 && depth <= 0.99) {
     if(mod((uv.y + displacement.y) * uResolution.y, modVal) < outlineThickness) {
       color = outlineColor;
@@ -129,6 +131,8 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
       color = outlineColor;
     };
   }
+
+  #endif
 
   color = mix(color, outlineColor, outline);
 

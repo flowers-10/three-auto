@@ -26,8 +26,8 @@ export class MoebiusPass extends CustomPass {
   normalRenderTarget: THREE.WebGLRenderTarget;
   constructor(config: MoebiusProps, instance: ThreeInstance) {
     super(instance);
-    const newConfig = mergeConfig(CONFIG,config)
-    const { noiseTex, amplitude, frequency, mod, thickness } = newConfig;
+    const newConfig = mergeConfig(CONFIG, config)
+    const { noiseTex, amplitude, frequency, mod, thickness, shadow } = newConfig;
 
     const { width, height } = this.sizes;
     const depthTexture = new THREE.DepthTexture(width, height);
@@ -57,6 +57,7 @@ export class MoebiusPass extends CustomPass {
       amplitude,
       mod,
       thickness,
+      shadow
     });
     this.composer.addPass(new EffectPass(this._camera, this.effect));
   }

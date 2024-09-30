@@ -13,12 +13,22 @@ export interface MoebiusEffectProps {
   amplitude?: number;
   mod?: number;
   thickness?: number;
+  shadow?: boolean
 }
 
 export class MoebiusEffect extends Effect {
   sizes: Sizes;
   constructor(args: MoebiusEffectProps) {
+
+    const defines = new Map<string, any>([]);
+
+    console.log(args);
+
+    if (args.shadow) {
+      defines.set("SHADOW", '');
+    }
     super("Moebius", fragmentShader, {
+      defines,
       uniforms: new Map<string, any>([
         ["cameraNear", new THREE.Uniform(args.camera.near)],
         ["cameraFar", new THREE.Uniform(args.camera.far)],

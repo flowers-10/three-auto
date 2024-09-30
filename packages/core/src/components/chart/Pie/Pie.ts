@@ -61,7 +61,7 @@ export class Pie extends BaseThree {
             } else {
                 h = height
             }
-            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent: true, opacity, depthWrite: false });
+            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent: false, opacity,  });
             const geometry = new THREE.CylinderGeometry(
                 radius,
                 radius,
