@@ -12,7 +12,7 @@ const instance = new AUTO.ThreeAuto(undefined, {
         { name: '大学', value: 300, color: '#187bac' },
         { name: '不学', value: 500, color: '#eeeeee' },
       ],
-      opacity: 0.5,
+      opacity: 0.8,
       selectedOffset: 10,
       height: 20,
       heightMode: 'flat',
@@ -54,10 +54,7 @@ const instance = new AUTO.ThreeAuto(undefined, {
     }
   ],
   postprocess: {
-    type: 'moebius',
-    options: {
-      shadow: false
-    }
+    type: 'moebius'
   }
 });
 

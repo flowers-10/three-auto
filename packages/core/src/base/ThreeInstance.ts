@@ -75,6 +75,12 @@ class ThreeAuto implements ThreeInstance {
     this.renderer = new Renderer(renderer, this);
     this._renderer = this.renderer.instance;
     this.tips = new Tips(this)
+    this.sizes.on("resize", () => {
+      this.resize();
+    });
+    this.time.on("tick", () => {
+      this.update();
+    });
 
     if (config.light) {
       this.light = new Light(config.light, this);
@@ -88,13 +94,6 @@ class ThreeAuto implements ThreeInstance {
     if (config.resource && config.resource.length) {
       this.resource = new Resources(config.resource, config.loadingType);
     }
-
-    this.sizes.on("resize", () => {
-      this.resize();
-    });
-    this.time.on("tick", () => {
-      this.update();
-    });
   }
   protected resize() {
     this.camera?.resize();

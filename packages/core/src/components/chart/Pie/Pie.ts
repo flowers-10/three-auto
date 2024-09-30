@@ -9,9 +9,9 @@ import { mergeConfig } from "../../../shared";
 import { PIE_CONFIG } from "../../../config";
 
 export class Pie extends BaseThree {
-    group: THREE.Group;
-    previous: THREE.Object3D | null = null;
-    config: SeriesConfig;
+    public group: THREE.Group;
+    public previous: THREE.Object3D | null = null;
+    public config: SeriesConfig;
     constructor(option: Partial<SeriesConfig>, instance: ThreeInstance) {
         super(instance);
         this.group = new THREE.Group();
@@ -19,12 +19,12 @@ export class Pie extends BaseThree {
         this.config = mergeConfig(PIE_CONFIG, option)
         if (option.data && option.data.length) {
             this.createPie();
-            this.dispatchEvent(option.eventName);
         } else {
             throw new Error("ThreeAuto.Pie:Data must be provided")
         }
-        console.log(this.config);
-        
+        if(this.config.animation) {
+            this.dispatchEvent();
+        }
         if (this.config.tooltip.show) {
             new Tooltip(instance, this.group, this.config.tooltip)
         }
@@ -61,7 +61,7 @@ export class Pie extends BaseThree {
             } else {
                 h = height
             }
-            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent: false, opacity,  });
+            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent: true, opacity, });
             const geometry = new THREE.CylinderGeometry(
                 radius,
                 radius,
@@ -103,13 +103,13 @@ export class Pie extends BaseThree {
             pieSlice.add(plane2);
 
             if (label && label.show) {
-                this.createLabel(item.name, h, direction)
+                this.createLabel(item.name, h, direction,pieSlice)
             }
 
             startAngle += angle;
         });
     }
-    createLabel(name: string, height: number, direction: THREE.Vector3) {
+    createLabel(name: string, height: number, direction: THREE.Vector3,pieSlice: THREE.Group) {
         const { radius, label } = this.config;
         const { distance = 0, rotation = {
             x: 0,
@@ -125,20 +125,27 @@ export class Pie extends BaseThree {
         tips.scale.set(scale, scale, scale)
         tips.rotation.set(rotation.x, rotation.y, rotation.z)
         tips.position.addScaledVector(direction, radius * 0.65)
+        pieSlice.add(tips)
     }
-    dispatchEvent(eventName: string = 'click') {
+    dispatchEvent() {
+        const {
+            animationDuration = 1000,
+            animationEasing = 'power1.inOut',
+            animationDelay = 0,
+            eventName = 'click' } = this.config
+
         this._canvas.addEventListener(eventName, () => {
             const intersects = this._raycaster.onRaycasting();
             if (this.previous) {
-
                 const target = this.previous.userData.backTarget
                 gsap.killTweensOf(this.previous.position);
                 gsap.to(this.previous.position, {
                     x: target.x,
                     y: target.y,
                     z: target.z,
-                    duration: 0.35,
-                    ease: 'power1.inOut'
+                    duration: animationDuration / 1000,
+                    ease: animationEasing,
+                    delay: animationDelay / 1000
                 })
 
                 this.previous = null
@@ -153,8 +160,9 @@ export class Pie extends BaseThree {
                             x: target.x,
                             y: target.y,
                             z: target.z,
-                            duration: 0.35,
-                            ease: 'power1.inOut'
+                            duration: animationDuration / 1000,
+                            ease: animationEasing,
+                            delay: animationDelay / 1000
                         })
                         this.previous = item
 

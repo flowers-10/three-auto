@@ -50,5 +50,10 @@ export const MAP_CONFIG = {
     castShadow: false,
     receiveShadow: false,
     json: null,
-    itemStyle:ITEM_STYLE_CONFIG
+    animation: true,
+    animationDuration: 1000,
+    animationEasing: 'power1.inOut',
+    animationDelay: 0,
+    eventName: 'click',
+    itemStyle: ITEM_STYLE_CONFIG,
 }

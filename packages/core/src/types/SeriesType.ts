@@ -5,8 +5,10 @@ export type MaterialType = 'MeshBasicMaterial' | 'MeshDepthMaterial' | 'MeshLamb
 export type MaterialTypeOfTHREE = THREE.ShaderMaterial | THREE.MeshBasicMaterial | THREE.MeshDepthMaterial | THREE.MeshLambertMaterial | THREE.MeshMatcapMaterial | THREE.MeshNormalMaterial | THREE.MeshPhongMaterial | THREE.MeshStandardMaterial | THREE.MeshToonMaterial
 
 
+type cssType = 'css2' | 'css3'
 export interface LabelStyle {
   show?: boolean;
+  type?: cssType;
   distance?: number;
   scale?: number;
   rotation?: {
@@ -70,6 +72,11 @@ export interface SeriesConfig {
   height: number;
   radius: number;
   gap: number;
+  animation: true,
+  animationDuration: number,
+  animationEasing: string,
+  animationDelay: number,
+  eventName: string,
   atmosphereDayColor?: string;
   atmosphereTwilightColor?: string;
   atmosphereThickness?: number;

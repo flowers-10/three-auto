@@ -3,13 +3,15 @@ import { Line2 } from "three/examples/jsm/lines/Line2.js";
 import { LineGeometry } from "three/examples/jsm/lines/LineGeometry.js";
 import { LineMaterial } from "three/examples/jsm/lines/LineMaterial.js";
 import * as d3geo from "d3-geo";
+import gsap from "gsap";
 
 import { ThreeInstance } from "../../../base/ThreeInstance";
 import BaseThree from "../../../base/BaseThree";
-import { SeriesConfig, MaterialTypeOfTHREE, ItemStyle } from "../../../types";
+import { SeriesConfig, MaterialTypeOfTHREE, ItemStyle, LabelStyle } from "../../../types";
 import { mergeConfig } from "../../../shared";
 import { htmlRender, Tips } from "../../web";
 import { ITEM_STYLE_CONFIG, MAP_CONFIG } from "../../../config";
+import { Tooltip } from "../../web/Tooltip";
 
 
 type MaterialGroup = {
@@ -20,22 +22,29 @@ type MaterialGroup = {
 
 export class Map3D extends BaseThree {
   public group: THREE.Group;
+  public previous: THREE.Object3D | null = null;
   public projection: any;
-  public css2Render: Tips;
+  public cssRender: Tips;
   public config: SeriesConfig;
   constructor(config: Partial<SeriesConfig>, instance: ThreeInstance) {
     super(instance);
     this.group = new THREE.Group();
     const { center, scale } = this.createCenter(config.json);
     this.projection = this.getProjection(center, scale);
-    this.css2Render = new Tips(instance, 'css3')
     this.config = mergeConfig(MAP_CONFIG, config)
+    this.cssRender = new Tips(instance, this.config.label.type)
     this.createMap();
+    if (this.config.animation) {
+      this.dispatchEvent();
+    }
+    if (this.config.tooltip.show) {
+      new Tooltip(instance, this.group, this.config.tooltip)
+    }
     instance.onResize(() => {
-      this.css2Render.resize()
+      this.cssRender.resize()
     })
     instance.onTick(() => {
-      this.css2Render.update()
+      this.cssRender.update()
     });
   }
   getProjection(center: number[], scale: number) {
@@ -59,6 +68,7 @@ export class Map3D extends BaseThree {
     let {
       json,
       name,
+      label,
       // shader,
       // castShadow,
       // receiveShadow,
@@ -70,9 +80,9 @@ export class Map3D extends BaseThree {
 
     json.features.forEach((elem: any) => {
       const regionGroup = new THREE.Group();
-      regionGroup.userData = elem.properties
+      regionGroup.userData = elem.properties;
       const { coordinates } = elem.geometry;
-      this.createLabel(elem, style)
+      this.createLabel(elem, label || style.label, regionGroup)
       coordinates.forEach((multiPolygon: any) => {
         const lineGeometry = new LineGeometry();
         const line2 = new Line2(lineGeometry, material.lineMaterial);
@@ -154,8 +164,7 @@ export class Map3D extends BaseThree {
       pointArray.map(({ x, y, z }) => [x, y, z]).flat()
     );
   }
-  createLabel(elem: any, style: ItemStyle) {
-    const { label } = style
+  createLabel(elem: any, label: LabelStyle, regionGroup: THREE.Group) {
     const { show = false, distance = 1, rotation = {
       x: 0,
       y: 0,
@@ -163,12 +172,50 @@ export class Map3D extends BaseThree {
     }, textStyle } = label
     if (!show) return
     const labelElement = htmlRender({ tag: 'div', children: elem.properties.name, style: textStyle })
-    const tip = this.css2Render.createTips(labelElement)
+    const tip = this.cssRender.createTips(labelElement)
     tip.scale.set(0.02, 0.02, 1)
     const { center } = this.createCenter(elem)
     let [x, y] = this.projection(center)
     tip.position.set(x, -y, distance)
     tip.rotation.set(rotation.x, rotation.y, rotation.z)
+    regionGroup.add(tip)
+  }
+  dispatchEvent() {
+    const {
+      animationDuration = 1000,
+      animationEasing = 'power1.inOut',
+      animationDelay = 0,
+      selectedOffset = 4,
+      eventName = 'click' } = this.config
+    this._canvas.addEventListener(eventName, () => {
+      const intersects = this._raycaster.onRaycasting();
+      if (this.previous) {
+        gsap.killTweensOf(this.previous.position);
+        gsap.to(this.previous.scale, {
+          z: 1,
+          duration: animationDuration / 1000,
+          ease: animationEasing,
+          delay: animationDelay / 1000
+        })
+
+        this.previous = null
+      }
+      this.group.children.forEach(item => {
+        item.children.forEach(itemX => {
+          if (intersects && intersects[0].object.uuid === itemX.uuid) {
+            gsap.killTweensOf(item.position);
+            gsap.to(item.scale, {
+              z: selectedOffset,
+              duration: animationDuration / 1000,
+              ease: animationEasing,
+              delay: animationDelay / 1000
+            })
+            this.previous = item
+
+          }
+        })
+      })
+    })
   }
   update() { }
 }

@@ -31,7 +31,8 @@ export default class BaseThree implements BaseThreeInterface {
     this._canvas = _instance._canvas;
     this._raycaster = _instance.raycaster;
   }
-  resize(): void {}
-  update(): void {}
-  dispose(): void {}
+  resize(): void { }
+  update(): void { }
+  dispose(): void { }
+  dispatchEvent() { }
 }
