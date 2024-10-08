@@ -17,7 +17,7 @@ type EarthOptions = {
     atmosphereTwilightColor: string,
     rotation: boolean,
     atmosphereThickness: number,
-    radius: number,
+    radius: number | [number, number],
     json: any
 }
 
@@ -59,12 +59,12 @@ export class Earth extends BaseThree {
             json: null,
             ...option
         };
+        
         this.group = new THREE.Group();
         this.lineGroup = new THREE.Group()
         this.earth = null;
         this.atmosphere = null;
-
-        const earthGeometry = new THREE.SphereGeometry(this.option.radius, 64, 64);
+        const earthGeometry = new THREE.SphereGeometry(Array.isArray(this.option.radius) ? this.option.radius[0] : this.option.radius, 64, 64);
         this.sunDirection = new THREE.Vector3();
         this.sunSpherical = new THREE.Spherical(1, Math.PI * 0.5, 0);
         this.scene.add(this.group)
@@ -121,7 +121,7 @@ export class Earth extends BaseThree {
     }
     createSun() {
         const debugSun = new THREE.Mesh(
-            new THREE.IcosahedronGeometry(0.1, this.option.radius),
+            new THREE.IcosahedronGeometry(0.1, Array.isArray(this.option.radius) ? this.option.radius[0] : this.option.radius),
             new THREE.MeshBasicMaterial()
         );
         debugSun.name = "debugSun";
@@ -164,7 +164,7 @@ export class Earth extends BaseThree {
         const theta = (90 + lng) * (Math.PI / 180)
         // 以y轴正方向为起点的垂直方向弧度值
         const phi = (90 - lat) * (Math.PI / 180)
-        return new THREE.Vector3().setFromSpherical(new THREE.Spherical(this.option.radius, phi, theta))
+        return new THREE.Vector3().setFromSpherical(new THREE.Spherical(Array.isArray(this.option.radius) ? this.option.radius[0] : this.option.radius, phi, theta))
     }
     updateUniforms() {
         // Sun direction

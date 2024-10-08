@@ -24,14 +24,12 @@ export class MouseMoveTracker extends EventEmitter {
       this.trigger("mousemove", this.eventOffset);
     };
     this.mouseMoveHandler = handleMouseMove;
-    if (this.canvas) {
-      window.addEventListener("mousemove", this.mouseMoveHandler);
-    }
+    this.canvas.addEventListener("mousemove", this.mouseMoveHandler);
   }
 
   dispose() {
-    if (this.mouseMoveHandler && this.canvas) {
-      window.removeEventListener("mousemove", this.mouseMoveHandler);
+    if (this.mouseMoveHandler) {
+      this.canvas.removeEventListener("mousemove", this.mouseMoveHandler);
       this.mouseMoveHandler = null;
     }
   }

@@ -30,7 +30,7 @@ export class Pie extends BaseThree {
         }
     }
     createPie() {
-        const { data, height, radius, gap,transparent, opacity, selectedOffset = 5, heightMode = 'auto', name, label } = this.config;
+        const { data, height, radius, gap, transparent, opacity, selectedOffset = 5, heightMode = 'auto', name, label } = this.config;
 
         let sum = 0;
         let min = Number.MAX_SAFE_INTEGER;
@@ -57,7 +57,7 @@ export class Pie extends BaseThree {
             outerRadius = radius;
         }
         const axis = new THREE.Vector3(1, 0, 0);
-      
+
 
         data.forEach((item: any) => {
             const pieSlice = new THREE.Group()
@@ -68,7 +68,7 @@ export class Pie extends BaseThree {
 
             const angle = (item.value / sum) * Math.PI * 2;
             const h = heightMode === 'auto' ? height + ((item.value - min) / valLen) * height : height;
-            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent:false, opacity });
+            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent, opacity });
 
             const outerGeometry = new THREE.CylinderGeometry(
                 outerRadius,
@@ -159,7 +159,7 @@ export class Pie extends BaseThree {
             pieSlice.position.addScaledVector(direction, gap)
             pieSlice.userData.toTarget = pieSlice.position.clone().addScaledVector(direction, selectedOffset);
             pieSlice.userData.backTarget = pieSlice.userData.toTarget.clone().addScaledVector(direction, -selectedOffset);
-            
+
             if (label && label.show) {
                 this.createLabel(item.name, h, innerRadius + (outerRadius - innerRadius) * 0.5, direction, pieSlice)
             }
