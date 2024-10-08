@@ -68,7 +68,7 @@ export class Pie extends BaseThree {
 
             const angle = (item.value / sum) * Math.PI * 2;
             const h = heightMode === 'auto' ? height + ((item.value - min) / valLen) * height : height;
-            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent, opacity });
+            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent:false, opacity });
 
             const outerGeometry = new THREE.CylinderGeometry(
                 outerRadius,

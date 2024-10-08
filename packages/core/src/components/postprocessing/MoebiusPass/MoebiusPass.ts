@@ -68,7 +68,7 @@ export class MoebiusPass extends CustomPass {
     renderer.render(this.scene, this._camera);
     renderer.setRenderTarget(null);
     renderer.setRenderTarget(this.normalRenderTarget);
-    this.scene.overrideMaterial = new THREE.MeshNormalMaterial();
+    this.scene.overrideMaterial = new THREE.MeshNormalMaterial({side:THREE.DoubleSide});
     renderer.render(this.scene, this._camera);
     this.scene.overrideMaterial = null;
     renderer.setRenderTarget(null);

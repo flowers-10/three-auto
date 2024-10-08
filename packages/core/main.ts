@@ -57,14 +57,16 @@ const instance = new AUTO.ThreeAuto(undefined, {
   postprocess: {
     type: 'moebius',
     options: {
-      shadow: false
+      shadow: false,
+      
     }
   }
 });
 
 (instance.camera.instance as THREE.PerspectiveCamera).fov = 75;
-instance.camera.instance.near = 0.1;
-instance.camera.instance.far = 1000;
+instance.camera.instance.near = 1;
+instance.camera.instance.far = 500;
+instance.camera.instance.updateProjectionMatrix()
 instance.camera.instance.position.set(100, 100, 100.0);
 instance._renderer.setClearColor("#fff");
 instance.onTick(() => {
