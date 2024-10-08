@@ -21,9 +21,6 @@ export class MoebiusEffect extends Effect {
   constructor(args: MoebiusEffectProps) {
 
     const defines = new Map<string, any>([]);
-
-    console.log(args);
-
     if (args.shadow) {
       defines.set("SHADOW", '');
     }

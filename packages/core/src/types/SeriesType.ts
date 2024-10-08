@@ -70,7 +70,7 @@ export interface SeriesConfig {
   label: LabelStyle;
   data: DataConfig[];
   height: number;
-  radius: number;
+  radius: number | [number, number];
   gap: number;
   animation: true,
   animationDuration: number,
