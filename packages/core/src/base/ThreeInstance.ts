@@ -119,6 +119,7 @@ class ThreeAuto implements ThreeInstance {
     this.time.release();
     this.mousemove.off("mousemove");
     this.mousemove.dispose();
+    this.tips.dispose();
     function clearGroup(group: THREE.Object3D) {
       if (!group.children.length) return;
       const clearCache = (item: THREE.Mesh) => {

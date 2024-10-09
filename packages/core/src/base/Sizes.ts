@@ -15,7 +15,7 @@ export class Sizes extends EventEmitter {
     if (config.type === "parent") {
       const childNode = config.dom || document.getElementById(config.id || '_scene');
       if (childNode && childNode.parentNode) {
-          this.dom = childNode.parentElement
+        this.dom = childNode.parentElement
       }
     } else {
       this.width = window.innerWidth;
@@ -33,19 +33,14 @@ export class Sizes extends EventEmitter {
       this.trigger("resize", null);
     };
     this.resizeHandler();
-    // if (this.dom) {
-    //   this.dom.addEventListener("resize", this.resizeHandler);
-    // }
+    this.dom?.addEventListener("resize", this.resizeHandler);
     window.addEventListener("resize", this.resizeHandler);
   }
   info(message = "Now size") {
     console.log(message, "width:", this.width, "height:", this.height);
   }
   release() {
-    if (this.dom) {
-      this.dom.removeEventListener("resize", this.resizeHandler);
-    } else {
-      window.removeEventListener("resize", this.resizeHandler);
-    }
+    this.dom?.removeEventListener("resize", this.resizeHandler);
+    window.removeEventListener("resize", this.resizeHandler);
   }
 }

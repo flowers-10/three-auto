@@ -47,6 +47,8 @@ export class Tips extends BaseThree {
     }
     update() {
         this.cssRenderer.render(this.scene, this._camera);
-
+    }
+    dispose() {
+        this.domElement.remove();
     }
 }

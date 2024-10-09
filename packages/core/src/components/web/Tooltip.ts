@@ -104,5 +104,7 @@ export class Tooltip extends BaseThree {
             })
         })
     }
-
+    dispose(): void {
+        this.tooltipElement.remove()
+    }
 }
