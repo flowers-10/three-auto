@@ -103,7 +103,7 @@ class ThreeAuto implements ThreeInstance {
   protected resize() {
     this.camera?.resize();
     this.renderer?.resize();
-    this.tips.resize()
+    this.tips.resize();
   }
   protected update() {
     this.camera.update();

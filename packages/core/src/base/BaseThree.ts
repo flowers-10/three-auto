@@ -14,7 +14,7 @@ export default class BaseThree implements BaseThreeInterface {
   protected _canvas: HTMLCanvasElement;
   protected time;
   protected mouse;
-  protected eventOffset;
+  protected mousemove;
   protected renderer;
   protected _raycaster;
 
@@ -25,7 +25,7 @@ export default class BaseThree implements BaseThreeInterface {
     this._camera = _instance.camera?.instance || null;
     this.time = _instance.time;
     this.mouse = _instance.mousemove?.mouse;
-    this.eventOffset = _instance.mousemove?.eventOffset;
+    this.mousemove = _instance.mousemove;
     this.canvas = _instance._canvas;
     this.renderer = _instance.renderer;
     this._canvas = _instance._canvas;

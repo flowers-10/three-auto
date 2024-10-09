@@ -13,7 +13,10 @@ export class Sizes extends EventEmitter {
     this.height = 0;
     this.pixelRatio = Math.min(window.devicePixelRatio, 2);
     if (config.type === "parent") {
-      this.dom = document.getElementById(config.id || '_scene');
+      const childNode = config.dom || document.getElementById(config.id || '_scene');
+      if (childNode && childNode.parentNode) {
+          this.dom = childNode.parentElement
+      }
     } else {
       this.width = window.innerWidth;
       this.height = window.innerHeight;
@@ -21,8 +24,8 @@ export class Sizes extends EventEmitter {
 
     this.resizeHandler = () => {
       if (this.dom) {
-        this.width = this.dom.clientWidth;
-        this.height = this.dom.clientHeight;
+        this.width = this.dom.clientWidth || 200;
+        this.height = this.dom.clientHeight || 200;
       } else {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
@@ -30,11 +33,10 @@ export class Sizes extends EventEmitter {
       this.trigger("resize", null);
     };
     this.resizeHandler();
-    if (this.dom) {
-      this.dom.addEventListener("resize", this.resizeHandler);
-    } else {
-      window.addEventListener("resize", this.resizeHandler);
-    }
+    // if (this.dom) {
+    //   this.dom.addEventListener("resize", this.resizeHandler);
+    // }
+    window.addEventListener("resize", this.resizeHandler);
   }
   info(message = "Now size") {
     console.log(message, "width:", this.width, "height:", this.height);

@@ -29,7 +29,9 @@ export type LightItems = {
 export type SizeConfigType = {
   type?: SizeType;
   id?: string;
+  dom?: HTMLElement;
 };
+
 export type CameraConfig = {
   type?: CameraType;
   fov: number;

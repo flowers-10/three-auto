@@ -2,6 +2,10 @@ import * as AUTO from "./src/index";
 import * as THREE from "three";
 
 const instance = new AUTO.ThreeAuto(undefined, {
+  size: {
+    type: 'parent',
+    id: '_scene'
+  },
   shadow: true,
   series: [
     {

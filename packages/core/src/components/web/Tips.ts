@@ -41,6 +41,8 @@ export class Tips extends BaseThree {
         return tag
     }
     resize() {
+        this.domElement.style.top = this._canvas.getBoundingClientRect().top + 'px'
+        this.domElement.style.left = this._canvas.getBoundingClientRect().left + 'px'
         this.cssRenderer.setSize(this.sizes?.width, this.sizes.height);
     }
     update() {
