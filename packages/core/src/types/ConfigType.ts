@@ -68,6 +68,11 @@ export type PostProcessConfig = {
   options?: any
 }
 
+
+export interface ShadowConfig {
+  
+}
+
 export interface ConfigType {
   id: string;
   name: string;
@@ -78,5 +83,6 @@ export interface ConfigType {
   resource?: SourcesItems[]
   loadingType?: LoadingType;
   renderer: RendererConfig;
+  shadow?: ShadowConfig;
   postprocess?: PostProcessConfig;
 }

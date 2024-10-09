@@ -30,7 +30,7 @@ export class Pie extends BaseThree {
         }
     }
     createPie() {
-        const { data, height, radius, gap, transparent, opacity, selectedOffset = 5, heightMode = 'auto', name, label } = this.config;
+        const { data, height, radius, gap, transparent, opacity, selectedOffset = 5, heightMode = 'auto', name, label, shadow = false } = this.config;
 
         let sum = 0;
         let min = Number.MAX_SAFE_INTEGER;
@@ -68,8 +68,7 @@ export class Pie extends BaseThree {
 
             const angle = (item.value / sum) * Math.PI * 2;
             const h = heightMode === 'auto' ? height + ((item.value - min) / valLen) * height : height;
-            const material = new THREE.MeshBasicMaterial({ color: item.color, side: THREE.DoubleSide, transparent, opacity });
-
+            const material = new THREE[shadow ? 'MeshStandardMaterial' : 'MeshBasicMaterial']({ color: item.color, side: THREE.DoubleSide, transparent, opacity,roughness: 0.7 });
             const outerGeometry = new THREE.CylinderGeometry(
                 outerRadius,
                 outerRadius,
@@ -82,6 +81,8 @@ export class Pie extends BaseThree {
             );
             const outerMesh = new THREE.Mesh(outerGeometry, material);
             outerMesh.position.y = h * 0.5;
+            outerMesh.castShadow = shadow;
+            outerMesh.receiveShadow = shadow;
             pieSlice.add(outerMesh);
 
             if (isRing) {
@@ -97,6 +98,8 @@ export class Pie extends BaseThree {
                 );
                 const innerMesh = new THREE.Mesh(innerGeometry, material);
                 innerMesh.position.y = h * 0.5;
+                innerMesh.castShadow = shadow;
+                innerMesh.receiveShadow = shadow;
                 pieSlice.add(innerMesh);
 
                 const ringGeometry = new THREE.RingGeometry(
@@ -116,6 +119,8 @@ export class Pie extends BaseThree {
                 belowRing.rotateX(-0.5 * Math.PI);
                 belowRing.rotateZ(-0.5 * Math.PI);
                 belowRing.position.y = 0;
+                belowRing.castShadow = shadow;
+                belowRing.receiveShadow = shadow;
                 pieSlice.add(belowRing)
 
                 const plane = new THREE.Mesh(new THREE.PlaneGeometry(outerRadius - innerRadius, h), material);
@@ -124,6 +129,8 @@ export class Pie extends BaseThree {
                 plane.position.z = 0;
                 plane.rotation.y = startAngle + Math.PI * 0.5;
                 plane.translateOnAxis(axis, -(innerRadius + 0.5 * (outerRadius - innerRadius)));
+                plane.castShadow = shadow;
+                plane.receiveShadow = shadow;
                 pieSlice.add(plane);
                 const plane1 = new THREE.Mesh(new THREE.PlaneGeometry(outerRadius - innerRadius, h), material);
                 plane1.position.y = h * 0.5;
@@ -131,6 +138,8 @@ export class Pie extends BaseThree {
                 plane1.position.z = 0;
                 plane1.rotation.y = startAngle + angle + Math.PI * 0.5;
                 plane1.translateOnAxis(axis, -(innerRadius + 0.5 * (outerRadius - innerRadius)));
+                plane1.castShadow = shadow;
+                plane1.receiveShadow = shadow;
                 pieSlice.add(plane1);
 
             } else {
@@ -141,6 +150,8 @@ export class Pie extends BaseThree {
                 plane1.position.z = 0;
                 plane1.rotation.y = startAngle + Math.PI * 0.5;
                 plane1.translateOnAxis(axis, -outerRadius * 0.5);
+                plane1.castShadow = shadow;
+                plane1.receiveShadow = shadow;
                 pieSlice.add(plane1);
                 const plane2 = new THREE.Mesh(planeGeometry, material);
                 plane2.position.y = h * 0.5;
@@ -148,6 +159,8 @@ export class Pie extends BaseThree {
                 plane2.position.z = 0;
                 plane2.rotation.y = startAngle + angle + Math.PI * 0.5;
                 plane2.translateOnAxis(axis, -outerRadius * 0.5);
+                plane2.castShadow = shadow;
+                plane2.receiveShadow = shadow;
                 pieSlice.add(plane2);
             }
 

@@ -11,7 +11,7 @@ import {
   Renderer,
   Camera,
 } from "./index";
-import { Light, Series, PostProcess, Tips } from "../components";
+import { Light, Series, PostProcess, Tips, Shadow } from "../components";
 import { mergeConfig } from "../shared";
 
 export interface ThreeInstance {
@@ -19,6 +19,7 @@ export interface ThreeInstance {
   scene: THREE.Scene;
   sizes: Sizes;
   camera: Camera;
+  shadow?: Shadow;
   _camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   _config: ConfigType;
   _canvas: HTMLCanvasElement;
@@ -39,6 +40,7 @@ class ThreeAuto implements ThreeInstance {
   public scene: THREE.Scene;
   public sizes: Sizes;
   public camera: Camera;
+  public shadow?: Shadow;
   public _camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
   public _config: ConfigType;
   public _canvas: HTMLCanvasElement;
@@ -93,6 +95,9 @@ class ThreeAuto implements ThreeInstance {
     }
     if (config.resource && config.resource.length) {
       this.resource = new Resources(config.resource, config.loadingType);
+    }
+    if(config.shadow) {
+      this.shadow = new Shadow({},this)
     }
   }
   protected resize() {

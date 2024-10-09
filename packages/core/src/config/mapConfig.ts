@@ -47,8 +47,6 @@ export const MAP_CONFIG = {
     name: "three-auto-map",
     id: 0,
     type: "map",
-    castShadow: false,
-    receiveShadow: false,
     json: null,
     animation: true,
     animationDuration: 1000,

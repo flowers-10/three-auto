@@ -134,8 +134,6 @@ const instance = new AUTO.ThreeAuto(undefined, {
       name: "轮廓地图",
       id: 0,
       type: "map",
-      castShadow: false,
-      receiveShadow: false,
       json: ZheJiangCity,
       itemStyle: {
         depth: 1,

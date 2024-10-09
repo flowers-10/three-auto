@@ -3,6 +3,7 @@ import { SeriesConfig } from "../types";
 export const PIE_CONFIG: SeriesConfig =  {
   type: 'pie',
   name: 'three-auto-pie',
+  shadow: false,
   itemStyle: {},
   data: [],
   opacity: 0.5,

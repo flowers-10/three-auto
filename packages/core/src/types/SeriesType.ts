@@ -62,8 +62,7 @@ export interface SeriesConfig {
   name: string;
   id?: number | string;
   type: ChartType;
-  castShadow?: boolean;
-  receiveShadow?: boolean;
+  shadow?: boolean,
   code?: number | string;
   json?: any; // Replace 'any'
   itemStyle: Partial<ItemStyle>;

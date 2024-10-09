@@ -124,8 +124,6 @@ const instance = new AUTO.ThreeAuto(undefined, {
       name: "Contour map",
       id: 0,
       type: "map",
-      castShadow: false,
-      receiveShadow: false,
       json: ZheJiangCity,
       itemStyle: {
         depth: 1,

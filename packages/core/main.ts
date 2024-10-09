@@ -2,10 +2,12 @@ import * as AUTO from "./src/index";
 import * as THREE from "three";
 
 const instance = new AUTO.ThreeAuto(undefined, {
+  shadow: true,
   series: [
     {
       type: 'pie',
       name: 'three-auto-pie',
+      shadow: true,
       data: [
         { name: '小学', value: 100, color: '#fcc02a' },
         { name: '中学', value: 200, color: '#f16b91' },
@@ -13,7 +15,7 @@ const instance = new AUTO.ThreeAuto(undefined, {
         { name: '不学', value: 500, color: '#eeeeee' },
       ],
       transparent: true,
-      opacity: 0.8,
+      opacity: 1,
       selectedOffset: 10,
       height: 20,
       heightMode: 'flat',
@@ -58,17 +60,17 @@ const instance = new AUTO.ThreeAuto(undefined, {
     type: 'moebius',
     options: {
       shadow: false,
-      
     }
   }
 });
 
+
 (instance.camera.instance as THREE.PerspectiveCamera).fov = 75;
-instance.camera.instance.near = 1;
-instance.camera.instance.far = 500;
+instance.camera.instance.near = 0.1;
+instance.camera.instance.far = 5000;
 instance.camera.instance.updateProjectionMatrix()
 instance.camera.instance.position.set(100, 100, 100.0);
-instance._renderer.setClearColor("#fff");
+instance._renderer.setClearColor("#DDEAFB");
 instance.onTick(() => {
 });
 

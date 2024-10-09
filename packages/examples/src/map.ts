@@ -35,8 +35,6 @@ const instance = new AUTO.ThreeAuto(undefined, {
       name: "轮廓地图",
       id: 0,
       type: "map",
-      castShadow: false,
-      receiveShadow: false,
       json: ZheJiangCity,
       animation: true,
       animationDuration: 350,

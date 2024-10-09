@@ -70,8 +70,6 @@ export class Map3D extends BaseThree {
       name,
       label,
       // shader,
-      // castShadow,
-      // receiveShadow,
       itemStyle
     } = this.config;
     this.group.name = name || "Map";
