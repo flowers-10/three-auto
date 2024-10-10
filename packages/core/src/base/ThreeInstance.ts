@@ -96,8 +96,8 @@ class ThreeAuto implements ThreeInstance {
     if (config.resource && config.resource.length) {
       this.resource = new Resources(config.resource, config.loadingType);
     }
-    if(config.shadow) {
-      this.shadow = new Shadow({},this)
+    if(config.shadow?.show) {
+      this.shadow = new Shadow(config.shadow,this)
     }
   }
   protected resize() {

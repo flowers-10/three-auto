@@ -2,45 +2,60 @@ import * as THREE from "three";
 
 import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
-
+import { ShadowConfig } from "../../types";
 export class Shadow extends BaseThree {
     group: THREE.Group = new THREE.Group();
     environment: THREE.Mesh | null = null;
-    constructor(config: any, instance: ThreeInstance) {
+    constructor(config: ShadowConfig, instance: ThreeInstance) {
         super(instance);
         this.scene.add(this.group)
         this.group.name = "shadow";
         this.createShadow(config)
     }
-    createShadow(config:any) {
-        console.log(config,111);
-        const geometry = new THREE.PlaneGeometry(400, 400);
+    createShadow(config: ShadowConfig) {
+        const { width = 400, height = 400, color = '#000', opacity = 0.1, light } = config
+        const { helper = false,
+            color: lightColor = '#fff',
+            intensity = 10,
+            position,
+            mapWidth = 1024,
+            mapHeight = 1024,
+            left = -100,
+            top = 100,
+            bottom = -100,
+            right = 100,
+            near = 0.1,
+            far = 1000,
+            radius = 10,
+            bias = 0.027,
+            normalBias = -0.004 } = light
+        const geometry = new THREE.PlaneGeometry(width, height);
         const shadowMaterial = new THREE.ShadowMaterial({
-            color: 0x000000,
-            opacity: 0.1,
+            color,
+            opacity
         });
         this.environment = new THREE.Mesh(geometry, shadowMaterial);
         this.environment.name = 'environment';
         this.environment.rotation.x = -Math.PI / 2;
         this.environment.receiveShadow = true;
         this.group.add(this.environment);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 10);
-        directionalLight.position.set(30, 100, 100);
-        directionalLight.shadow.mapSize.width = 1024;
-        directionalLight.shadow.mapSize.height = 1024;
-        directionalLight.shadow.camera.left = -100;
-        directionalLight.shadow.camera.right = 100;
-        directionalLight.shadow.camera.top = 100;
-        directionalLight.shadow.camera.bottom = -100;
-        directionalLight.shadow.camera.near = 0.1;
-        directionalLight.shadow.camera.far = 1000;
-        directionalLight.shadow.radius = 10;
-        directionalLight.shadow.normalBias = 0.027;
-        directionalLight.shadow.bias = -0.004;
+        const directionalLight = new THREE.DirectionalLight(lightColor, intensity);
+        directionalLight.position.set(position?.x || 100, position?.y || 100, position?.z || 100);
+        directionalLight.shadow.mapSize.width = mapWidth;
+        directionalLight.shadow.mapSize.height = mapHeight;
+        directionalLight.shadow.camera.left = left;
+        directionalLight.shadow.camera.right = right;
+        directionalLight.shadow.camera.top = top;
+        directionalLight.shadow.camera.bottom = bottom;
+        directionalLight.shadow.camera.near = near;
+        directionalLight.shadow.camera.far = far;
+        directionalLight.shadow.radius = radius;
+        directionalLight.shadow.normalBias = normalBias;
+        directionalLight.shadow.bias = bias;
         directionalLight.castShadow = true;
-        const helper = new THREE.CameraHelper(directionalLight.shadow.camera)
-        helper.visible = false;
-        this.group.add(helper);
+        const lightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+        lightCameraHelper.visible = helper;
+        this.group.add(lightCameraHelper);
         this.group.add(directionalLight);
         this._instance._renderer.shadowMap.enabled = true;
         this._instance._renderer.shadowMap.type = THREE.PCFSoftShadowMap;

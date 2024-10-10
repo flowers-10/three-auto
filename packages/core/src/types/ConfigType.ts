@@ -72,7 +72,28 @@ export type PostProcessConfig = {
 
 
 export interface ShadowConfig {
-  
+  show?: boolean;
+  width?: number;
+  height?: number;
+  color?: string | number;
+  opacity?: number;
+  light: {
+      helper?: boolean;
+      color?: string | number;
+      intensity?: number;
+      position?: { x: number, y: number, z: number };
+      mapWidth?: number;
+      mapHeight?: number;
+      left?: number;
+      top?: number;
+      bottom?: number;
+      right?: number;
+      near?: number;
+      far?: number;
+      radius?: number;
+      bias?: number;
+      normalBias?: number;
+  }
 }
 
 export interface ConfigType {

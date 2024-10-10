@@ -55,8 +55,8 @@ export class Tooltip extends BaseThree {
             list.push({
                 tag: 'span', style: {
                     display: 'inline-block',
-                    width: '16px',
-                    height: '16px',
+                    width: this.options.textStyle['font-size'],
+                    height: this.options.textStyle['font-size'],
                     'background-color': option.color,
                     'border-radius': '50%',
                     'margin-right': '6px',
@@ -79,7 +79,6 @@ export class Tooltip extends BaseThree {
             }
         }, root)
     }
-
     update() {
         this._instance.onTick(() => {
             const intersects = this._raycaster.onRaycasting();

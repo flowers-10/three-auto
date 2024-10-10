@@ -6,7 +6,30 @@ const instance = new AUTO.ThreeAuto(undefined, {
     type: 'parent',
     id: '_scene'
   },
-  shadow: true,
+  shadow: {
+    show: true,
+    width: 400,
+    height: 400,
+    color: '#000',
+    opacity: 0.1,
+    light: {
+      helper: false,
+      color: '#fff',
+      intensity: 10,
+      position: { x: 30, y: 100, z: 100 },
+      mapWidth: 1024,
+      mapHeight: 1024,
+      left: -100,
+      top: 100,
+      bottom: -100,
+      right: 100,
+      near: 0.1,
+      far: 1000,
+      radius: 10,
+      bias: -0.004,
+      normalBias: 0.027,
+    }
+  },
   series: [
     {
       type: 'pie',
@@ -23,7 +46,7 @@ const instance = new AUTO.ThreeAuto(undefined, {
       selectedOffset: 10,
       height: 20,
       heightMode: 'flat',
-      radius: [50,60],
+      radius: [50, 60],
       gap: 5,
       eventName: 'click',
       label: {
