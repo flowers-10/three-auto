@@ -1,73 +1,76 @@
 import * as AUTO from "./src/index";
 import * as THREE from "three";
+import ZheJiangCity from "../examples/public/ZheJiangCity.json";
 
 const instance = new AUTO.ThreeAuto(undefined, {
-  size: {
-    type: 'parent',
-    id: '_scene'
-  },
+  id: "_scene",
+  name: "Hello three auto",
   shadow: {
     show: true,
-    width: 400,
-    height: 400,
+    width: 1000,
+    height: 1000,
     color: '#000',
     opacity: 0.1,
-    rotation:  { x: -Math.PI / 2, y: 0, z: 0 },
+    rotation:  { x: 0, y: 0, z: 0 },
     light: {
       helper: false,
       color: '#fff',
       intensity: 10,
-      position: { x: 30, y: 100, z: 100 },
+      position: { x: 6, y: 6, z: 10 },
       mapWidth: 1024,
       mapHeight: 1024,
-      left: -100,
-      top: 100,
-      bottom: -100,
-      right: 100,
+      left: -10,
+      top: 10,
+      bottom: -10,
+      right: 10,
       near: 0.1,
-      far: 1000,
+      far: 50,
       radius: 10,
       bias: -0.004,
       normalBias: 0.027,
     }
   },
+  camera: {
+    type: 'PerspectiveCamera',
+    fov: 75,
+    near: 0.1,
+    far: 1000,
+    position: {
+      x: 0,
+      y: 0,
+      z: 20,
+    },
+    lookAt: true,
+    controls: {
+      show: true,
+      enableDamping: true,
+      enablePan: true,
+    },
+  },
+  size: {
+    type: "window",
+  },
+  renderer: {
+    antialias: true,
+    alpha: true,
+    clearAlpha: 1,
+    clearColor: '#fff',
+  },
   series: [
     {
-      type: 'pie',
-      name: 'three-auto-pie',
       shadow: true,
-      data: [
-        { name: '小学', value: 100, color: '#fcc02a' },
-        { name: '中学', value: 200, color: '#f16b91' },
-        { name: '大学', value: 300, color: '#187bac' },
-        { name: '不学', value: 500, color: '#eeeeee' },
-      ],
-      transparent: true,
-      opacity: 1,
-      selectedOffset: 10,
-      height: 20,
-      heightMode: 'flat',
-      radius: [50, 60],
-      gap: 5,
+      name: "轮廓地图",
+      id: 0,
+      type: "map",
+      json: ZheJiangCity,
+      animation: true,
+      animationDuration: 350,
+      animationEasing: 'power1.inOut',
+      animationDelay: 0,
+      selectedOffset: 2.5,
       eventName: 'click',
-      label: {
-        show: true,
-        distance: 3,
-        scale: 1,
-        rotation: {
-          x: 0,
-          y: 0,
-          z: 0,
-        },
-        textStyle: {
-          padding: '6px',
-          'font-size': '16px',
-          color: "#000",
-          bold: true,
-          'font-weight': 400,
-          'font-style': 'normal',
-        },
-      },
+      data: [
+      ],
       tooltip: {
         className: 'three-auto-tooltip',
         background: 'rgba(255,255,255,1)',
@@ -81,24 +84,56 @@ const instance = new AUTO.ThreeAuto(undefined, {
           'font-weight': 400,
           'font-style': 'normal',
         },
-      }
-    }
+      },
+      label: {
+        type: 'css3',
+        show: true,
+        distance: 1.3,
+        rotation: {
+          x: 0,
+          y: 0,
+          z: 0,
+        },
+        textStyle: {
+          padding: '8px',
+          'font-size': '20px',
+          color: "#fff",
+          bold: true,
+          'font-weight': 400,
+          'font-style': 'normal',
+        },
+      },
+      itemStyle: {
+        depth: 1,
+        bevelEnabled: false,
+        bevelSegments: 1,
+        bevelSize: 0,
+        bevelThickness: 0,
+        extrudeFaces: {
+          material: 'MeshNormalMaterial',
+          color: "red",
+          opacity: 1,
+          metalness: 1,
+          roughness: 1,
+        },
+        crossSection: {
+          material: 'MeshNormalMaterial',
+          opacity: 1,
+          color: "red",
+        },
+        lineStyle: {
+          show: true,
+          color: "#A0E5FF",
+          width: 2,
+        },
+       
+      },
+    },
   ],
-  postprocess: {
-    type: 'moebius',
-    options: {
-      shadow: false,
-    }
-  }
+  // postprocess: {
+  //   type: 'moebius',
+  // }
 });
 
-
-(instance.camera.instance as THREE.PerspectiveCamera).fov = 75;
-instance.camera.instance.near = 0.1;
-instance.camera.instance.far = 5000;
-instance.camera.instance.updateProjectionMatrix()
-instance.camera.instance.position.set(100, 100, 100.0);
-instance._renderer.setClearColor("#DDEAFB");
-instance.onTick(() => {
-});
+instance.time.on("tick", () => {});
 
