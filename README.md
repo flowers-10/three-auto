@@ -84,21 +84,23 @@ Thank you to all the people who already contributed to three-auto!
 Give a ⭐️ if this project helped you!
 
 ## Features
-- support proxy config setting (like gui)
-- support customer compose renderer pass ✅
+- support environment
+- support axis helpers 
+- optimize picture sizes
 - support generate low code
 - support webGPU
-- support environment
 - support physic
+- support auto uniforms
+- add edit packages (like gui)
+- add more chart types(Curve\Bar\Pie  ✅\map  ✅\Scatter\Radar\Heatmap\Graph)
+  
+- support customer compose renderer pass ✅
 - support animationMixer ✅ （Skeleton） ✅
-- support helpers
-- support auto uniforms 
 - support CSS2DRenderer ✅ and CSS3DRenderer ✅
-- support tooltip config
-- use Functional Programming (FP) 
+- support tooltip andd tips ✅ 
+- support shadow ✅ 
 - preferences Raycaster  ✅
-- add more chart types(Curve\Bar\Pie\Scatter\Radar\Heatmap\Graph)
-- add documentation packages
-- fix picture sizes
+- add documentation packages  ✅
+
 ***
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
