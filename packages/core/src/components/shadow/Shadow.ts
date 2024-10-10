@@ -13,7 +13,7 @@ export class Shadow extends BaseThree {
         this.createShadow(config)
     }
     createShadow(config: ShadowConfig) {
-        const { width = 400, height = 400, color = '#000', opacity = 0.1, light } = config
+        const { width = 10, height = 10, color = '#000', opacity = 0.1, light,rotation } = config
         const { helper = false,
             color: lightColor = '#fff',
             intensity = 10,
@@ -25,7 +25,7 @@ export class Shadow extends BaseThree {
             bottom = -100,
             right = 100,
             near = 0.1,
-            far = 1000,
+            far = 100,
             radius = 10,
             bias = 0.027,
             normalBias = -0.004 } = light
@@ -36,11 +36,11 @@ export class Shadow extends BaseThree {
         });
         this.environment = new THREE.Mesh(geometry, shadowMaterial);
         this.environment.name = 'environment';
-        this.environment.rotation.x = -Math.PI / 2;
+        this.environment.rotation.set(rotation?.x || 0, rotation?.y || 0, rotation?.z || 0);
         this.environment.receiveShadow = true;
         this.group.add(this.environment);
         const directionalLight = new THREE.DirectionalLight(lightColor, intensity);
-        directionalLight.position.set(position?.x || 100, position?.y || 100, position?.z || 100);
+        directionalLight.position.set(position?.x || 1, position?.y || 1, position?.z || 1);
         directionalLight.shadow.mapSize.width = mapWidth;
         directionalLight.shadow.mapSize.height = mapHeight;
         directionalLight.shadow.camera.left = left;

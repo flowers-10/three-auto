@@ -150,6 +150,8 @@ export class Map3D extends BaseThree {
       material.extrudeFacesMaterial,
     ]);
     mesh.name = elem.properties.name;
+    mesh.castShadow = this.config.shadow || false;
+    mesh.receiveShadow = this.config.shadow || false;
     regionGroup.add(mesh);
   }
   createLine(polygon: any, line: Line2, depth: number) {

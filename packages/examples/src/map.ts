@@ -4,6 +4,31 @@ import ZheJiangCity from '../public/ZheJiangCity.json'
 const instance = new AUTO.ThreeAuto(undefined, {
   id: "_scene",
   name: "Hello three auto",
+  shadow: {
+    show: true,
+    width: 1000,
+    height: 1000,
+    color: '#000',
+    opacity: 0.1,
+    rotation:  { x: 0, y: 0, z: 0 },
+    light: {
+      helper: false,
+      color: '#fff',
+      intensity: 10,
+      position: { x: 6, y: 6, z: 10 },
+      mapWidth: 1024,
+      mapHeight: 1024,
+      left: -10,
+      top: 10,
+      bottom: -10,
+      right: 10,
+      near: 0.1,
+      far: 50,
+      radius: 10,
+      bias: -0.004,
+      normalBias: 0.027,
+    }
+  },
   camera: {
     type: 'PerspectiveCamera',
     fov: 75,
@@ -28,10 +53,11 @@ const instance = new AUTO.ThreeAuto(undefined, {
     antialias: true,
     alpha: true,
     clearAlpha: 1,
-    clearColor: '#000000',
+    clearColor: '#fff',
   },
   series: [
     {
+      shadow: true,
       name: "轮廓地图",
       id: 0,
       type: "map",
@@ -84,15 +110,15 @@ const instance = new AUTO.ThreeAuto(undefined, {
         bevelThickness: 0,
         extrudeFaces: {
           material: 'MeshNormalMaterial',
-          color: "#ccc",
+          color: "red",
           opacity: 1,
           metalness: 1,
           roughness: 1,
         },
         crossSection: {
           material: 'MeshNormalMaterial',
-          opacity: 0.8,
-          color: "#000",
+          opacity: 1,
+          color: "red",
         },
         lineStyle: {
           show: true,

@@ -12,6 +12,7 @@ const instance = new AUTO.ThreeAuto(undefined, {
     height: 400,
     color: '#000',
     opacity: 0.1,
+    rotation:  { x: -Math.PI / 2, y: 0, z: 0 },
     light: {
       helper: false,
       color: '#fff',

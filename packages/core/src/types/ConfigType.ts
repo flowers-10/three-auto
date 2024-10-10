@@ -77,6 +77,7 @@ export interface ShadowConfig {
   height?: number;
   color?: string | number;
   opacity?: number;
+  rotation?:  { x: number, y: number, z: number };
   light: {
       helper?: boolean;
       color?: string | number;
