@@ -53,9 +53,11 @@ export class Shadow extends BaseThree {
         directionalLight.shadow.normalBias = normalBias;
         directionalLight.shadow.bias = bias;
         directionalLight.castShadow = true;
-        const lightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
-        lightCameraHelper.visible = helper;
-        this.group.add(lightCameraHelper);
+        if(helper) {
+            const lightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+            lightCameraHelper.visible = true;
+            this.group.add(lightCameraHelper);
+        }
         this.group.add(directionalLight);
         this._instance._renderer.shadowMap.enabled = true;
         this._instance._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
