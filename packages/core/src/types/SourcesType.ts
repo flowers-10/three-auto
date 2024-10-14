@@ -19,7 +19,7 @@ export type Loaders = {
   cubeTextureLoader: THREE.CubeTextureLoader;
   fontLoader: FontLoader;
   audioLoader: THREE.AudioLoader;
-  rgbELoader: RGBELoader;
+  rgbeLoader: RGBELoader;
   exrLoader: EXRLoader;
 };
 

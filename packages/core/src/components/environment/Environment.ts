@@ -2,6 +2,7 @@ import * as THREE from "three";
 
 import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
+// import { Resources } from "../../base";
 
 export class Environment extends BaseThree {
     cubeCamera: THREE.CubeCamera;
@@ -16,8 +17,8 @@ export class Environment extends BaseThree {
         )
         this.config = config
         this.scene.environment = cubeRenderTarget.texture
-        this.cubeCamera = new THREE.CubeCamera(0.1, 100, cubeRenderTarget)
-        // this.update()
+        this.cubeCamera = new THREE.CubeCamera(0.1, 1000, cubeRenderTarget)
+        this.update()
     }
     update() {
         this._instance.onTick(() => {

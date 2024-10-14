@@ -50,7 +50,7 @@ export class Resources extends EventEmitter {
       cubeTextureLoader: new THREE.CubeTextureLoader(loadingManager),
       fontLoader: new FontLoader(loadingManager),
       audioLoader: new THREE.AudioLoader(loadingManager),
-      rgbELoader: new RGBELoader(loadingManager),
+      rgbeLoader: new RGBELoader(loadingManager),
       exrLoader: new EXRLoader(loadingManager),
     };
   }
@@ -63,7 +63,7 @@ export class Resources extends EventEmitter {
       TEXTURE: this.loaders.textureLoader.load.bind(this.loaders.textureLoader),
       FONT: this.loaders.fontLoader.load.bind(this.loaders.fontLoader),
       MP3: this.loaders.audioLoader.load.bind(this.loaders.audioLoader),
-      HDR: this.loaders.rgbELoader.load.bind(this.loaders.rgbELoader),
+      HDR: this.loaders.rgbeLoader.load.bind(this.loaders.rgbeLoader),
       EXR: this.loaders.exrLoader.load.bind(this.loaders.exrLoader),
     };
 
