@@ -36,17 +36,17 @@ export class Earth extends BaseThree {
             {
                 name: "day",
                 type: "TEXTURE",
-                path: "./earth/day.jpg",
+                path: "https://img.picgo.net/2024/10/14/day899f5289e588690d.jpg",
             },
             {
                 name: "night",
                 type: "TEXTURE",
-                path: "./earth/night.jpg",
+                path: "https://img.picgo.net/2024/10/14/night62454a45f4890e2e.jpg",
             },
             {
                 name: "specularClouds",
                 type: "TEXTURE",
-                path: "./earth/specularClouds.jpg",
+                path: "https://img.picgo.net/2024/10/14/specularClouds19e5807325c90501.jpg",
             },
 
         ]);

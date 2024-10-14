@@ -2,12 +2,10 @@ import * as THREE from "three";
 
 import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
-// import { Resources } from "../../base";
 
 export class Environment extends BaseThree {
     cubeCamera: THREE.CubeCamera;
-    config: any;
-    constructor(config: any, instance: ThreeInstance) {
+    constructor( instance: ThreeInstance) {
         super(instance)
         const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(
             256,
@@ -15,7 +13,6 @@ export class Environment extends BaseThree {
                 type: THREE.FloatType
             }
         )
-        this.config = config
         this.scene.environment = cubeRenderTarget.texture
         this.cubeCamera = new THREE.CubeCamera(0.1, 1000, cubeRenderTarget)
         this.update()

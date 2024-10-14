@@ -9,21 +9,19 @@ const instance = new AUTO.ThreeAuto();
 rgbeLoader.load("/env/rustig_koppie_puresky_1k.hdr", (environmentMap) => {
     environmentMap.colorSpace = THREE.SRGBColorSpace
     environmentMap.mapping = THREE.EquirectangularReflectionMapping
-    instance.scene.environment = environmentMap
-
+    instance.scene.background = environmentMap
     const skybox = new GroundedSkybox(environmentMap, 15, 70)
     skybox.scale.setScalar(50)
     instance.scene.add(skybox)
 });
 
-const env = new AUTO.Environment({}, instance)
-console.log(env.cubeCamera,11);
+const env = new AUTO.Environment(instance)
+console.log(env.cubeCamera);
 
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(4, 32, 16),
     new THREE.MeshStandardMaterial({ roughness: 0, metalness: 1, color: 0xaaaaaa })
 );
-
 
 const O3D = new THREE.Mesh(
     new THREE.TorusGeometry(12, 0.5),
