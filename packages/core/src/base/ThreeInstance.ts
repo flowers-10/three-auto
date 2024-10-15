@@ -12,7 +12,6 @@ import {
   Camera,
 } from "./index";
 import { Light, Series, PostProcess, Tips, Shadow } from "../components";
-import { mergeConfig } from "../shared";
 
 export interface ThreeInstance {
   time: Time;
@@ -21,7 +20,6 @@ export interface ThreeInstance {
   camera: Camera;
   shadow?: Shadow;
   _camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
-  _config: ConfigType;
   _canvas: HTMLCanvasElement;
   renderer: Renderer;
   _renderer: THREE.WebGLRenderer;
@@ -42,7 +40,6 @@ class ThreeAuto implements ThreeInstance {
   public camera: Camera;
   public shadow?: Shadow;
   public _camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
-  public _config: ConfigType;
   public _canvas: HTMLCanvasElement;
   public renderer: Renderer;
   public _renderer: THREE.WebGLRenderer;
@@ -59,9 +56,7 @@ class ThreeAuto implements ThreeInstance {
   public PostProcess = PostProcess;
 
   constructor(canvas?: HTMLCanvasElement, config: Partial<ConfigType> = {}) {
-    this._config = mergeConfig(CONFIG, config)
-    const { id, size, camera, renderer } = this._config
-
+    const { id = '_scene', size = {type: 'window'}, camera = CONFIG.camera, renderer = CONFIG.renderer } = config
     const canvass = document.getElementById(id);
     if (!canvass && !canvas) {
       throw new Error("ThreeAuto:Canvas has already been initialized.");

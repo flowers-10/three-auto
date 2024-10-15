@@ -3,37 +3,9 @@ import * as THREE from "three";
 
 import ChinaJson from '../examples/public/China.json'
 
-const _scene2 = document.getElementById('_scene2') as HTMLCanvasElement
-const instance2 = new AUTO.ThreeAuto(_scene2, {
-  size: {
-    type: 'parent',
-    id: '_scene2'
-  },
-  series: [
-    {
-      name: 'earth',
-      type: 'earth',
-      atmosphereDayColor: '#00aaff',
-      atmosphereTwilightColor: '#ff6600',
-      atmosphereThickness: 1.04,
-      rotation: true,
-      radius: 2,
-      json: ChinaJson,
-    },
-  ],
-  camera: {
-    fov: 75,
-    near: 0.1,
-    far: 1000,
-    position: {
-      z: 3
-    }
-  },
-  renderer: {
-    clearColor: '#000',
-    clearAlpha: 1,
-  }
-});
+
+
+
 
 const _scene = document.getElementById('_scene') as HTMLCanvasElement
 
@@ -136,6 +108,38 @@ instance.camera.instance.position.set(100, 100, 100.0);
 instance._renderer.setClearColor("#DDEAFB");
 instance.onTick(() => {
 });
+
+const _scene2 = document.getElementById('_scene2') as HTMLCanvasElement
+const instance2 = new AUTO.ThreeAuto(_scene2, {
+  size: {
+    type: 'window',
+  },
+  series: [
+    {
+      name: 'earth',
+      type: 'earth',
+      atmosphereDayColor: '#00aaff',
+      atmosphereTwilightColor: '#ff6600',
+      atmosphereThickness: 1.04,
+      rotation: true,
+      radius: 2,
+      json: ChinaJson,
+    },
+  ],
+  camera: {
+    fov: 75,
+    near: 0.1,
+    far: 1000,
+    position: {
+      z: 5,
+    }
+  },
+  renderer: {
+    clearColor: '#000',
+    clearAlpha: 1,
+  }
+});
+
 
 
 

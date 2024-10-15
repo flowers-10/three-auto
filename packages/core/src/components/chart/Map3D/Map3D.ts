@@ -8,7 +8,6 @@ import gsap from "gsap";
 import { ThreeInstance } from "../../../base/ThreeInstance";
 import BaseThree from "../../../base/BaseThree";
 import { SeriesConfig, MaterialTypeOfTHREE, ItemStyle, LabelStyle } from "../../../types";
-import { mergeConfig } from "../../../shared";
 import { htmlRender, Tips } from "../../web";
 import { ITEM_STYLE_CONFIG, MAP_CONFIG } from "../../../config";
 import { Tooltip } from "../../web/Tooltip";
@@ -31,7 +30,10 @@ export class Map3D extends BaseThree {
     this.group = new THREE.Group();
     const { center, scale } = this.createCenter(config.json);
     this.projection = this.getProjection(center, scale);
-    this.config = mergeConfig(MAP_CONFIG, config)
+    this.config = {
+      ...MAP_CONFIG,
+      ...config
+    }
     this.cssRender = new Tips(instance, this.config.label.type)
     this.createMap();
     if (this.config.animation) {
@@ -73,7 +75,7 @@ export class Map3D extends BaseThree {
       itemStyle
     } = this.config;
     this.group.name = name || "Map";
-    const style = mergeConfig(ITEM_STYLE_CONFIG, itemStyle)
+    const style = { ...ITEM_STYLE_CONFIG, ...itemStyle }
     const material = this.createMaterial(style)
 
     json.features.forEach((elem: any) => {

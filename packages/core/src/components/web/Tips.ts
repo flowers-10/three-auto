@@ -29,8 +29,8 @@ export class Tips extends BaseThree {
         this.domElement = this.cssRenderer.domElement;
         this.domElement.style.position = 'absolute';
         this.domElement.style.zIndex = '9999';
-        this.domElement.style.top = this._canvas.getBoundingClientRect().top + 'px'
-        this.domElement.style.left = this._canvas.getBoundingClientRect().left + 'px'
+        this.domElement.style.top = '0px'
+        this.domElement.style.left = '0px'
         this.domElement.style.pointerEvents = 'none';
         (this.canvas.parentNode ||  document.body).appendChild(this.cssRenderer.domElement);
     }
@@ -41,8 +41,8 @@ export class Tips extends BaseThree {
         return tag
     }
     resize() {
-        this.domElement.style.top = this._canvas.getBoundingClientRect().top + 'px'
-        this.domElement.style.left = this._canvas.getBoundingClientRect().left + 'px'
+        this.domElement.style.top = '0px'
+        this.domElement.style.left = '0px'
         this.cssRenderer.setSize(this.sizes?.width, this.sizes.height);
     }
     update() {

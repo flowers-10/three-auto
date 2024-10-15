@@ -71,7 +71,7 @@ export interface SeriesConfig {
   height: number;
   radius: number | [number, number];
   gap: number;
-  animation: true,
+  animation: boolean,
   animationDuration: number,
   animationEasing: string,
   animationDelay: number,
