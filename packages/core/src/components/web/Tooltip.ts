@@ -38,7 +38,7 @@ export class Tooltip extends BaseThree {
                 opacity: 0,
                 ...textStyle
             }
-        }, document.body);
+        }, (this._canvas.parentElement || document.body));
         this.group = group;
         this.options = options;
         this.update();

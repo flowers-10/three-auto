@@ -32,7 +32,7 @@ export class Tips extends BaseThree {
         this.domElement.style.top = this._canvas.getBoundingClientRect().top + 'px'
         this.domElement.style.left = this._canvas.getBoundingClientRect().left + 'px'
         this.domElement.style.pointerEvents = 'none';
-        document.body.appendChild(this.cssRenderer.domElement);
+        (this.canvas.parentNode ||  document.body).appendChild(this.cssRenderer.domElement);
     }
     createTips(root: HTMLElement) {
         const tag = new objectMap[this.type](root);
