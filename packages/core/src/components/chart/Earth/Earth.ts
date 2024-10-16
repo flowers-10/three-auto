@@ -11,6 +11,7 @@ import earthFragmentShader from "./shaders/earth/fragment.glsl";
 import atmosphereVertexShader from "./shaders/atmosphere/vertex.glsl";
 import atmosphereFragmentShader from "./shaders/atmosphere/fragment.glsl";
 import { SeriesConfig } from "../../../types";
+import Geometries from "three/examples/jsm/renderers/common/Geometries.js";
 
 type EarthOptions = {
     atmosphereDayColor: string,
@@ -30,8 +31,11 @@ export class Earth extends BaseThree {
     sunSpherical: THREE.Spherical;
     option: EarthOptions;
     lineGroup: THREE.Group;
+    uniforms: any;
     constructor(option: Partial<SeriesConfig>, instance: ThreeInstance) {
         super(instance);
+        // "https://img.picgo.net/2024/10/16/earth376dcabe9e2b9138.jpg"
+        // "https://img.picgo.net/2024/10/14/day899f5289e588690d.jpg"
         this.resources = new Resources([
             {
                 name: "day",
@@ -67,12 +71,13 @@ export class Earth extends BaseThree {
         const earthGeometry = new THREE.SphereGeometry(Array.isArray(this.option.radius) ? this.option.radius[0] : this.option.radius, 64, 64);
         this.sunDirection = new THREE.Vector3();
         this.sunSpherical = new THREE.Spherical(1, Math.PI * 0.5, 0);
-        this.scene.add(this.group)
+        this.scene.add(this.group);
         this.createEarth(earthGeometry);
         this.createAtmosphere(earthGeometry);
         this.createSun();
         this.createMap();
-        this.update()
+       
+        this.update();
     }
     createEarth(earthGeometry: THREE.SphereGeometry) {
         this.resources.on('ready', () => {
@@ -84,20 +89,28 @@ export class Earth extends BaseThree {
             earthNightTexture.colorSpace = THREE.SRGBColorSpace
             earthNightTexture.anisotropy = 8
             earthSpecularCloudsTexture.anisotropy = 8
+            this.uniforms ={
+                uGlowColor:new THREE.Uniform(new THREE.Color(0x0cd1eb)),
+                uRadius: new THREE.Uniform(this.option.radius),
+                uTime: new THREE.Uniform(1),
+                uDayTexture: new THREE.Uniform(earthDayTexture),
+                uNightTexture: new THREE.Uniform(earthNightTexture),
+                uSpecularCloudsTexture: new THREE.Uniform(earthSpecularCloudsTexture),
+                uSunDirection: new THREE.Uniform(new THREE.Vector3(0, 0, 1)),
+                uAtmosphereDayColor: new THREE.Uniform(new THREE.Color(this.option.atmosphereDayColor)),
+                uAtmosphereTwilightColor: new THREE.Uniform(new THREE.Color(this.option.atmosphereTwilightColor)),
+            }
             const earthMaterial = new THREE.ShaderMaterial({
                 vertexShader: earthVertexShader,
                 fragmentShader: earthFragmentShader,
-                uniforms: {
-                    uDayTexture: new THREE.Uniform(earthDayTexture),
-                    uNightTexture: new THREE.Uniform(earthNightTexture),
-                    uSpecularCloudsTexture: new THREE.Uniform(earthSpecularCloudsTexture),
-                    uSunDirection: new THREE.Uniform(new THREE.Vector3(0, 0, 1)),
-                    uAtmosphereDayColor: new THREE.Uniform(new THREE.Color(this.option.atmosphereDayColor)),
-                    uAtmosphereTwilightColor: new THREE.Uniform(new THREE.Color(this.option.atmosphereTwilightColor)),
-                },
+                uniforms: this.uniforms,
             })
             this.earth = new THREE.Mesh(earthGeometry, earthMaterial)
             this.earth.name = 'earth';
+            this.earth.rotation.y = Math.PI * 0.9;
+            this.earth.rotation.x = Math.PI * 0.2;
+            this.lineGroup.rotation.y =  Math.PI * 0.9;
+            this.lineGroup.rotation.x =  Math.PI * 0.2;
             this.group.add(this.earth);
         })
     }
@@ -158,7 +171,6 @@ export class Earth extends BaseThree {
             );
         }
     }
-
     geoToSpherical(lng: number, lat: number) {
         // 以z轴正方向为起点的水平方向弧度值
         const theta = (90 + lng) * (Math.PI / 180)
@@ -166,12 +178,30 @@ export class Earth extends BaseThree {
         const phi = (90 - lat) * (Math.PI / 180)
         return new THREE.Vector3().setFromSpherical(new THREE.Spherical(Array.isArray(this.option.radius) ? this.option.radius[0] : this.option.radius, phi, theta))
     }
+    createPointMesh( pos:THREE.Vector3, texture:THREE.Texture,planGeometry:THREE.BufferGeometry,radius:number ) {
+		var material = new THREE.MeshBasicMaterial( {
+			map: texture,
+			transparent: true, 
+			depthWrite: false, 
+		} );
+		var mesh = new THREE.Mesh( planGeometry, material );
+		var size = radius * 0.04;
+		mesh.scale.set( size, size, size );
+		mesh.position.set( pos.x, pos.y, pos.z );
+		var coordVec3 = new THREE.Vector3( pos.x, pos.y, pos.z ).normalize();
+		var meshNormal = new THREE.Vector3( 0, 0, 1 );
+		mesh.quaternion.setFromUnitVectors( meshNormal, coordVec3 );
+		return mesh;
+	}
     updateUniforms() {
         // Sun direction
-        this.sunSpherical.set(1, Math.PI * 0.5, 0.1);
+        this.sunSpherical.set(1, Math.PI * 0.5, -1);
         this.sunDirection.setFromSpherical(this.sunSpherical);
         // Uniforms
         if (this.earth && this.lineGroup) {
+            if(this.earth.material){
+                this.uniforms.uTime.value  =  this.uniforms.uTime.value < -this.option.radius ? this.option.radius : this.uniforms.uTime.value - (this.time.delta * (this.option.radius as number) * 0.001)
+            }
             if (this.option.rotation) {
                 this.earth.rotation.y = -this.time.elapsedTime * 0.1;
                 this.lineGroup.rotation.y = -this.time.elapsedTime * 0.1;
@@ -186,7 +216,6 @@ export class Earth extends BaseThree {
     update() {
         this._instance.onTick(() => {
             this.updateUniforms();
-
         })
     }
 }
