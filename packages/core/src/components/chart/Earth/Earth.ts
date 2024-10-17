@@ -11,7 +11,6 @@ import earthFragmentShader from "./shaders/earth/fragment.glsl";
 import atmosphereVertexShader from "./shaders/atmosphere/vertex.glsl";
 import atmosphereFragmentShader from "./shaders/atmosphere/fragment.glsl";
 import { SeriesConfig } from "../../../types";
-import Geometries from "three/examples/jsm/renderers/common/Geometries.js";
 import { Curve, flyArc } from "../Curve";
 
 type EarthOptions = {
