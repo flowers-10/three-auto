@@ -15,16 +15,16 @@ const objectMap = {
 }
 
 export class Tips extends BaseThree {
-    public cssRenderer: CSS2DRenderer | CSS3DRenderer
-    public domElement: HTMLElement
-    public tips: THREE.Group
-    public type: TipsType
-    constructor(instance: ThreeInstance,type: TipsType = 'css2') {
+    public cssRenderer: CSS2DRenderer | CSS3DRenderer;
+    public domElement: HTMLElement;
+    public tips: THREE.Group;
+    public type: TipsType;
+    constructor(instance: ThreeInstance, type: TipsType = 'css2') {
         super(instance);
-        this.type = type
-        this.tips = new THREE.Group()
-        this.scene.add(this.tips)
-        this.cssRenderer = new rendererMap[type]()
+        this.type = type;
+        this.tips = new THREE.Group();
+        this.scene.add(this.tips);
+        this.cssRenderer = new rendererMap[type]();
         this.cssRenderer.setSize(this.sizes?.width, this.sizes.height);
         this.domElement = this.cssRenderer.domElement;
         this.domElement.style.position = 'absolute';
@@ -32,17 +32,17 @@ export class Tips extends BaseThree {
         this.domElement.style.top = '0px'
         this.domElement.style.left = '0px'
         this.domElement.style.pointerEvents = 'none';
-        (this.canvas.parentNode ||  document.body).appendChild(this.cssRenderer.domElement);
+        (this.canvas.parentNode || document.body).appendChild(this.cssRenderer.domElement);
     }
     createTips(root: HTMLElement) {
         const tag = new objectMap[this.type](root);
         root.style.pointerEvents = 'none';
-        this.tips.add(tag)
-        return tag
+        this.tips.add(tag);
+        return tag;
     }
     resize() {
-        this.domElement.style.top = '0px'
-        this.domElement.style.left = '0px'
+        this.domElement.style.top = '0px';
+        this.domElement.style.left = '0px';
         this.cssRenderer.setSize(this.sizes?.width, this.sizes.height);
     }
     update() {

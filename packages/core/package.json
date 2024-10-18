@@ -19,13 +19,15 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "postprocessing": "^6.36.0",
-    "gsap": "^3.12.5",
     "d3-geo": "^3.1.0",
+    "gsap": "^3.12.5",
+    "postprocessing": "^6.36.0",
     "vite-plugin-html": "^3.2.2"
   },
   "peerDependencies": {
     "three": ">=0.154"
   },
-  "dependencies": {}
+  "dependencies": {
+    "lil-gui": "^0.19.2"
+  }
 }
