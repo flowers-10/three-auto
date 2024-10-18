@@ -63,10 +63,12 @@ export type BloomConfigType = {
   threshold: number;
 };
 
-type PostProcessConfigType = 'moebius' | 'bloom';
+type PostProcessConfigType = 'moebius' | 'bloom' | 'toneMapping';
 
 export type PostProcessConfig = {
   type: PostProcessConfigType;
+  moebius?: boolean,
+  bloom?:boolean,
   options?: any
 }
 

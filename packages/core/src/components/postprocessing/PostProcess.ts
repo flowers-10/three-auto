@@ -3,8 +3,7 @@ import BaseThree from "../../base/BaseThree";
 import { PostProcessConfig } from "../../types";
 import { MoebiusPass } from "./MoebiusPass/MoebiusPass";
 import { BloomPass } from "./BloomPass/BloomPass";
-
-
+import { GTToneMapPass } from "./GTToneMapPass/GTToneMapPass";
 
 export class PostProcess extends BaseThree {
   public customPass: any;
@@ -17,7 +16,9 @@ export class PostProcess extends BaseThree {
         break;
       case "bloom":
         this.customPass = new BloomPass(config.options, instance);
-        break
+        break;
+      case "toneMapping":
+        this.customPass = new GTToneMapPass(config.options, instance)
     }
   }
   render() {
