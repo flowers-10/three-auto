@@ -11,7 +11,7 @@ import earthFragmentShader from "./shaders/earth/fragment.glsl";
 import atmosphereVertexShader from "./shaders/atmosphere/vertex.glsl";
 import atmosphereFragmentShader from "./shaders/atmosphere/fragment.glsl";
 import { SeriesConfig } from "../../../types";
-import { Curve, flyArc } from "../Curve";
+import { Curve, flyArc } from "../Curve/Curve";
 
 type EarthOptions = {
     atmosphereDayColor: string,
