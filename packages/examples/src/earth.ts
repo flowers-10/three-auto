@@ -1,7 +1,7 @@
 import * as AUTO from "three-auto";
 import ChinaJson from '../public/China.json'
 
-const instance = new AUTO.ThreeAuto(undefined, {
+new AUTO.ThreeAuto(undefined, {
   size: {
     type: 'window',
   },
