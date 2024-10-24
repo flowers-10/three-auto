@@ -22,8 +22,11 @@ importers:
     specifiers:
       d3-geo: ^3.1.0
       gsap: ^3.12.5
+      lil-gui: ^0.19.2
       postprocessing: ^6.36.0
       vite-plugin-html: ^3.2.2
+    dependencies:
+      lil-gui: 0.19.2
     devDependencies:
       d3-geo: 3.1.1
       gsap: 3.12.5
@@ -2197,6 +2200,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       invert-kv: 1.0.0
+    dev: false
+
+  /lil-gui/0.19.2:
+    resolution: {integrity: sha512-nU8j4ND702ouGfQZoaTN4dfXxacvGOAVK0DtmZBVcUYUAeYQXLQAjAN50igMHiba3T5jZyKEjXZU+Ntm1Qs6ZQ==}
     dev: false
 
   /load-json-file/1.1.0:
