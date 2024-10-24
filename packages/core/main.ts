@@ -10,9 +10,9 @@ const instance = new AUTO.ThreeAuto(undefined, {
     far: 1000,
     near: 0.1,
     position: {
-      x: 10,
-      y: 10,
-      z: 10
+      x: 25,
+      y: 25,
+      z: 25
     }
   }
 });
@@ -23,8 +23,7 @@ const material = new THREE.MeshBasicMaterial({
 });
 const box = new THREE.Mesh(geometry, material);
 instance.scene.add(box);
-new AUTO.Grid(8,instance)
-
+new AUTO.Grid(15,instance)
 
 
 instance.time.on("tick", () => {

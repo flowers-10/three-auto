@@ -9,43 +9,48 @@ import { htmlRender } from "../../web";
 export class Grid extends BaseThree {
     group: THREE.Group;
     constructor(length: number = 8, instance: ThreeInstance) {
-        super(instance)
+        super(instance);
+        const isNegative = length >= 0 ? false : true;
+        length = Math.abs(length);
         const position = length / 2;
+        const loop = Math.min(length, 6);
+        const step = Math.round(length / loop);
+
         this.group = new THREE.Group;
-        instance.scene.add(this.group)
-        const gridXZ = new THREE.GridHelper(length, length, 0xEED5B7, 0xEED5B7);
+        instance.scene.add(this.group);
+        const gridXZ = new THREE.GridHelper(length, loop, 0xEED5B7, 0xEED5B7);
         gridXZ.position.set(position, 0, position);
         this.group.add(gridXZ);
 
-        const gridXY = new THREE.GridHelper(length, length, 0xEED5B7, 0xEED5B7);
+        const gridXY = new THREE.GridHelper(length, loop, 0xEED5B7, 0xEED5B7);
         gridXY.position.set(position, position, 0);
         gridXY.rotation.x = Math.PI / 2;
         this.group.add(gridXY);
 
-        const gridYZ = new THREE.GridHelper(length, length, 0xEED5B7, 0xEED5B7);
+        const gridYZ = new THREE.GridHelper(length, loop, 0xEED5B7, 0xEED5B7);
         gridYZ.position.set(0, position, position);
         gridYZ.rotation.z = Math.PI / 2;
         this.group.add(gridYZ);
 
-        for (let i = 0; i < length + 1; i++) {
-            const labelElement = htmlRender({ tag: 'div', children: i })
+        for (let i = 0; i < loop; ++i) {
+            const labelElement = htmlRender({ tag: 'div', children: isNegative ? -i * step : i * step })
             const tip = instance.createTips(labelElement)
-            tip.position.set(length * 1.05, 0, i)
+            tip.position.set(length * 1.05, 0, i * step)
         }
 
-        for (let i = 0; i < length + 1; i++) {
-            const labelElement = htmlRender({ tag: 'div', children: i })
+        for (let i = 0; i < loop; ++i) {
+            const labelElement = htmlRender({ tag: 'div', children: isNegative ? -i * step : i * step })
             const tip = instance.createTips(labelElement)
-            tip.position.set(i, 0, length * 1.05)
+            tip.position.set(i * step, 0, length * 1.05)
         }
 
-        for (let i = 0; i < length + 1; i++) {
-            const labelElement = htmlRender({ tag: 'div', children: i })
+        for (let i = 0; i < loop; ++i) {
+            const labelElement = htmlRender({ tag: 'div', children: isNegative ? -i * step : i * step })
             const tip = instance.createTips(labelElement)
-            tip.position.set(0, i, length * 1.05)
+            tip.position.set(0, i * step, length * 1.05)
         }
 
-        const linematerial = new LineMaterial({ linewidth: length * 0.2, color: 0x000 });
+        const linematerial = new LineMaterial({ linewidth: Math.min(length * 0.2, 2), color: 0x000 });
         const p1 = new THREE.Vector3(0, 0, length);
         const p2 = new THREE.Vector3(length, 0, length);
         const p3 = new THREE.Vector3(length, 0, 0);
