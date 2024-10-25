@@ -4,17 +4,17 @@ import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 
 const gui = new GUI();
 const instance = new AUTO.ThreeAuto(undefined, {
-    postprocess: {
-        type: 'bloom',
-        options: {
-            luminanceThreshold: 0.1,
-            mipmapBlur: true,
-            intensity: 1,
-            radius: 0.4,
-        },
-    }
+    // postprocess: {
+    //     type: 'bloom',
+    //     options: {
+    //         luminanceThreshold: 0.1,
+    //         mipmapBlur: true,
+    //         intensity: 1,
+    //         radius: 0.4,
+    //     },
+    // }
 });
-instance._camera.position.set(300, 100, 140);
+instance._camera.position.set(0, 0, 300);
 instance._renderer.setClearColor('#000');
 /* models */
 let Loewenfeld:any = null;
@@ -29,8 +29,8 @@ const light = new THREE.PointLight('#fff', 100, 2000);
 const light2 = new THREE.PointLight('#fff', 100, 2000);
 light.position.set(-25, 20, 20);
 light2.position.set(0, 70, 0);
-instance.scene.add(light);
-instance.scene.add(light2);
+// instance.scene.add(light);
+// instance.scene.add(light2);
 
 /* plane */
 const geometry = new THREE.PlaneGeometry(300, 300);
@@ -150,27 +150,26 @@ const O3D = new THREE.Mesh(
 );
 const O4D = O3D.clone();
 O4D.scale.set(2, 2, 1)
-O4D.position.set(0, 70, 100);
+O4D.position.set(0, 0, 50);
 
 /* sphere */
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(20, 32, 16),
     new THREE.MeshStandardMaterial({ roughness: 0, metalness: 1, color: 0xaaaaaa })
 );
-sphere.position.set(0, 70, 100);
+sphere.position.set(0, 0, 50);
 
 /* await */
 source.on('ready', () => {
     Loewenfeld = source.items.get('Loewenfeld').scene;
     Loewenfeld.material = new THREE.MeshStandardMaterial({ color: 0xaaaaaa })
     Loewenfeld.scale.set(0.2, 0.2, 0.2);
-    instance.scene.add(Loewenfeld);
-    plane.position.set(-300, 0, 0);
-    plane.rotateY(Math.PI / 2);
+    // instance.scene.add(Loewenfeld);
+    plane.position.set(0, 0, -300);
     instance.scene.add(plane);
     O3D.rotateX(Math.PI / 2);
     O3D.position.y = 70;
-    instance.scene.add(O3D);
+    // instance.scene.add(O3D);
     instance.scene.add(O4D);
     instance.scene.add(sphere);
 });
@@ -183,6 +182,7 @@ instance.time.on("tick", () => {
     O4D.rotation.x = Math.sin(instance.elapsedTime) * 2;
     sphere.visible = false;
     // Loewenfeld?.visible && (Loewenfeld.visible = false);
+		env.cubeCamera.position.copy(sphere.position);
     env.cubeCamera.update(instance._renderer, instance.scene);
     sphere.visible = true;
     // Loewenfeld?.visible && (Loewenfeld.visible = true);
