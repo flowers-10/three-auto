@@ -12,14 +12,14 @@ export class Environment extends BaseThree {
             {
                 type: THREE.FloatType
             }
-        )
+        );
         this.scene.environment = cubeRenderTarget.texture
-        this.cubeCamera = new THREE.CubeCamera(0.1, 1000, cubeRenderTarget)
-        this.update()
+        this.cubeCamera = new THREE.CubeCamera(0.1, 1000, cubeRenderTarget);
+        this.update();
     }
     update() {
         this._instance.onTick(() => {
-            this.cubeCamera.update(this._instance._renderer, this.scene)
-        })
+            // this.cubeCamera.update(this._instance._renderer, this.scene);
+        });
     }
 }

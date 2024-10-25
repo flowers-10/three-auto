@@ -7,6 +7,7 @@ import { EXRLoader } from "three/addons/loaders/EXRLoader.js";
 import { EventEmitter } from "./EventEmitter";
 import { CustomLoading } from "../components";
 import { SourcesItems, Loaders, LoadingType } from "../types";
+import { OBJLoader } from "three/examples/jsm/Addons.js";
 
 export class Resources extends EventEmitter {
   public sources: SourcesItems[];
@@ -45,6 +46,7 @@ export class Resources extends EventEmitter {
   private createLoaders(loadingManager: THREE.LoadingManager): Loaders {
     const dracoLoader = new DRACOLoader().setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
     return {
+      objLoader: new OBJLoader(loadingManager),
       gltfLoader: new GLTFLoader(loadingManager).setDRACOLoader(dracoLoader),
       textureLoader: new THREE.TextureLoader(loadingManager),
       cubeTextureLoader: new THREE.CubeTextureLoader(loadingManager),
@@ -59,6 +61,7 @@ export class Resources extends EventEmitter {
     const loaderMap: {
       [key: string]: (path: string, callback: (file: any) => void) => void;
     } = {
+      OBJ: this.loaders.gltfLoader.load.bind(this.loaders.objLoader),
       GLTF: this.loaders.gltfLoader.load.bind(this.loaders.gltfLoader),
       TEXTURE: this.loaders.textureLoader.load.bind(this.loaders.textureLoader),
       FONT: this.loaders.fontLoader.load.bind(this.loaders.fontLoader),

@@ -2,9 +2,9 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
-import { EXRLoader, RGBELoader } from "three/examples/jsm/Addons.js";
+import { EXRLoader, OBJLoader, RGBELoader } from "three/examples/jsm/Addons.js";
 
-export type SourcesType = "TEXTURE" | "CUBE_TEXTURE" | "GLTF" | "MP3" | "FONT" | "HDR";
+export type SourcesType = "TEXTURE" | "CUBE_TEXTURE" | "OBJ" | "GLTF" | "MP3" | "FONT" | "HDR";
 
 export type SourcesItems = {
   name: string;
@@ -14,6 +14,7 @@ export type SourcesItems = {
 };
 
 export type Loaders = {
+  objLoader: OBJLoader;
   gltfLoader: GLTFLoader;
   textureLoader: THREE.TextureLoader;
   cubeTextureLoader: THREE.CubeTextureLoader;
