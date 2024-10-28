@@ -4,41 +4,41 @@ import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 
 const gui = new GUI();
 const instance = new AUTO.ThreeAuto(undefined, {
-    postprocess: {
-        type: 'bloom',
-        options: {
-            luminanceThreshold: 0.1,
-            mipmapBlur: false,
-            intensity: 1,
-            radius: 0.1,
-        },
-    }
+	postprocess: {
+		type: 'bloom',
+		options: {
+			luminanceThreshold: 0.1,
+			mipmapBlur: false,
+			intensity: 1,
+			radius: 0.1,
+		},
+	}
 });
 instance._camera.position.set(0, 0, 300);
 instance._renderer.setClearColor('#000');
 /* models */
 let Loewenfeld: any = null;
 const source = new AUTO.Resources([{
-    name: "Loewenfeld",
-    type: "GLTF",
-    path: "./models/sculpture_bust_of_roza_loewenfeld-v1.glb",
-    show: true,
+	name: "Loewenfeld",
+	type: "GLTF",
+	path: "./models/sculpture_bust_of_roza_loewenfeld-v1.glb",
+	show: true,
 },]);
 
 /* plane */
 const geometry = new THREE.PlaneGeometry(300, 300);
 const material = new THREE.ShaderMaterial({
-    transparent: true,
-    uniforms: {
-        iTime: { value: 0 },
-    },
-    vertexShader: `varying vec2 vUv;
+	transparent: true,
+	uniforms: {
+		iTime: { value: 0 },
+	},
+	vertexShader: `varying vec2 vUv;
 
 void main() {
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     vUv = uv;
 }`,
-    fragmentShader: `
+	fragmentShader: `
      uniform vec2 iResolution; // 屏幕分辨率
 uniform float iTime;      // 时间
 varying vec2 vUv;
@@ -129,7 +129,7 @@ void main() {
 
 	col += vec3(0., 0.2 * abs(sin(iTime)), 0.5 + sin(iTime) * 0.2);
 
-	gl_FragColor = vec4(col, 1.0 - t * (0.02 + 0.02 * sin(iTime)));
+	gl_FragColor = vec4(col, clamp(1.0 - t * (0.02 + 0.02 * sin(iTime)),0.,1.));
 }
 
 `
@@ -138,40 +138,40 @@ const plane = new THREE.Mesh(geometry, material);
 
 /* holy torus */
 const O3D = new THREE.Mesh(
-    new THREE.TorusGeometry(40, 1, 64),
-    new THREE.MeshBasicMaterial({ color: '#fff' })
+	new THREE.TorusGeometry(40, 1, 64),
+	new THREE.MeshBasicMaterial({ color: '#fff' })
 );
 O3D.position.set(0, 0, 50);
 
 /* sphere */
 const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(20, 32, 16),
-    new THREE.MeshStandardMaterial({ roughness: 0, metalness: 1, color: 0xaaaaaa })
+	new THREE.SphereGeometry(20, 32, 16),
+	new THREE.MeshStandardMaterial({ roughness: 0, metalness: 1, color: 0xaaaaaa })
 );
 sphere.position.set(0, 0, 50);
 
 /* await */
 source.on('ready', () => {
-    Loewenfeld = source.items.get('Loewenfeld').scene;
-    Loewenfeld.material = new THREE.MeshStandardMaterial({ color: 0xaaaaaa })
-    Loewenfeld.scale.set(0.2, 0.2, 0.2);
-    Loewenfeld.position.set(0, 0, -60);
-    Loewenfeld.rotateY(-Math.PI / 2);
-    instance.scene.add(Loewenfeld);
-    plane.position.set(0, 0, -300);
-    instance.scene.add(plane);
-    instance.scene.add(O3D);
-    instance.scene.add(sphere);
+	Loewenfeld = source.items.get('Loewenfeld').scene;
+	Loewenfeld.material = new THREE.MeshStandardMaterial({ color: 0xaaaaaa })
+	Loewenfeld.scale.set(0.2, 0.2, 0.2);
+	Loewenfeld.position.set(0, 0, -60);
+	Loewenfeld.rotateY(-Math.PI / 2);
+	instance.scene.add(Loewenfeld);
+	plane.position.set(0, 0, -300);
+	instance.scene.add(plane);
+	instance.scene.add(O3D);
+	instance.scene.add(sphere);
 });
 
 const env = new AUTO.Environment(instance)
 gui.add(plane.position, 'x').min(-1000).max(1000).step(10);
 
 instance.time.on("tick", () => {
-    material.uniforms.iTime.value = instance.elapsedTime;
-    // O3D.rotation.x = Math.sin(instance.elapsedTime) * 2;
-    sphere.visible = false;
-    env.cubeCamera.position.copy(sphere.position);
-    env.cubeCamera.update(instance._renderer, instance.scene);
-    sphere.visible = true;
+	material.uniforms.iTime.value = instance.elapsedTime;
+	// O3D.rotation.x = Math.sin(instance.elapsedTime) * 2;
+	sphere.visible = false;
+	env.cubeCamera.position.copy(sphere.position);
+	env.cubeCamera.update(instance._renderer, instance.scene);
+	sphere.visible = true;
 });
