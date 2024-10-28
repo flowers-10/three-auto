@@ -56,7 +56,7 @@ class ThreeAuto implements ThreeInstance {
   public PostProcess = PostProcess;
 
   constructor(canvas?: HTMLCanvasElement, config: Partial<ConfigType> = {}) {
-    const { id = '_scene', size = {type: 'window'}, camera = CONFIG.camera, renderer = CONFIG.renderer } = config
+    const { id = '_scene', size = { type: 'window' }, camera = CONFIG.camera, renderer = CONFIG.renderer } = config
     const canvass = document.getElementById(id);
     if (!canvass && !canvas) {
       throw new Error("ThreeAuto:Canvas has already been initialized.");
@@ -78,7 +78,9 @@ class ThreeAuto implements ThreeInstance {
     this.time.on("tick", () => {
       this.update();
     });
-
+    this.time.on("tickAfter", () => {
+      this.postprocess?.render();
+    });
     if (config.light) {
       this.light = new Light(config.light, this);
     }
@@ -91,8 +93,8 @@ class ThreeAuto implements ThreeInstance {
     if (config.resource && config.resource.length) {
       this.resource = new Resources(config.resource, config.loadingType);
     }
-    if(config.shadow?.show) {
-      this.shadow = new Shadow(config.shadow,this)
+    if (config.shadow?.show) {
+      this.shadow = new Shadow(config.shadow, this)
     }
   }
   protected resize() {
@@ -103,9 +105,9 @@ class ThreeAuto implements ThreeInstance {
   protected update() {
     this.camera.update();
     this.raycaster.update();
-    this.renderer.update();
+    // this.renderer.update();
     this.tips.update();
-    this.postprocess?.render();
+
   }
   public dispose() {
     this.sizes.off("resize");
@@ -146,8 +148,14 @@ class ThreeAuto implements ThreeInstance {
     this.renderer.dispose();
     this.camera.dispose();
   }
+  public onTickBefore(cb: Function) {
+    this.time.on("tickBefore", cb);
+  }
   public onTick(cb: Function) {
     this.time.on("tick", cb);
+  }
+  public onTickAfter(cb: Function) {
+    this.time.on("tickAfter", cb);
   }
   public delayInterval(cb: (e?: number) => void, interval?: number) {
     this.time.delayInterval(cb, interval);
