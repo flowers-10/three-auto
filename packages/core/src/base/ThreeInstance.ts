@@ -105,7 +105,7 @@ class ThreeAuto implements ThreeInstance {
   protected update() {
     this.camera.update();
     this.raycaster.update();
-    // this.renderer.update();
+    this.renderer.update();
     this.tips.update();
 
   }
