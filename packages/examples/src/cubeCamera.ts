@@ -7,9 +7,9 @@ const instance = new AUTO.ThreeAuto(undefined, {
 	postprocess: {
 		type: 'bloom',
 		options: {
-			luminanceThreshold: 0.1,
-			mipmapBlur: false,
-			intensity: 1,
+			luminanceThreshold: 0.01,
+			mipmapBlur: true,
+			intensity: 0.5,
 			radius: 0.1,
 		},
 	}
@@ -28,7 +28,7 @@ const source = new AUTO.Resources([{
 /* plane */
 const geometry = new THREE.PlaneGeometry(300, 300);
 const material = new THREE.ShaderMaterial({
-	transparent: true,
+	transparent: false,
 	uniforms: {
 		iTime: { value: 0 },
 	},
@@ -39,7 +39,6 @@ void main() {
     vUv = uv;
 }`,
 	fragmentShader: `
-     uniform vec2 iResolution; // 屏幕分辨率
 uniform float iTime;      // 时间
 varying vec2 vUv;
 
@@ -144,9 +143,11 @@ const O3D = new THREE.Mesh(
 O3D.position.set(0, 0, 50);
 
 /* sphere */
+const m = 	new THREE.MeshStandardMaterial({ roughness: 0, metalness: 1, color: 0xaaaaaa })
+m.needsUpdate = true
 const sphere = new THREE.Mesh(
 	new THREE.SphereGeometry(20, 32, 16),
-	new THREE.MeshStandardMaterial({ roughness: 0, metalness: 1, color: 0xaaaaaa })
+    m
 );
 sphere.position.set(0, 0, 50);
 
@@ -166,10 +167,12 @@ source.on('ready', () => {
 
 const env = new AUTO.Environment(instance)
 gui.add(plane.position, 'x').min(-1000).max(1000).step(10);
+// AUTO.action(sphere.position,{x:10,y:10,z:10})
 
 instance.time.on("tick", () => {
 	material.uniforms.iTime.value = instance.elapsedTime;
-	// O3D.rotation.x = Math.sin(instance.elapsedTime) * 2;
+	O3D.rotation.x = Math.sin(instance.elapsedTime) * 2;
+    instance._renderer.autoClear = true;
 	sphere.visible = false;
 	env.cubeCamera.position.copy(sphere.position);
 	env.cubeCamera.update(instance._renderer, instance.scene);
