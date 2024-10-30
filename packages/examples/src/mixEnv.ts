@@ -38,18 +38,12 @@ const source = new AUTO.Resources([{
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 instance.scene.add(ambientLight);
 
-const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-directionalLight.position.set(10, 10, 5);
-instance.scene.add(directionalLight);
-
 
 /* sphere */
 const sphere = new THREE.Mesh(
 	new THREE.SphereGeometry(30, 32, 16),
-	new THREE.MeshStandardMaterial({
+	new THREE.MeshPhysicalMaterial({
 		roughness:0,
-		metalness:0.5,
-		color:'ivory',
 	})
 );
 sphere.position.set(0, 0, 50);
