@@ -28,8 +28,7 @@ export class Resources extends EventEmitter {
     this.items = new Map();
     this.toLoad = this.sources.length || 0;
     this.loaded = 0;
-    const customLoadingManager = this.createLoadingManager(loadingManager);
-    this.loaders = this.createLoaders(customLoadingManager);
+    this.loaders = this.createLoaders(loadingManager ? this.createLoadingManager(loadingManager) : undefined);
     this.startLoading();
   }
 
@@ -43,7 +42,7 @@ export class Resources extends EventEmitter {
         ).loadingManager;
   }
 
-  private createLoaders(loadingManager: THREE.LoadingManager): Loaders {
+  private createLoaders(loadingManager?: THREE.LoadingManager | undefined): Loaders {
     const dracoLoader = new DRACOLoader().setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
     return {
       objLoader: new OBJLoader(loadingManager),
