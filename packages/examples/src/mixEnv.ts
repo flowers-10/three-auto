@@ -95,9 +95,6 @@ source.on('ready', () => {
 	quad = new FullScreenQuad(envMaterial)
 
 	AUTO.action(instance._camera.position, { x: 0, y: 0, z: 300 })
-	envMaterial.uniforms.uWeight.value = 1
-	envMaterial.uniforms.uWeight.value = 0
-	envMaterial.uniforms.uIntensity.value = 0
 	gui.add(envMaterial.uniforms.uWeight, 'value').max(1).min(0).name('uWeight')
 	gui.add(envMaterial.uniforms.uIntensity, 'value').max(1).min(0).name('uIntensity')
 
