@@ -4,9 +4,10 @@ import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 import dynamicEnvVertexShader from "../shader/DynamicEnv/vert.glsl";
 import dynamicEnvFragmentShader from "../shader/DynamicEnv/frag.glsl";
 import { FullScreenQuad } from "three/examples/jsm/Addons.js";
+import { PMREMGenerator } from 'three';
 
 const gui = new GUI();
-const instance = new AUTO.ThreeAuto(undefined, 
+const instance = new AUTO.ThreeAuto(undefined,
 	// {
 	// 	postprocess: {
 	// 		type: 'bloom',
@@ -22,7 +23,7 @@ const instance = new AUTO.ThreeAuto(undefined,
 instance._camera.position.set(0, 0, 600);
 instance._renderer.setClearColor('#000');
 /* models */
-const source = new AUTO.Resources([ {
+const source = new AUTO.Resources([{
 	name: "envMapNight",
 	type: "HDR",
 	path: "/env/t_env_night.hdr",
@@ -34,12 +35,33 @@ const source = new AUTO.Resources([ {
 	show: true,
 }]);
 
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+instance.scene.add(ambientLight);
+
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+directionalLight.position.set(10, 10, 5);
+instance.scene.add(directionalLight);
+
+
 /* sphere */
 const sphere = new THREE.Mesh(
 	new THREE.SphereGeometry(30, 32, 16),
-	new THREE.MeshBasicMaterial({ color: '#E89ABE' })
+	new THREE.MeshStandardMaterial({
+		roughness:0,
+		metalness:0.5,
+		color:'ivory',
+	})
 );
 sphere.position.set(0, 0, 50);
+
+
+const getEnv = (hdr: any) => {
+	const pmremGenerator = new PMREMGenerator(instance._renderer);
+	pmremGenerator.compileEquirectangularShader();
+	const envMap = pmremGenerator.fromEquirectangular(hdr).texture;
+	pmremGenerator.dispose();
+	return envMap;
+}
 
 /* await */
 let envMapLight: any;
@@ -49,8 +71,9 @@ let envMaterial: THREE.ShaderMaterial;
 let quad: FullScreenQuad;
 source.on('ready', () => {
 	instance.scene.add(sphere);
-	envMapNight = source.items.get('envMapNight')
-	envMapLight = source.items.get('envMapLight')
+	envMapNight = getEnv(source.items.get('envMapNight'))
+	envMapLight = getEnv(source.items.get('envMapLight'))
+
 	fbo = new THREE.WebGLRenderTarget(envMapNight.source.data.width, envMapLight.source.data.height, {
 		minFilter: THREE.LinearFilter,
 		magFilter: THREE.LinearFilter,
@@ -77,12 +100,14 @@ source.on('ready', () => {
 	});
 	quad = new FullScreenQuad(envMaterial)
 
-	AUTO.action(instance._camera.position,{x:0,y:0,z:300})
+	AUTO.action(instance._camera.position, { x: 0, y: 0, z: 300 })
 	envMaterial.uniforms.uWeight.value = 1
 	envMaterial.uniforms.uWeight.value = 0
 	envMaterial.uniforms.uIntensity.value = 0
-	gui.add(envMaterial.uniforms.uWeight,'value').max(1).min(0).name('uWeight')
-	gui.add(envMaterial.uniforms.uIntensity,'value').max(1).min(0).name('uIntensity')
+	gui.add(envMaterial.uniforms.uWeight, 'value').max(1).min(0).name('uWeight')
+	gui.add(envMaterial.uniforms.uIntensity, 'value').max(1).min(0).name('uIntensity')
+
+	instance.scene.environment = fbo.texture
 
 });
 
