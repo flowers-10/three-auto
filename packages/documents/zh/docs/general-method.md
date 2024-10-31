@@ -7,6 +7,7 @@ ThreeAuto 应用实例[ThreeInstance](https://github.com/flowers-10/three-auto/b
 
 销毁实例，实例销毁后无法再被使用。
 
+
 ## instance.onTick
 
 用来控住整个循环，核心是`requestAnimationFrame`的递归调用，来保证渲染器每一帧都能触发。
@@ -26,8 +27,10 @@ instance.onTick(() => {
   console.log("每一帧都会触发");
 });
 ```
-
-
+## instance.onTickBefore
+和`onTick`使用方法一样，它会在onTick前触发。
+## instance.onTickAfter
+和`onTick`使用方法一样，它会在onTick后触发。
 ## instance.delayInterval
 
 `Function`
@@ -178,3 +181,13 @@ sceneDom.onclick = function () {
   }
 };
 ```
+
+## instance.createTips
+`Function`
+
+`createTips`方法可以创建一个提示卡。
+
+```typescript
+createTips(root: HTMLElement)
+```
+

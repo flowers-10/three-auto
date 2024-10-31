@@ -49,7 +49,6 @@ export const zh = defineConfig({
                     collapsed: false,
                     base: '/docs/components/',
                     items: [
-                        { text: 'Series 系列', link: 'series' },
                         { text: 'Animation 动画', link: 'animation' },
                         { text: 'Charts 图表', link: 'charts' },
                         { text: 'Lights 灯光', link: 'lights' },
