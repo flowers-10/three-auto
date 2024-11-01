@@ -47,32 +47,32 @@ const instance = new AUTO.ThreeAuto(undefined, {
         z: 50,
       },
     },
-    // {
-    //   type: "directional",
-    //   color: "#C8A2CB",
-    //   intensity: 1,
-    //   distance: 3000,
-    //   helper: true,
-    //   helperSize: 5,
-    //   lightName: "directional-light",
-    //   castShadow: true,
-    //   shadow: {
-    //     mapSizeWidth: 1024,
-    //     mapSizeHeight: 1024,
-    //     cameraLeft: -100,
-    //     cameraTop: 100,
-    //     cameraBottom: -100,
-    //     cameraRight: 100,
-    //     cameraNear: 0.1,
-    //     cameraFar: 1000,
-    //     radius: 100,
-    //     bias: -0.004,
-    //     normalBias: 0.027
-    //   },
-    //   position: {
-    //     x: 50, y: 100, z: 0,
-    //   }
-    // },
+    {
+      type: "directional",
+      color: "#C8A2CB",
+      intensity: 1,
+      distance: 3000,
+      helper: true,
+      helperSize: 5,
+      lightName: "directional-light",
+      castShadow: true,
+      shadow: {
+        mapSizeWidth: 1024,
+        mapSizeHeight: 1024,
+        cameraLeft: -100,
+        cameraTop: 100,
+        cameraBottom: -100,
+        cameraRight: 100,
+        cameraNear: 0.1,
+        cameraFar: 1000,
+        radius: 100,
+        bias: -0.004,
+        normalBias: 0.027
+      },
+      position: {
+        x: 0, y: 100, z: 50,
+      }
+    },
     {
       type: "ambient",
       color: "#3e99e5",
