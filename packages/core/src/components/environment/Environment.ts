@@ -5,7 +5,7 @@ import BaseThree from "../../base/BaseThree";
 
 export class Environment extends BaseThree {
     cubeCamera: THREE.CubeCamera;
-    constructor( instance: ThreeInstance) {
+    constructor(instance: ThreeInstance) {
         super(instance)
         const cubeRenderTarget = new THREE.WebGLCubeRenderTarget(
             256,
@@ -15,11 +15,8 @@ export class Environment extends BaseThree {
         );
         this.scene.environment = cubeRenderTarget.texture
         this.cubeCamera = new THREE.CubeCamera(0.1, 1000, cubeRenderTarget);
-        this.update();
     }
     update() {
-        this._instance.onTick(() => {
-            // this.cubeCamera.update(this._instance._renderer, this.scene);
-        });
+        this.cubeCamera.update(this._instance._renderer, this.scene);
     }
 }
