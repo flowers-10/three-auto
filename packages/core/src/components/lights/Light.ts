@@ -52,10 +52,10 @@ export class Light extends BaseThree {
             break;
           case "directional":
             light = new THREE.DirectionalLight(color, intensity);
-            if (helper) {
-              lightHelper = new THREE.DirectionalLightHelper(light, helperSize);
-              lightCameraHelper = new THREE.CameraHelper(light.shadow.camera);
-            }
+            // if (helper) {
+            //   lightHelper = new THREE.DirectionalLightHelper(light, helperSize);
+            //   lightCameraHelper = new THREE.CameraHelper(light.shadow.camera);
+            // }
             break;
           case "spot":
             light = new THREE.SpotLight(
@@ -75,25 +75,30 @@ export class Light extends BaseThree {
           default:
             break;
         }
+
+        if (shadow) {
+          light.shadow.mapSize.width = shadow.mapSizeWidth;
+          light.shadow.mapSize.height = shadow.mapSizeHeight;
+          light.shadow.camera.left = shadow.cameraLeft;
+          light.shadow.camera.right = shadow.cameraRight;
+          light.shadow.camera.top = shadow.cameraTop;
+          light.shadow.camera.bottom = shadow.cameraBottom;
+          light.shadow.camera.near = shadow.cameraNear;
+          light.shadow.camera.far = shadow.cameraFar;
+          light.shadow.radius = shadow.radius;
+          light.shadow.normalBias = shadow.normalBias;
+          light.shadow.bias = shadow.bias;
+          if (helper) {
+            lightHelper = new THREE.DirectionalLightHelper(light, helperSize);
+            lightCameraHelper = new THREE.CameraHelper(light.shadow.camera);
+          }
+        }
         light.position?.set(position?.x, position?.y, position?.z);
         target ? light.add(light.target) : null;
         castShadow ? light.castShadow = castShadow : null;
         light ? this.group.add(light) : null;
         lightHelper ? this.group.add(lightHelper) : null;
         lightCameraHelper ? this.group.add(lightCameraHelper) : null;
-        if (shadow) {
-              light.shadow.mapSize.width = shadow.mapSizeWidth;
-              light.shadow.mapSize.height = shadow.mapSizeHeight;
-              light.shadow.camera.left = shadow.cameraLeft;
-              light.shadow.camera.right = shadow.cameraRight;
-              light.shadow.camera.top = shadow.cameraTop;
-              light.shadow.camera.bottom = shadow.cameraBottom;
-              light.shadow.camera.near = shadow.cameraNear;
-              light.shadow.camera.far = shadow.cameraFar;
-              light.shadow.radius = shadow.radius;
-              light.shadow.normalBias = shadow.normalBias;
-              light.shadow.bias = shadow.bias;
-            }
         light = null;
         lightHelper = null;
         lightCameraHelper = null;
