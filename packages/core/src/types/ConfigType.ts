@@ -1,8 +1,9 @@
+import * as THREE from "three";
 import { SeriesConfig } from "./SeriesType";
 import { LoadingType, SourcesItems } from "./SourcesType";
 
 type SizeType = "parent" | "window";
-type LightType = "point" | "ambient" | "hemisphere" | "spot";
+type LightType = "point" | "ambient" | "hemisphere" | "spot" | 'directional';
 type CameraType = "PerspectiveCamera" | "OrthographicCamera" | null | undefined;
 
 type PositionType = {
@@ -11,7 +12,23 @@ type PositionType = {
   z?: number;
 };
 
+export type LightShadowConfig = {
+  mapSizeWidth: number;
+  mapSizeHeight: number;
+  cameraLeft: number;
+  cameraRight: number;
+  cameraTop: number;
+  cameraBottom: number;
+  cameraNear: number;
+  cameraFar: number;
+  radius: number;
+  normalBias: number;
+  bias: number;
+}
 export type LightItems = {
+  castShadow?: boolean;
+  shadow?: Partial<LightShadowConfig>;
+  target?: THREE.Object3D;
   type: LightType;
   color: string;
   intensity: number;
@@ -68,7 +85,7 @@ type PostProcessConfigType = 'moebius' | 'bloom' | 'toneMapping';
 export type PostProcessConfig = {
   type: PostProcessConfigType;
   moebius?: boolean,
-  bloom?:boolean,
+  bloom?: boolean,
   options?: any
 }
 
@@ -79,24 +96,8 @@ export interface ShadowConfig {
   height?: number;
   color?: string | number;
   opacity?: number;
-  rotation?:  { x: number, y: number, z: number };
-  light: {
-      helper?: boolean;
-      color?: string | number;
-      intensity?: number;
-      position?: { x: number, y: number, z: number };
-      mapWidth?: number;
-      mapHeight?: number;
-      left?: number;
-      top?: number;
-      bottom?: number;
-      right?: number;
-      near?: number;
-      far?: number;
-      radius?: number;
-      bias?: number;
-      normalBias?: number;
-  }
+  rotation?: { x: number, y: number, z: number };
+  position?: { x: number, y: number, z: number };
 }
 
 export interface ConfigType {

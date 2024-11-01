@@ -4,19 +4,19 @@ import BaseThree from "../../base/BaseThree";
 import { LightItems } from "../../types/ConfigType";
 
 export class Light extends BaseThree {
-  private light;
+  public group;
   constructor(config: LightItems[], instance: ThreeInstance) {
     super(instance);
-    this.light = new THREE.Group();
-    this.light.name = "light-group";
+    this.group = new THREE.Group();
+    this.group.name = "light-group";
     this.setLight(config);
   }
-  // 设置灯光
   setLight(config: LightItems[]) {
     if (Array.isArray(config) && !config.length)
       return console.error("ThreeAuto.Lights:Please add light configuration");
     let light: any;
     let lightHelper: any;
+    let lightCameraHelper: any;
     config.forEach(
       ({
         color,
@@ -28,8 +28,11 @@ export class Light extends BaseThree {
         penumbra,
         position,
         decay,
-        helper,
-        helperSize = 0.5
+        target,
+        helper = false,
+        shadow,
+        castShadow = false,
+        helperSize = 0.5,
       }) => {
         switch (type) {
           case "point":
@@ -47,6 +50,13 @@ export class Light extends BaseThree {
               lightHelper = new THREE.HemisphereLightHelper(light, helperSize);
             }
             break;
+          case "directional":
+            light = new THREE.DirectionalLight(color, intensity);
+            if (helper) {
+              lightHelper = new THREE.DirectionalLightHelper(light, helperSize);
+              lightCameraHelper = new THREE.CameraHelper(light.shadow.camera);
+            }
+            break;
           case "spot":
             light = new THREE.SpotLight(
               color,
@@ -58,19 +68,37 @@ export class Light extends BaseThree {
             );
             if (helper) {
               lightHelper = new THREE.SpotLightHelper(light, helperSize);
+              lightCameraHelper = new THREE.CameraHelper(light.shadow.camera);
             }
+            this.scene.add(light.target);
             break;
           default:
             break;
         }
-        light.position.set(position?.x, position?.y, position?.z);
-        if (light.isSpotLight) {
-          this.light.add(light.target);
-        }
-        light ? this.light.add(light) : null;
-        lightHelper ? this.light.add(lightHelper) : null;
+        light.position?.set(position?.x, position?.y, position?.z);
+        target ? light.add(light.target) : null;
+        castShadow ? light.castShadow = castShadow : null;
+        light ? this.group.add(light) : null;
+        lightHelper ? this.group.add(lightHelper) : null;
+        lightCameraHelper ? this.group.add(lightCameraHelper) : null;
+        if (shadow) {
+              light.shadow.mapSize.width = shadow.mapSizeWidth;
+              light.shadow.mapSize.height = shadow.mapSizeHeight;
+              light.shadow.camera.left = shadow.cameraLeft;
+              light.shadow.camera.right = shadow.cameraRight;
+              light.shadow.camera.top = shadow.cameraTop;
+              light.shadow.camera.bottom = shadow.cameraBottom;
+              light.shadow.camera.near = shadow.cameraNear;
+              light.shadow.camera.far = shadow.cameraFar;
+              light.shadow.radius = shadow.radius;
+              light.shadow.normalBias = shadow.normalBias;
+              light.shadow.bias = shadow.bias;
+            }
+        light = null;
+        lightHelper = null;
+        lightCameraHelper = null;
       }
     );
-    this.scene.add(this.light);
+    this.scene.add(this.group);
   }
 }

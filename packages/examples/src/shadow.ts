@@ -22,23 +22,6 @@ const instance = new AUTO.ThreeAuto(undefined, {
         color: '#000',
         opacity: 0.1,
         rotation: { x: -Math.PI / 2, y: 0, z: 0 },
-        light: {
-            helper: false,
-            color: '#fff',
-            intensity: 10,
-            position: { x: 30, y: 100, z: 100 },
-            mapWidth: 1024,
-            mapHeight: 1024,
-            left: -100,
-            top: 100,
-            bottom: -100,
-            right: 100,
-            near: 0.1,
-            far: 1000,
-            radius: 10,
-            bias: -0.004,
-            normalBias: 0.027,
-        }
     },
     
 });

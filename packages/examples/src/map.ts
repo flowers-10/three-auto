@@ -11,23 +11,6 @@ const instance = new AUTO.ThreeAuto(undefined, {
     color: '#000',
     opacity: 0.1,
     rotation:  { x: 0, y: 0, z: 0 },
-    light: {
-      helper: false,
-      color: '#fff',
-      intensity: 10,
-      position: { x: 6, y: 6, z: 10 },
-      mapWidth: 1024,
-      mapHeight: 1024,
-      left: -10,
-      top: 10,
-      bottom: -10,
-      right: 10,
-      near: 0.1,
-      far: 50,
-      radius: 10,
-      bias: -0.004,
-      normalBias: 0.027,
-    }
   },
   camera: {
     type: 'PerspectiveCamera',

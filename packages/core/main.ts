@@ -2,30 +2,94 @@ import * as AUTO from "./src/index";
 import * as THREE from "three";
 
 
-const instance = new AUTO.ThreeAuto(undefined, {
-  camera: {
-    fov: 70,
-    far: 1000,
-    near: 0.1,
-    position: {
-      x: 25,
-      y: 25,
-      z: 25
-    }
-  }
-});
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({
+const geometry = new THREE.BoxGeometry(100, 10, 100);
+const material = new THREE.MeshPhongMaterial({
   color: "#E89ABE",
   transparent: true,
 });
 const box = new THREE.Mesh(geometry, material);
-instance.scene.add(box);
-new AUTO.Grid(15,instance)
+box.castShadow = true;
+box.position.set(0, 30, 0);
 
+const instance = new AUTO.ThreeAuto(undefined, {
+  camera: {
+    fov: 75,
+    near: 0.1,
+    far: 1000,
+    position: {
+      x: 50, y: 80, z: 50
+    }
+  },
+  renderer: {
+    clearColor: '#ccc'
+  },
+  shadow: {
+    show: true,
+    width: 1000,
+    height: 1000,
+    color: '#000',
+    opacity: 0.1,
+    rotation: { x: -Math.PI / 2, y: 0, z: 0 },
+    position: { x: 0, y: 0, z: 0 },
+  },
+  light: [
+    {
+      type: "point",
+      color: "#3e99e5",
+      intensity: 1000,
+      distance: 1000,
+      helper: true,
+      helperSize: 5,
+      lightName: "point-light",
+      position: {
+        x: 0,
+        y: 50,
+        z: 50,
+      },
+    },
+    // {
+    //   type: "directional",
+    //   color: "#C8A2CB",
+    //   intensity: 1,
+    //   distance: 3000,
+    //   helper: true,
+    //   helperSize: 5,
+    //   lightName: "directional-light",
+    //   castShadow: true,
+    //   shadow: {
+    //     mapSizeWidth: 1024,
+    //     mapSizeHeight: 1024,
+    //     cameraLeft: -100,
+    //     cameraTop: 100,
+    //     cameraBottom: -100,
+    //     cameraRight: 100,
+    //     cameraNear: 0.1,
+    //     cameraFar: 1000,
+    //     radius: 100,
+    //     bias: -0.004,
+    //     normalBias: 0.027
+    //   },
+    //   position: {
+    //     x: 50, y: 100, z: 0,
+    //   }
+    // },
+    {
+      type: "ambient",
+      color: "#3e99e5",
+      intensity: 1,
+      lightName: "ambient-light",
+    },
+  ],
+
+});
+instance.scene.add(box);
 
 instance.time.on("tick", () => {
-  // box.rotation.y = instance.time.elapsedTime;
+  box.rotation.y = instance.time.elapsedTime;
 });
+
+
+
+
 
 
