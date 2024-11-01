@@ -19,16 +19,19 @@ ThreeAuto的构造函数已经内置了Series配置项。你不用主动声明�
 ### 构造函数（Constructor）
 此构造函数创建一个新的Earth。
 
-![地球](https://private-user-images.githubusercontent.com/94791181/379655344-7aedc460-7e95-44a2-a954-a0fa6a9555d6.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzAzNTc3NzUsIm5iZiI6MTczMDM1NzQ3NSwicGF0aCI6Ii85NDc5MTE4MS8zNzk2NTUzNDQtN2FlZGM0NjAtN2U5NS00NGEyLWE5NTQtYTBmYTZhOTU1NWQ2LmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDEwMzElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQxMDMxVDA2NTExNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTc3OTM3YmJmMTk4ZmY0ZDJjZmEyMjc1Y2M0NDE5MzY3MDg2NDk5MTJlNjYyMDdkOTZjNTliOGZmYmVkMWYwNDEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.c91MJ7J_GDcbRwmEJPXRsiczlRnjYj8eR6EhUWobUSw)
+[![地球](https://img.picgo.net/2024/11/01/379655344-7aedc460-7e95-44a2-a954-a0fa6a9555d6e0b291fee4c42a4c.gif)](https://github.com/flowers-10/three-auto/blob/main/packages/examples/src/earth.ts)
+
+:::tip 注意
+点击图片跳转案例！ ⬆️
+
+配置项详情请见配置项手册。
+:::
 
 ```typescript
 Earth(option: Partial<SeriesConfig>, instance: ThreeInstance)；
 ```
 构造函数接收两个参数，`option`和`ThreeInstance`实例。
 
-:::tip 注意
-配置项详情请见配置项手册。
-:::
 
 ### 属性（attribute）
 
@@ -47,16 +50,19 @@ Earth(option: Partial<SeriesConfig>, instance: ThreeInstance)；
 ### 构造函数（Constructor）
 此构造函数创建一个新的Pie。
 
-![饼图](https://private-user-images.githubusercontent.com/94791181/372012510-cf097a5f-8f7e-4861-8152-0e18bb88d039.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzAzNjAwNzYsIm5iZiI6MTczMDM1OTc3NiwicGF0aCI6Ii85NDc5MTE4MS8zNzIwMTI1MTAtY2YwOTdhNWYtOGY3ZS00ODYxLTgxNTItMGUxOGJiODhkMDM5LmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDEwMzElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQxMDMxVDA3MjkzNlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTc2ODY4NTAyMDVkZDFmYTljZGI2MTMxZjExYWZkYTMyMzEzMjRhMDk0NjE3NDEzY2Y0MmQwYWI2NzczMmEwNzcmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.EzqopTdB3R5IzuPMvXm8sDtyi_8_UCCy96LQ5U4Zuec)
+[![饼图](https://img.picgo.net/2024/11/01/372012510-cf097a5f-8f7e-4861-8152-0e18bb88d03995837a94f48e408e.gif)](https://github.com/flowers-10/three-auto/blob/main/packages/examples/src/pie.ts)
+
+:::tip 注意
+点击图片跳转案例！ ⬆️
+
+配置项详情请见配置项手册。
+
+:::
 
 ```typescript
 Pie(option: Partial<SeriesConfig>, instance: ThreeInstance)；
 ```
 构造函数接收两个参数，`option`和`ThreeInstance`实例。
-
-:::tip 注意
-配置项详情请见配置项手册。
-:::
 
 ### 属性（attribute）
 
@@ -70,16 +76,20 @@ Pie(option: Partial<SeriesConfig>, instance: ThreeInstance)；
 ### 构造函数（Constructor）
 此构造函数创建一个新的Map3D。
 
-![地图](https://private-user-images.githubusercontent.com/94791181/381869862-b0dfceaa-2246-4c24-98ec-20bfc9ca21c1.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzAzNjE1NzMsIm5iZiI6MTczMDM2MTI3MywicGF0aCI6Ii85NDc5MTE4MS8zODE4Njk4NjItYjBkZmNlYWEtMjI0Ni00YzI0LTk4ZWMtMjBiZmM5Y2EyMWMxLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDEwMzElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQxMDMxVDA3NTQzM1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTU5MWU2ODE2MDY2MzUyYjVmZDJmMzdmY2RiN2Y1ODcyNzJmZjFkZDk4ZmZhY2M3MDQ3OTQ3NTQ5MjRkNTgwNDcmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.6eNJ0HctRAjfvmvZKYDBAD27GH_hBYjNsc0Y19t5BpA)
+[![地图](https://img.picgo.net/2024/11/01/tutieshi_640x409_8s6694fd00449ce88b.gif)](https://github.com/flowers-10/three-auto/blob/main/packages/examples/src/pie.ts)
+
+:::tip 注意
+点击图片跳转案例！ ⬆️
+
+配置项详情请见配置项手册。
+
+:::
 
 ```typescript
 Map3D(option: Partial<SeriesConfig>, instance: ThreeInstance)；
 ```
 构造函数接收两个参数，`option`和`ThreeInstance`实例。
 
-:::tip 注意
-配置项详情请见配置项手册。
-:::
 
 ### 属性（attribute）
 
@@ -93,7 +103,12 @@ Map3D(option: Partial<SeriesConfig>, instance: ThreeInstance)；
 ### 构造函数（Constructor）
 此构造函数创建一个新的Grid。
 
-![网格](https://private-user-images.githubusercontent.com/94791181/379655119-12715265-cc6b-4349-9d2b-29d9009fd840.gif?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzAzNjE2MTksIm5iZiI6MTczMDM2MTMxOSwicGF0aCI6Ii85NDc5MTE4MS8zNzk2NTUxMTktMTI3MTUyNjUtY2M2Yi00MzQ5LTlkMmItMjlkOTAwOWZkODQwLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDEwMzElMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQxMDMxVDA3NTUxOVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTEwMTIxZDcwZjhjYzdjYWRkZTFjYmRlMjY4NTVjY2MzNGM3NDVkYTI5MzBmMTQxMDIxNTFjYzg1YTc1YTJiNzcmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.agaizdl4pwQpeVn02dyezM4m9wYxbx8kVbdsI7dqlBY)
+[![网格](https://img.picgo.net/2024/11/01/379655119-12715265-cc6b-4349-9d2b-29d9009fd8401964a9cfe904a504.gif)](https://github.com/flowers-10/three-auto/blob/main/packages/examples/src/grid.ts)
+
+:::tip 注意
+点击图片跳转案例！ ⬆️
+:::
+
 
 ```typescript
 Grid(length: number, instance: ThreeInstance)；

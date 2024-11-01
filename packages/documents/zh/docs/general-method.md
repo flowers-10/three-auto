@@ -191,3 +191,5 @@ sceneDom.onclick = function () {
 createTips(root: HTMLElement)
 ```
 
+[![提示卡](https://img.picgo.net/2024/11/01/365609256-c8c73a0a-23e9-4379-b8ce-ce5a477d8e8bbf343dbaf865649a.gif)](https://github.com/flowers-10/three-auto/blob/main/packages/examples/src/tip.ts)
+
