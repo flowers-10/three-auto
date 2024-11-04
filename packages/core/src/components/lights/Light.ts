@@ -42,7 +42,7 @@ export class Light extends BaseThree {
             }
             break;
           case "ambient":
-            light = new THREE.AmbientLight(color, intensity); // 环境光
+            light = new THREE.AmbientLight(color, intensity); 
             break;
           case "hemisphere":
             light = new THREE.HemisphereLight(color, groundColor, intensity);
@@ -52,10 +52,6 @@ export class Light extends BaseThree {
             break;
           case "directional":
             light = new THREE.DirectionalLight(color, intensity);
-            // if (helper) {
-            //   lightHelper = new THREE.DirectionalLightHelper(light, helperSize);
-            //   lightCameraHelper = new THREE.CameraHelper(light.shadow.camera);
-            // }
             break;
           case "spot":
             light = new THREE.SpotLight(
