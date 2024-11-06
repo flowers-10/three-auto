@@ -24,7 +24,7 @@ npm install three-auto
 ```sh
 yarn add three-auto
 ```
-## Useing
+## Using
 Creating an auto-three instance, you need a canvas DOM root node or a virtual DOM node (supported by frameworks like Vue and React) to render the Three.js scene.
 
 `html`
