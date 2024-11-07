@@ -1,3 +1,6 @@
+---
+outline: deep
+---
 # 环境贴图 (Environment)
 
 `Environment` 类用于在 Three.js 场景中创建和管理环境贴图。它通过使用 `THREE.CubeCamera` 来生成动态环境贴图，并将其应用到场景中，通常用于反射效果和全局环境光照。
@@ -28,7 +31,7 @@ Environment(instance: ThreeInstance)
 
 ## 方法（Methods）
 
-### .update() :void
+### update() :void
 更新立方体相机以重新渲染环境纹理。这个方法应当在每一帧调用以保持环境映射的实时性。
 
 ```typescript

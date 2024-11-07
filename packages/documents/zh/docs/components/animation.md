@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # 动画 Animation
 
 `Animation` 类用于在 Three.js 场景中管理和控制动画。它继承自 `BaseThree` 类，并且依赖于 `ThreeInstance`、`THREE.AnimationClip` 和 `THREE.Object3D`。`Animation` 类允许用户通过提供动画剪辑和根对象来创建和管理动画混合器，并提供了获取动画名称和动作的方法。

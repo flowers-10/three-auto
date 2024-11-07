@@ -52,8 +52,8 @@ export const zh = defineConfig({
                         { text: 'Animation 动画', link: 'animation' },
                         { text: 'Charts 图表', link: 'charts' },
                         { text: 'Lights 灯光', link: 'lights' },
-                        { text: 'Environment 加载器', link: 'environment' },
-                        { text: 'Loading 加载器', link: 'loading' },
+                        { text: 'Environment 环境贴图', link: 'environment' },
+                        { text: 'Resource 资源和加载器', link: 'resource' },
                         { text: 'Postprocessing 后处理', link: 'postprocessing' },
                         { text: 'Web 浏览器', link: 'Web' },
                     ]
