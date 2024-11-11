@@ -2,136 +2,84 @@ import * as AUTO from "./src/index";
 import * as THREE from "three";
 
 
-const geometry = new THREE.BoxGeometry(100, 10, 100);
-const material = new THREE.MeshPhongMaterial({
-  color: "#E89ABE",
-  transparent: true,
-});
-const box = new THREE.Mesh(geometry, material);
-box.castShadow = true;
-box.position.set(0, 30, 0);
-
 const instance = new AUTO.ThreeAuto(undefined, {
-  camera: {
-    fov: 75,
-    near: 0.1,
-    far: 1000,
-    position: {
-      x: 50, y: 80, z: 50
-    }
-  },
-  renderer: {
-    clearColor: '#ccc'
-  },
   shadow: {
     show: true,
-    width: 1000,
-    height: 1000,
+    width: 400,
+    height: 400,
     color: '#000',
     opacity: 0.1,
-    rotation: { x: -Math.PI / 2, y: 0, z: 0 },
-    position: { x: 0, y: 0, z: 0 },
+    rotation:  { x: -Math.PI / 2, y: 0, z: 0 },
   },
-  light: [
+  series: [
     {
-      type: "hemisphere",
-      color: "#3e99e5",
-      intensity: 1,
-      groundColor: '#fff',
-      distance: 1000,
-      helper: true,
-      helperSize: 5,
-      lightName: "hemisphere-light",
-      position: {
-        x: 0,
-        y: 50,
-        z: -50,
+      type: 'pie',
+      name: 'three-auto-pie',
+      shadow: true,
+      data: [
+        { name: '小学', value: 100, color: '#fcc02a' },
+        { name: '中学', value: 200, color: '#f16b91' },
+        { name: '大学', value: 300, color: '#187bac' },
+        { name: '不学', value: 500, color: '#eeeeee' },
+      ],
+      transparent: true,
+      opacity: 1,
+      selectedOffset: 10,
+      height: 20,
+      heightMode: 'flat',
+      radius: [50, 60],
+      gap: 5,
+      eventName: 'click',
+      label: {
+        show: true,
+        distance: 3,
+        scale: 1,
+        rotation: {
+          x: 0,
+          y: 0,
+          z: 0,
+        },
+        textStyle: {
+          padding: '6px',
+          'font-size': '16px',
+          color: "#000",
+          bold: true,
+          'font-weight': 400,
+          'font-style': 'normal',
+        },
       },
-    },
-    {
-      type: "point",
-      color: "#3e99e5",
-      intensity: 1000,
-      distance: 1000,
-      helper: true,
-      helperSize: 5,
-      lightName: "point-light",
-      position: {
-        x: 0,
-        y: 50,
-        z: 50,
-      },
-    },
-    {
-      type: "spot",
-      color: "#C8A2CB",
-      intensity: 1,
-      distance: 3000,
-      angle: Math.PI / 20,
-      decay: 1,
-      penumbra: 5,
-      helper: true,
-      helperSize: 5,
-      lightName: "spot-light",
-      castShadow: true,
-      shadow: {
-        mapSizeWidth: 1024,
-        mapSizeHeight: 1024,
-        cameraLeft: -100,
-        cameraTop: 100,
-        cameraBottom: -100,
-        cameraRight: 100,
-        cameraNear: 0.1,
-        cameraFar: 1000,
-        radius: 10,
-      },
-      position: {
-        x: -150, y: 50, z: 0,
+      tooltip: {
+        className: 'three-auto-tooltip',
+        background: 'rgba(255,255,255,1)',
+        show: true,
+        borderWidth: 1,
+        padding: '15px 20px',
+        hideDelay: 100,
+        textStyle: {
+          'font-size': '18px',
+          color: "#000000",
+          'font-weight': 400,
+          'font-style': 'normal',
+        },
       }
-    },
-    {
-      type: "directional",
-      color: "#C8A2CB",
-      intensity: 1,
-      distance: 3000,
-      helper: true,
-      helperSize: 5,
-      lightName: "directional-light",
-      castShadow: true,
-      shadow: {
-        mapSizeWidth: 1024,
-        mapSizeHeight: 1024,
-        cameraLeft: -100,
-        cameraTop: 100,
-        cameraBottom: -100,
-        cameraRight: 100,
-        cameraNear: 0.1,
-        cameraFar: 1000,
-        radius: 100,
-        bias: -0.004,
-        normalBias: 0.027
-      },
-      position: {
-        x: 0, y: 100, z: 50,
-      }
-    },
-    {
-      type: "ambient",
-      color: "#3e99e5",
-      intensity: 1,
-      lightName: "ambient-light",
-    },
+    }
   ],
-
+  postprocess: {
+    type: 'moebius',
+    options: {
+      shadow: false,
+    }
+  }
 });
-instance.scene.add(box);
 
-instance.time.on("tick", () => {
-  box.rotation.y = instance.time.elapsedTime;
+
+(instance.camera.instance as THREE.PerspectiveCamera).fov = 75;
+instance.camera.instance.near = 0.1;
+instance.camera.instance.far = 5000;
+instance.camera.instance.updateProjectionMatrix()
+instance.camera.instance.position.set(100, 100, 100.0);
+instance._renderer.setClearColor("#DDEAFB");
+instance.onTick(() => {
 });
-
-
-
-
 
 
