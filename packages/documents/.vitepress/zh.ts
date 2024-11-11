@@ -66,7 +66,10 @@ export const zh = defineConfig({
                             { text: 'Bloom 辉光风格', link: 'bloom' },
                             
                         ] },
-                        { text: 'Web 浏览器', link: 'Web' },
+                        { text: 'Web 浏览器', base: '/docs/components/web-',items: [
+                            { text: 'Tips 标签', link: 'tips' },
+                            { text: 'Tooltip 提示框', link: 'tooltip' },
+                        ] },
                     ]
                 },
             ],

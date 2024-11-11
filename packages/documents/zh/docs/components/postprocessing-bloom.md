@@ -8,7 +8,6 @@ outline: deep
 
 ## 构造函数（Constructor）
 
-[![手绘风格]()]()
 
 :::tip 注意
 点击图片跳转案例！ ⬆️

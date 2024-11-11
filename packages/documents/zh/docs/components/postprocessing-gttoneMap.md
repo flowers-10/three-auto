@@ -6,11 +6,9 @@ outline: deep
 
 ## 着色器（Shader）
 
-[着色器源码](https://github.com/flowers-10/three-auto/blob/main/packages/core/src/components/postprocessing/GTToneMapPass/gttonemap.glsl)
 
 ## 构造函数（Constructor）
 
-[[Tone Mapping]()]()
 
 :::tip 注意
 点击图片跳转案例！ ⬆️
