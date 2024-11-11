@@ -50,11 +50,19 @@ export const zh = defineConfig({
                     base: '/docs/components/',
                     items: [
                         { text: 'Animation 动画', link: 'animation' },
-                        { text: 'Charts 图表', link: 'charts' },
+                        { text: 'Charts 图表', base: '/docs/components/charts-', items:[
+                            { text: 'Series 系列', link: 'series' },
+                            { text: 'Earth 地球', link: 'earth' },
+                            { text: 'Pie 饼图', link: 'pie' },
+                            { text: 'Map3D 地图', link: 'map3D' },
+                            { text: 'Grid 网格', link: 'grid' },
+                        ] },
                         { text: 'Lights 灯光', link: 'lights' },
                         { text: 'Environment 环境贴图', link: 'environment' },
                         { text: 'Resource 资源和加载器', link: 'resource' },
-                        { text: 'Postprocessing 后处理', link: 'postprocessing' },
+                        { text: 'Postprocessing 后处理', base: 'postprocessing', items: [
+                            { text: 'Postprocessing 后处理', link: 'postprocessing-' }
+                        ] },
                         { text: 'Web 浏览器', link: 'Web' },
                     ]
                 },
