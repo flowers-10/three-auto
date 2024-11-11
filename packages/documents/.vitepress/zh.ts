@@ -60,8 +60,11 @@ export const zh = defineConfig({
                         { text: 'Lights 灯光', link: 'lights' },
                         { text: 'Environment 环境贴图', link: 'environment' },
                         { text: 'Resource 资源和加载器', link: 'resource' },
-                        { text: 'Postprocessing 后处理', base: 'postprocessing', items: [
-                            { text: 'Postprocessing 后处理', link: 'postprocessing-' }
+                        { text: 'Postprocessing 后处理', base: '/docs/components/postprocessing-', items: [
+                            { text: 'MoebiusPass 手绘风格', link: 'moebius' },
+                            { text: 'GTToneMap 卡通风格', link: 'gttoneMap' },
+                            { text: 'Bloom 辉光风格', link: 'bloom' },
+                            
                         ] },
                         { text: 'Web 浏览器', link: 'Web' },
                     ]
