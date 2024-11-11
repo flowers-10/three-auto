@@ -12,7 +12,7 @@ outline: deep
 
 `Resources` 类用于管理和加载 Three.js 应用程序中的各种资源，如模型、纹理、字体、音频等。它继承自 `EventEmitter` 类，并使用多种加载器（如 `GLTFLoader`、`OBJLoader`、`TextureLoader` 等）来处理不同类型的资源。该类还支持自定义加载进度条(`Loading`)，并在所有资源加载完成后触发 `ready` 事件。
 
-### 构造函数
+### 构造函数（Constructor）
 
 ```typescript 
 constructor(sources: SourcesItems[], loadingManager?: LoadingType | THREE.LoadingManager)
@@ -23,31 +23,26 @@ constructor(sources: SourcesItems[], loadingManager?: LoadingType | THREE.Loadin
 - **sources** (`SourcesItems[]`): 要加载的资源列表。
 - **loadingManager** (`LoadingType | THREE.LoadingManager`, 可选): 自定义加载管理器或加载样式，默认为 `undefined`。
 
-#### 功能
 
-- 检查是否提供了资源列表，如果没有则抛出错误。
-- 初始化资源列表、加载的资源映射、待加载的资源数量和已加载的资源数量。
-- 创建加载器，并开始加载资源。
-
-### 方法
+### 方法（Methods）
 
 #### `get getLoaded(): boolean`
 
-##### 返回值
+**返回值**
 
 - **getLoaded** (`boolean`): 所有资源是否已加载完成。
 
-##### 功能
+**功能**
 
 - 返回 `loaded` 是否等于 `toLoad`。
 
 #### `get getProgress(): number`
 
-##### 返回值
+**返回值**
 
 - **getProgress** (`number`): 加载进度，范围为 `[0, 1]`。
 
-##### 功能
+**功能**
 
 - 计算并返回当前加载进度。
 
@@ -71,21 +66,21 @@ console.log(res);
 ## 加载器（Loading）
 `CustomLoading` 类用于在 Three.js 应用程序中创建和管理自定义加载进度条。它依赖于 `THREE.LoadingManager` 来处理资源加载，并使用 GSAP 来实现平滑的动画效果。该类还支持多种加载样式，并可以通过配置来选择不同的加载样式。
 
-### 构造函数
+### 构造函数（Constructor）
 **`CustomLoading(type: LoadingType)`**
 
 #### 参数
 
 - **type** (`LoadingType`): 加载样式的类型，默认为 `"default"`。
 
-#### 功能
+**功能**
 
 - 调用 `createBar` 方法根据提供的类型创建加载进度条。
 - 初始化 DOM 元素。
 - 创建 `THREE.LoadingManager` 实例，并绑定加载完成和进度更新的回调函数。
 - 设置一个超时函数，在 30 秒后自动调用 `loadedBar` 方法。
 
-### 方法
+### 方法（Methods）
 
 #### createBar(type)
 - **type** (`LoadingType`): 加载样式的类型，默认为 `"default"`。

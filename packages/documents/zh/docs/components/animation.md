@@ -1,7 +1,6 @@
 ---
 outline: deep
 ---
-
 # 动画 Animation
 
 `Animation` 类用于在 Three.js 场景中管理和控制动画。它继承自 `BaseThree` 类，并且依赖于 `ThreeInstance`、`THREE.AnimationClip` 和 `THREE.Object3D`。`Animation` 类允许用户通过提供动画剪辑和根对象来创建和管理动画混合器，并提供了获取动画名称和动作的方法。
@@ -109,7 +108,7 @@ resources.on("ready", () => {
 ```
 
 
-## 动作（action）
+## 动作
 
 `action` 函数用于创建一个GSAP动画，该动画将对象从起始位置平滑过渡到目标位置。此函数利用了GSAP（GreenSock Animation Platform）的强大功能来实现动画效果，并允许通过`options`参数自定义动画的行为。
 

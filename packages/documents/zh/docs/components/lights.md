@@ -11,10 +11,10 @@ outline: deep
 阴影组件，你可以通过配置项快速生成一个阴影平面。
 `Shadow` 类是用于在 Three.js 场景中创建阴影平面的对象。它继承自 `BaseThree` 类，并且依赖于 `ThreeInstance` 和 `ShadowConfig` 接口。`Shadow` 类允许用户通过配置对象来定义阴影的大小、颜色、透明度、旋转角度和位置等属性。
 
-### 构造函数
+### 构造函数（Constructor）
 **`Shadow(config: ShadowConfig, instance: ThreeInstance)`**
 
-### 参数
+#### 参数
 - **config** (`ShadowConfig`): 包含阴影属性的配置对象。
 
      **width** (`number`, 可选, 默认值: `10`): 阴影平面的宽度。
@@ -57,7 +57,7 @@ const shadow = new Shadow(shadowConfig, instance);
 
 此构造函数创建一个新的`Light`。
 
-### 参数
+#### 参数
 - **config** (`LightItems[]`): 包含多个光源配置的对象数组。
 
   **color** (`string`): 光源的颜色（CSS 格式）。

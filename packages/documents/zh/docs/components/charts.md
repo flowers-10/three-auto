@@ -1,3 +1,6 @@
+---
+outline: deep
+---
 # 图表
 
 ThreeAuto 图表组件，你只需要通过配置项传入ThreeAuto，它会自动生成你想要的样子。
