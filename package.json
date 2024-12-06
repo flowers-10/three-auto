@@ -4,9 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite packages/core",
-    "dev:examples": "vite packages/examples",
+    "dev:examples": "node scripts/build.js && vite packages/examples",
     "build": "node scripts/build.js",
-    "preview": "vite preview/examples",
     "update-version": "node scripts/update-version.js"
   },
   "engines": {

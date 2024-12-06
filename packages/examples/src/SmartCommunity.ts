@@ -78,15 +78,17 @@ const instance = new AUTO.ThreeAuto(undefined, {
  
 });
 
-const env = new AUTO.Environment(instance)
+// const env = new AUTO.Environment(instance)
 instance.resource?.on('ready', () => {
   const preview = instance.resource?.items.get('preview')
   preview.scene.position.x = 130
   preview.scene.position.y = -100
   instance.scene.add(preview.scene)
-  const environmentMap = instance.resource?.items.get('env')
-  environmentMap.colorSpace = THREE.SRGBColorSpace
-  environmentMap.mapping = THREE.EquirectangularReflectionMapping
+  const env = instance.resource?.items.get('env')
+  console.log(env,1111);
+  
+  env.colorSpace = THREE.SRGBColorSpace
+  env.mapping = THREE.EquirectangularReflectionMapping
 })
 // gui.add(instance.light,)
 
@@ -95,6 +97,6 @@ const stats =new Stats()
 document.body.appendChild( stats.dom );
 
 instance.onTick(() => {
-  env.update()
+  // env.update()
   stats.update()
 })
