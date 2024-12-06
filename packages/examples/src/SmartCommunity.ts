@@ -87,8 +87,9 @@ instance.resource?.on('ready', () => {
   const env = instance.resource?.items.get('env')
   console.log(env,1111);
   
-  env.colorSpace = THREE.SRGBColorSpace
   env.mapping = THREE.EquirectangularReflectionMapping
+  instance.scene.environment = env
+
 })
 // gui.add(instance.light,)
 
