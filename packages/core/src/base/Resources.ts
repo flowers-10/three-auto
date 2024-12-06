@@ -7,7 +7,8 @@ import { EXRLoader } from "three/addons/loaders/EXRLoader.js";
 import { EventEmitter } from "./EventEmitter";
 import { CustomLoading } from "../components";
 import { SourcesItems, Loaders, LoadingType } from "../types";
-import { OBJLoader } from "three/examples/jsm/Addons.js";
+import { KTX2Loader, OBJLoader } from "three/examples/jsm/Addons.js";
+import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 
 export class Resources extends EventEmitter {
   public sources: SourcesItems[];
@@ -44,9 +45,14 @@ export class Resources extends EventEmitter {
 
   private createLoaders(loadingManager?: THREE.LoadingManager | undefined): Loaders {
     const dracoLoader = new DRACOLoader().setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
+    const ktx2Loader = new KTX2Loader().setTranscoderPath('https://cdn.jsdelivr.net/gh/pmndrs/drei-assets/basis/');
+
+
+    ktx2Loader.detectSupport(new THREE.WebGLRenderer());
+
     return {
       objLoader: new OBJLoader(loadingManager),
-      gltfLoader: new GLTFLoader(loadingManager).setDRACOLoader(dracoLoader),
+      gltfLoader: new GLTFLoader(loadingManager).setDRACOLoader(dracoLoader).setMeshoptDecoder(MeshoptDecoder).setKTX2Loader(ktx2Loader),
       textureLoader: new THREE.TextureLoader(loadingManager),
       cubeTextureLoader: new THREE.CubeTextureLoader(loadingManager),
       fontLoader: new FontLoader(loadingManager),

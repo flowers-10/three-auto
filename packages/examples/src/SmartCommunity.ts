@@ -38,7 +38,7 @@ const instance = new AUTO.ThreeAuto(undefined, {
     {
       name: "preview",
       type: "GLTF",
-      path: "./models/preview.glb",
+      path: "./models/preview_opt.glb",
       show: true,
     },
     {
