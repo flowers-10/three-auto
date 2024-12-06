@@ -26,6 +26,7 @@ export const CONFIG: ConfigType = {
   renderer: {
     antialias: true,
     alpha: true,
+    logarithmicDepthBuffer:true,
     clearAlpha: 0,
     clearColor: '#000000',
   },

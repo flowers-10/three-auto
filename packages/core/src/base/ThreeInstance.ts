@@ -11,7 +11,7 @@ import {
   Renderer,
   Camera,
 } from "./index";
-import { Light, Series, PostProcess, Tips, Shadow } from "../components";
+import { Light, Series, PostProcess, Tips, Shadow, Environment } from "../components";
 
 export interface ThreeInstance {
   time: Time;
@@ -49,6 +49,7 @@ class ThreeAuto implements ThreeInstance {
   public light?: Light;
   public postprocess?: PostProcess;
   public resource?: Resources;
+  public env?: Environment;
   public Light = Light;
   public Resources = Resources;
   public Raycaster = Raycaster;
@@ -93,6 +94,9 @@ class ThreeAuto implements ThreeInstance {
     if (config.resource && config.resource.length) {
       this.resource = new Resources(config.resource, config.loadingType);
     }
+    if (config.env) {
+      this.env = new Environment(this)
+    }
     if (config.shadow?.show) {
       this.shadow = new Shadow(config.shadow, this)
     }
@@ -107,6 +111,7 @@ class ThreeAuto implements ThreeInstance {
     this.raycaster.update();
     this.renderer.update();
     this.tips.update();
+    this.env?.update()
 
   }
   public dispose() {

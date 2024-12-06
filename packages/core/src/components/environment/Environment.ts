@@ -14,7 +14,7 @@ export class Environment extends BaseThree {
             }
         );
         this.scene.environment = cubeRenderTarget.texture
-        this.cubeCamera = new THREE.CubeCamera(0.1, 1000, cubeRenderTarget);
+        this.cubeCamera = new THREE.CubeCamera(0.1, 10000, cubeRenderTarget);
     }
     update() {
         this.cubeCamera.update(this._instance._renderer, this.scene);

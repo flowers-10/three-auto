@@ -11,6 +11,7 @@ export class Renderer extends BaseThree {
       canvas: this.canvas,
       antialias: config.antialias,
       alpha: config.alpha,
+      logarithmicDepthBuffer: config.logarithmicDepthBuffer,
     });
     this.setRenderer(config);
   }
@@ -19,8 +20,8 @@ export class Renderer extends BaseThree {
     // Renderer settings
     this.instance.outputColorSpace = THREE.SRGBColorSpace;
     this.instance.setClearColor(config.clearColor,config.clearAlpha); 
-    this.instance.setSize(this.sizes.width, this.sizes.height);
-    this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
+    this.instance.setSize(this.sizes.width, this.sizes.height);    
+    this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 1));
   }
   info(message = "present memory:") {
     console.log(message, this.instance.info.memory);
@@ -28,7 +29,7 @@ export class Renderer extends BaseThree {
 
   resize() {
     this.instance.setSize(this.sizes?.width, this.sizes.height);
-    this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
+    this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 1));
   }
 
   update() {

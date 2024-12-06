@@ -35,4 +35,5 @@ instance._renderer.setClearColor('#000')
 
 instance.time.on("tick", () => {
     O3D.rotation.x = Math.sin(instance.elapsedTime) * 2
+    env.update();
 });

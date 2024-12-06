@@ -68,6 +68,7 @@ export type CameraConfig = {
 };
 
 export type RendererConfig = {
+  logarithmicDepthBuffer?:boolean;
   antialias?: boolean;
   alpha?: boolean;
   clearAlpha?: number;
@@ -112,4 +113,5 @@ export interface ConfigType {
   renderer: RendererConfig;
   shadow?: ShadowConfig;
   postprocess?: PostProcessConfig;
+  env?: {} 
 }
