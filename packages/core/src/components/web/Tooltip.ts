@@ -84,7 +84,7 @@ export class Tooltip extends BaseThree {
             const intersects = this._raycaster.onRaycasting();
             this.tooltipElement.style.opacity = '0';
 
-            this.group.children.forEach(item => {
+            this.group?.children?.forEach(item => {
                 if (intersects && intersects[0].object.uuid === item.uuid) {
                     document.body.style.cursor = 'pointer';
                     this.tooltipElement.style.left = this.mousemove.eventOffset.x + (this.options.offsetX || 20) + 'px'

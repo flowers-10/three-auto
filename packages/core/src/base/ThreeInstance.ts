@@ -55,9 +55,8 @@ class ThreeAuto implements ThreeInstance {
   public Raycaster = Raycaster;
   public Series = Series;
   public PostProcess = PostProcess;
-
   constructor(canvas?: HTMLCanvasElement, config: Partial<ConfigType> = {}) {
-    const { id = '_scene', size = { type: 'window' }, camera = CONFIG.camera, renderer = CONFIG.renderer } = config
+    const { id = '_scene', size = { type: 'window' }, camera = CONFIG.camera, renderer = CONFIG.renderer, tipsType } = config
     const canvass = document.getElementById(id);
     if (!canvass && !canvas) {
       throw new Error("ThreeAuto:Canvas has already been initialized.");
@@ -72,7 +71,7 @@ class ThreeAuto implements ThreeInstance {
     this.raycaster = new Raycaster(this);
     this.renderer = new Renderer(renderer, this);
     this._renderer = this.renderer.instance;
-    this.tips = new Tips(this)
+    this.tips = new Tips(this, tipsType)
     this.sizes.on("resize", () => {
       this.resize();
     });

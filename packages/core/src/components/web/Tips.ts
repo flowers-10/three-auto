@@ -4,7 +4,7 @@ import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer
 import { ThreeInstance } from "../../base/ThreeInstance";
 import BaseThree from "../../base/BaseThree";
 
-type TipsType = 'css3' | 'css2'
+export type TipsType = 'css3' | 'css2'
 const rendererMap = {
     css3: CSS3DRenderer,
     css2: CSS2DRenderer

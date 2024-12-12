@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { SeriesConfig } from "./SeriesType";
 import { LoadingType, SourcesItems } from "./SourcesType";
+import {TipsType} from '../components/web/Tips'
 
 type SizeType = "parent" | "window";
 type LightType = "point" | "ambient" | "hemisphere" | "spot" | 'directional';
@@ -110,6 +111,7 @@ export interface ConfigType {
   series?: Partial<SeriesConfig>[];
   resource?: SourcesItems[]
   loadingType?: LoadingType;
+  tipsType?: TipsType;
   renderer: RendererConfig;
   shadow?: ShadowConfig;
   postprocess?: PostProcessConfig;
