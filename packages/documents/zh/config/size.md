@@ -6,6 +6,8 @@ outline: deep
 
 
 ## size.type = "window"
+`string`
+
 指定监听元素宽高尺寸的类型。
 
 默认监听`window`宽高尺寸。
@@ -14,8 +16,9 @@ outline: deep
 - `'window'` 监听`window`宽高尺寸
 - `'parent'` 监听当前`canvas`的外层元素宽高尺寸
 
-:::
 ## size.dom
+`HTMLElement`
+
 传入需要监听宽高的`dom`节点元素。
 
 :::tip 注意
@@ -23,6 +26,8 @@ outline: deep
 :::
 
 ## size.id
+`string | number`
+
 `threeAuto`根据配置项`size.id`来自动获取相关`dom`节点并根据节点父元素的宽高自动更新渲染器。 
 
 :::tip 注意

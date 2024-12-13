@@ -3,13 +3,19 @@
 基础配置项。
 
 ## id = '_scene'
+`string`
+
 `threeAuto`根据配置项`id`来自动获取`canvas`节点并根据节点自动生成`three.js`场景。 
 `canvas`文档节点的唯一`id`，默认值是`'_scene'`。
 
 ## name
+`string`
+
 实例名称，用来区分不同实例。
 
 ## loadingType
+`string`
+
 当使用`Resources`配置加载资源时，可传入此类型来选择加载动画。
 
 默认没有加载动画。
@@ -31,6 +37,8 @@
 - `null` | `undefined` （不传入时则不会出现加载动画）
 
 ## tipsType = 'css2'
+`string`
+
 提示框组件类型。
 
 `CSS3`渲染器`CSS3DRenderer`和`CSS2`渲染器`CSS2DRenderer`整体使用流程基本相同，只是在`HTML`标签渲染效果方面不同，比如`CSS3`渲染的标签会跟着场景相机同步缩放，而`CSS2`渲染的标签默认保持自身像素值。
