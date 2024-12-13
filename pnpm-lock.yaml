@@ -36,11 +36,15 @@ importers:
   packages/documents:
     specifiers:
       module: ^1.2.5
+      three: ^0.166.0
+      three-auto: workspace:0.2.8
       vitepress: ^1.3.4
       vue: ^3.5.4
     dependencies:
       module: 1.2.5
+      three-auto: link:../core
     devDependencies:
+      three: 0.166.1
       vitepress: 1.3.4
       vue: 3.5.10
 

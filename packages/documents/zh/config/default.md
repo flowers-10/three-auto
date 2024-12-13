@@ -1,6 +1,4 @@
----
-outline: deep
----
+
 # default
 基础配置项。
 
@@ -13,7 +11,10 @@ outline: deep
 
 ## loadingType
 当使用`Resources`配置加载资源时，可传入此类型来选择加载动画。
-暂不支持自定义动画！
+
+默认没有加载动画。
+
+暂不支持自定义加载动画！
 
 **可选：**
 - `'default'` 加载条
@@ -38,14 +39,3 @@ outline: deep
 - `'css2'` 
 - `'css3'`
 
-<!-- <div> 这是响应式的属性num : {{ num }}</div>
-
-<script setup lang="ts">
-    console.log('markdown 中写 script 标签 begin ');
-
-    import {ref,onMounted} from 'vue'
-    const num = ref(100)
-    onMounted(()=>{
-        console.log('markdown 中写 script 标签 - onMounted success ');
-    })
-</script> -->

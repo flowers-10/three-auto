@@ -84,7 +84,13 @@ export const zh = defineConfig({
                         },
                         {
                             text: 'size', link: 'size'
-                        }
+                        },
+                        {
+                            text: 'camera', link: 'camera'
+                        },
+                        {
+                            text: 'renderer', link: 'renderer'
+                        },
                     ]
                 },
             ],

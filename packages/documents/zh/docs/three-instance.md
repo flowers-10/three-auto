@@ -20,7 +20,7 @@ constructor(canvas?: HTMLCanvasElement, config)
 
 - `config`
 
-配置项参数。具体请见[配置项手册](/config/defaultConfig)。
+配置项参数。具体请见[配置项手册](/config/default)。
 
 ```typescript
 import * as AUTO from "./src/index";
@@ -54,7 +54,7 @@ Scene 允许您设置 three.js 要渲染的内容和位置。这是您放置对�
 
 可以通过配置项直接更改`Camera`生成后的属性。
 
-具体请见配置项手册：[camera](/config/defaultConfig)。
+具体请见配置项手册：[camera](/config/default)。
 
 使用方法和 three.js 的 `camera` 属性一样：
 
@@ -72,7 +72,7 @@ instance._camera.position.x = 6;
 
 可以通过配置项直接更改`WebGLRenderer`生成后的属性。
 
-具体请见配置项手册：[renderer](/config/defaultConfig)。
+具体请见配置项手册：[renderer](/config/default)。
 
 使用方法和`three.js`的`renderer`属性一样：
 
@@ -130,7 +130,7 @@ instance.time.on("tick", () => {
 具体请见通用类：[Sizes](https://github.com/flowers-10/three-auto/blob/main/packages/core/src/base/Sizes.ts)。
 
 :::tip 注意
-可以更改配置项来选择监听父容器尺寸变化的模式具体见配置项手册[size](/config/defaultConfig)。
+可以更改配置项来选择监听父容器尺寸变化的模式具体见配置项手册[size](/config/default)。
 :::
 
 ## instance.width
