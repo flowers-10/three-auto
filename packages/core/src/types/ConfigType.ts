@@ -104,14 +104,14 @@ export interface ShadowConfig {
 
 export interface ConfigType {
   id: string;
-  name: string;
+  name?: string;
+  loadingType?: LoadingType;
+  tipsType: TipsType;
   size: SizeConfigType;
   light?: LightItems[];
   camera: CameraConfig;
   series?: Partial<SeriesConfig>[];
   resource?: SourcesItems[]
-  loadingType?: LoadingType;
-  tipsType?: TipsType;
   renderer: RendererConfig;
   shadow?: ShadowConfig;
   postprocess?: PostProcessConfig;

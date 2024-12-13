@@ -10,7 +10,7 @@ export const zh = defineConfig({
     themeConfig: {
         nav: [
             { text: '文档', link: '/docs/what-is-three-auto' },
-            { text: '配置项', link: '/docs/what-is-three-auto' },
+            { text: '配置项', link: '/config/default' },
             { text: '案例', link: '/examples/markdown-examples' },
             {
                 text: pkg.version, items: [
@@ -70,6 +70,21 @@ export const zh = defineConfig({
                             { text: 'Tips 标签', link: 'tips' },
                             { text: 'Tooltip 提示框', link: 'tooltip' },
                         ] },
+                    ]
+                },
+            ],
+            '/config/': [
+                {
+                    text: '配置项',
+                    collapsed: false,
+                    base: '/config/',
+                    items: [
+                        {
+                            text: 'default',link:'default'
+                        },
+                        {
+                            text: 'size', link: 'size'
+                        }
                     ]
                 },
             ],

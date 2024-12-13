@@ -19,4 +19,7 @@ export default defineConfig({
       fileName: (format) => `three-auto.${format}.js`,
     },
   },
+  server: {
+    port: 1997
+  }
 });

@@ -11,4 +11,7 @@ export default defineConfig({
       watch: true,
     }),
   ],
+  server: {
+    port: 1231
+  }
 });

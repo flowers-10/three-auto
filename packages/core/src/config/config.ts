@@ -2,7 +2,8 @@ import { ConfigType } from "../types/ConfigType";
 
 export const CONFIG: ConfigType = {
   id: "_scene",
-  name: "hello world",
+  name: "",
+  tipsType: 'css2',
   camera: {
     type: 'PerspectiveCamera',
     fov: 60,
