@@ -95,5 +95,7 @@ outline: deep
 你能够水平旋转的角度上限。如果设置，其有效值范围为`[-2 * Math.PI，2 * Math.PI]`，且旋转角度的上限和下限差值小于 `2 \* Math.PI`。默认值为无穷大。
 
 ### camera.controls.enablePan = true
+
 `boolean`
+
 启用或禁用摄像机平移，默认为`true`。

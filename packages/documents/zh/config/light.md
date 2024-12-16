@@ -21,61 +21,73 @@ outline: deep
 ### light.shadow.mapSizeWidth
 
 `number`
+
 阴影贴图的宽度。影响阴影的分辨率，较大的值可以提高阴影的细节。
 
 ### light.shadow.mapSizeHeight
 
 `number`
+
 阴影贴图的高度，类似 mapSizeWidth，控制阴影的细节。
 
 ### light.shadow.cameraLeft
 
 `number`
+
 阴影摄像机的左边界，控制阴影摄像机的视锥范围。
 
 ### light.shadow.cameraLeft
 
 `number`
+
 阴影摄像机的左边界，控制阴影摄像机的视锥范围。
 
 ### light.shadow.cameraRight
 
 `number`
+
 阴影摄像机的右边界。
 
 ### light.shadow.cameraTop
 
 `number`
+
 阴影摄像机的上边界。
 
 ### light.shadow.cameraBottom
 
 `number`
+
 阴影摄像机的下边界。
 
 ### light.shadow.cameraNear
 
 `number`
+
 阴影摄像机的近裁剪面。
 
 ### light.shadow.cameraFar
 
 `number`
+
 阴影摄像机的远裁剪面。
 
 ### light.shadow.radius
 
 `number`
+
 阴影的衰减半径，影响阴影的柔和程度。
 
 ### light.shadow.normalBias
 
 `number`
+
 用于调整阴影偏移，避免接缝处的阴影出现不自然的现象。
 
 ### light.shadow.bias
 
 `number`
+
 阴影的偏移量，通常用于解决阴影贴图中可能出现的 "shadow acne" 问题。
 
 ## light.target
@@ -129,11 +141,13 @@ outline: deep
 ## light.lightName
 
 `string`
+
 为灯光指定一个名称，方便在调试或其他操作中引用。
 
 ## light.position
 
 `object`
+
 设置灯光的位置。是一个包含 `x`、`y` 和 `z` 坐标的类型，表示光源在场景中的位置。
 
 ### light.position.x
@@ -157,19 +171,23 @@ outline: deep
 ## light.groundColor
 
 `string`
+
 半球光源 (`hemisphere`) 使用此属性设置地面的颜色。它定义了场景下方的光线颜色。
 
 ## light.angle
 
 `number`
+
 对于聚光灯 (`spot`)，`angle` 定义光束的角度（以弧度为单位）。它控制聚光灯的光束范围。
 
 ## light.penumbra
 
 `number`
+
 对于聚光灯 (`spot`)`，penumbra` 控制光束的过渡区（阴影的边缘）。值为 `0` 时，光束边缘完全硬边，值为 `1` 时，边缘过渡平滑。
 
 ## light.angle
 
 `number`
+
 对于点光源或聚光灯，`decay` 控制光源衰减的速度。大于 `1` 时，光强随着距离的增加逐渐衰减。
