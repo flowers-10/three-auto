@@ -74,6 +74,13 @@ Thank you to all the people who already contributed to three-auto!
                     <sub><b>More</b></sub>
                 </a>
             </td>
+            <td align="center">
+                <a href="https://github.com/coderhyh">
+                    <img src="https://avatars.githubusercontent.com/u/84608497?v=4" width="100;" alt="coderhyh"/>
+                    <br />
+                    <sub><b>coderhyh</b></sub>
+                </a>
+            </td>
 		</tr>
 	<tbody>
 </table>
