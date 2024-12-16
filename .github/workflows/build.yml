@@ -19,12 +19,12 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 8.x
+          version: 7.26.3
 
       - name: Install and Build 🔧
         uses: actions/setup-node@v3.7.0
         with:
-          node-version: 18.x
+          node-version: 18.12.0
           cache: pnpm
       - run: pnpm i
       - run: pnpm run build
