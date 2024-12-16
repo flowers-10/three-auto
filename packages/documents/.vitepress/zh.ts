@@ -91,6 +91,21 @@ export const zh = defineConfig({
                         {
                             text: 'renderer', link: 'renderer'
                         },
+                        {
+                            text: 'light', link: 'light'
+                        },
+                        {
+                            text: 'shadow', link: 'shadow'
+                        },
+                        {
+                            text: 'series', link: 'series'
+                        },
+                        {
+                            text: 'resource', link: 'resource'
+                        },
+                        {
+                            text: 'postprocess', link: 'postprocess'
+                        },
                     ]
                 },
             ],

@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# renderer
+# Renderer
 
 用于配置 Three.js 渲染器的相关选项，控制渲染器的清除颜色、抗锯齿、透明度等属性。
 
