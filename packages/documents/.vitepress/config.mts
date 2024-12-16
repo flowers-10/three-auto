@@ -5,6 +5,7 @@ import { en } from './en'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "ThreeAuto",
+  base: "/three-auto/",
   rewrites: {
     'zh/:rest*': ':rest*'
   },
