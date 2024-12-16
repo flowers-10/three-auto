@@ -52,7 +52,6 @@ jobs:
         run: |
           cd ./packages/documents  # 确保进入正确的文档包目录
           pnpm build  # 执行构建命令，确保 build 目录存在
-v
       # 第六步：部署到 GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
