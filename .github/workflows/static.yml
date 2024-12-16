@@ -1,0 +1,64 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+   steps:
+      # 第一步：检查代码
+      - uses: actions/checkout@v3
+
+      # 第二步：安装 pnpm 包管理器
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8  # 设置 pnpm 的版本
+
+      # 第三步：设置 Node.js 环境
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18  # 设置 Node.js 的版本
+          cache: 'pnpm'     # 使用 pnpm 缓存，提高效率
+
+      # 第四步：安装依赖
+      - name: Install dependencies
+        run: |
+          cd ./packages/documents  # 进入你的 documents 目录
+          pnpm install # 安装依赖
+
+      # 第五步：打包文档
+      - name: Build documentation
+        run: |
+          cd ./packages/documents  # 确保进入正确的文档包目录
+          pnpm build  # 执行构建命令，确保 build 目录存在
+v
+      # 第六步：部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub token 进行身份验证
+          publish_dir: ./packages/documents/.vitepress/dist  # 构建产物的路径
+          user_name: 'github-actions[bot]'  # 提交者名字
+          user_email: 'github-actions[bot]@users.noreply.github.com'  # 提交者邮箱
+          commit_message: ${{ github.event.head_commit.message }}  # 使用提交信息作为 commit message
