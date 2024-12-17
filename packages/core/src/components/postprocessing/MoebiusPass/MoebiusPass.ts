@@ -17,6 +17,7 @@ export class MoebiusPass extends CustomPass {
   effect: MoebiusEffect;
   depthRenderTarget: THREE.WebGLRenderTarget;
   normalRenderTarget: THREE.WebGLRenderTarget;
+  normalMat: THREE.MeshNormalMaterial;
   constructor(config: MoebiusProps, instance: ThreeInstance) {
     super(instance);
     const newConfig = {
@@ -43,6 +44,7 @@ export class MoebiusPass extends CustomPass {
       stencilBuffer: false,
       type: THREE.HalfFloatType,
     });
+    this.normalMat = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide });
     this.depthRenderTarget = depthRenderTarget;
     this.normalRenderTarget = normalRenderTarget;
     this.effect = new MoebiusEffect({
@@ -59,6 +61,7 @@ export class MoebiusPass extends CustomPass {
     });
     this.composer.addPass(new EffectPass(this._camera, this.effect));
   }
+  
   render() {
     const renderer = this.renderer.instance;
     renderer.autoClear = true;
@@ -69,7 +72,7 @@ export class MoebiusPass extends CustomPass {
     renderer.render(this.scene, this._camera);
     renderer.setRenderTarget(null);
     renderer.setRenderTarget(this.normalRenderTarget);
-    this.scene.overrideMaterial = new THREE.MeshNormalMaterial({ side: THREE.DoubleSide });
+    this.scene.overrideMaterial = this.normalMat;
     renderer.render(this.scene, this._camera);
     if (this._instance && this._instance.shadow && this._instance.shadow.environment) {
       this._instance.shadow.environment.visible = true;
