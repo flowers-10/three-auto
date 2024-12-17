@@ -4,6 +4,8 @@ outline: deep
 
 # Camera
 
+`object`
+
 相机组件。管理`three.js`相机相关配置。
 
 ## camera.type = "PerspectiveCamera"
