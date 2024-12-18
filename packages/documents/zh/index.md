@@ -5,14 +5,14 @@ layout: home
 hero:
   name: "ThreeAuto"
   text: "快速生成3D场景"
-  tagline: 已支持的图表 (地图\曲线\柱状图\饼图\散点图\雷达图\热力图\曲面图)
+  tagline: 地图\曲线\柱状图\饼图\散点图\雷达图\热力图\曲面图
   actions:
     - theme: brand
       text: 文档
       link: /docs/what-is-three-auto
     - theme: alt
       text: 配置项
-      link: /config/config
+      link: /config/default
     - theme: alt
       text: 案例
       link: /examples/api-examples

@@ -27,7 +27,7 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#5f67ee' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:locale', content: 'zh' }],
-    ['meta', { property: 'og:title', content: 'quickly generate a Three.js scene' }],
+    ['meta', { property: 'og:title', content: 'v' }],
     ['meta', { property: 'og:site_name', content: 'three-auto' }],
     ['meta', { property: 'og:url', content: '' }],
   ],

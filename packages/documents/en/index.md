@@ -9,13 +9,13 @@ hero:
   actions:
     - theme: brand
       text: Documents
-      link: /docs
+      link: /docs/what-is-three-auto
     - theme: brand
       text: Options
-      link: /config
+      link: /config/default
     - theme: alt
       text: Examples
-      link: /examples
+      link: /examples/api-examples
   
   image:
     src: /three-auto.png
