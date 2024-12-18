@@ -37,7 +37,7 @@ export const zh = defineConfig({
                     base: '/docs/',
                     items: [
                         {
-                            text: '常用属性',link:'three-instance'
+                            text: '常用属性', link: 'three-instance'
                         },
                         {
                             text: '通用方法', link: 'general-method'
@@ -50,26 +50,32 @@ export const zh = defineConfig({
                     base: '/docs/components/',
                     items: [
                         { text: 'Animation 动画', link: 'animation' },
-                        { text: 'Charts 图表', base: '/docs/components/charts-', items:[
-                            { text: 'Series 系列', link: 'series' },
-                            { text: 'Earth 地球', link: 'earth' },
-                            { text: 'Pie 饼图', link: 'pie' },
-                            { text: 'Map3D 地图', link: 'map3D' },
-                            { text: 'Grid 网格', link: 'grid' },
-                        ] },
+                        {
+                            text: 'Charts 图表', base: '/docs/components/charts-', items: [
+                                { text: 'Series 系列', link: 'series' },
+                                { text: 'Earth 地球', link: 'earth' },
+                                { text: 'Pie 饼图', link: 'pie' },
+                                { text: 'Map3D 地图', link: 'map3D' },
+                                { text: 'Grid 网格', link: 'grid' },
+                            ]
+                        },
                         { text: 'Lights 灯光', link: 'lights' },
                         { text: 'Environment 环境贴图', link: 'environment' },
                         { text: 'Resource 资源和加载器', link: 'resource' },
-                        { text: 'Postprocessing 后处理', base: '/docs/components/postprocessing-', items: [
-                            { text: 'MoebiusPass 手绘风格', link: 'moebius' },
-                            { text: 'GTToneMap 卡通风格', link: 'gttoneMap' },
-                            { text: 'Bloom 辉光风格', link: 'bloom' },
-                            
-                        ] },
-                        { text: 'Web 浏览器', base: '/docs/components/web-',items: [
-                            { text: 'Tips 标签', link: 'tips' },
-                            { text: 'Tooltip 提示框', link: 'tooltip' },
-                        ] },
+                        {
+                            text: 'Postprocessing 后处理', base: '/docs/components/postprocessing-', items: [
+                                { text: 'MoebiusPass 手绘风格', link: 'moebius' },
+                                { text: 'GTToneMap 卡通风格', link: 'gttoneMap' },
+                                { text: 'Bloom 辉光风格', link: 'bloom' },
+
+                            ]
+                        },
+                        {
+                            text: 'Web 浏览器', base: '/docs/components/web-', items: [
+                                { text: 'Tips 标签', link: 'tips' },
+                                { text: 'Tooltip 提示框', link: 'tooltip' },
+                            ]
+                        },
                     ]
                 },
             ],
@@ -80,31 +86,38 @@ export const zh = defineConfig({
                     base: '/config/',
                     items: [
                         {
-                            text: 'default',link:'default'
+                            text: 'default', link: 'default'
                         },
                         {
-                            text: 'size', link: 'size'
+                            text: 'size: {...}', link: 'size'
                         },
                         {
-                            text: 'camera', link: 'camera'
+                            text: 'camera: {...}', link: 'camera'
                         },
                         {
-                            text: 'renderer', link: 'renderer'
+                            text: 'renderer: {...}', link: 'renderer'
                         },
                         {
-                            text: 'light', link: 'light'
+                            text: 'light: [{...}]', link: 'light'
                         },
                         {
-                            text: 'shadow', link: 'shadow'
+                            text: 'shadow: {...}', link: 'shadow'
                         },
                         {
-                            text: 'series', link: 'series'
+                            text: 'series: [{...}]',
+                            collapsed: false,
+                            base: 'config/series/',
+                            items: [
+                                {
+                                    text: 'type:map', link: 'map'
+                                },
+                            ]
                         },
                         {
-                            text: 'resource', link: 'resource'
+                            text: 'resource:[{...}]', link: 'resource'
                         },
                         {
-                            text: 'postprocess', link: 'postprocess'
+                            text: 'postprocess: {...}', link: 'postprocess'
                         },
                     ]
                 },
@@ -119,7 +132,6 @@ export const zh = defineConfig({
                     ]
                 }
             ],
-
         },
         footer: {
             message: '基于 MIT 许可发布',
