@@ -1,6 +1,6 @@
 {
   "name": "@three-auto/documents",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "@three-auto/docs",
   "main": "index.js",
   "author": "Michela",
@@ -17,7 +17,7 @@
     "three": "^0.166.0"
   },
   "dependencies": {
-    "three-auto": "workspace:0.2.8",
+    "three-auto": "workspace:0.2.9",
     "module": "^1.2.5"
   }
 }
