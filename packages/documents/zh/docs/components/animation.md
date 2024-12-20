@@ -5,10 +5,64 @@ outline: deep
 
 `Animation` 类用于在 Three.js 场景中管理和控制动画。它继承自 `BaseThree` 类，并且依赖于 `ThreeInstance`、`THREE.AnimationClip` 和 `THREE.Object3D`。`Animation` 类允许用户通过提供动画剪辑和根对象来创建和管理动画混合器，并提供了获取动画名称和动作的方法。
 
-[![动画](https://img.picgo.net/2024/11/07/tutieshi_640x304_8sb1d8d4ee586436c5.gif)](https://github.com/flowers-10/three-auto/blob/main/packages/examples/src/animation.ts)
+<div @dblclick="navLink" style="width:100%;height:600px;position:relative">
+    <canvas id="_scene" />
+</div>
+
+<script setup lang="ts">
+import * as AUTO from "three-auto";
+import {ref,onMounted} from 'vue'
+
+const navLink = () => {
+  console.log(111)
+}
+onMounted(() => {
+const instance = new AUTO.ThreeAuto(undefined, {size: {type: 'parent'}});
+const resources = new AUTO.Resources([
+  {
+    name: "crane",
+    type: "GLTF",
+    path: "/three-auto/models/crane_ori.glb",
+    show: true,
+  },
+]);
+new AUTO.Light(
+  [
+    {
+      type: "ambient",
+      color: "#fff",
+      intensity: 1,
+      helper: false,
+      lightName: "ambient-light",
+    },
+  ],
+  instance
+);
+resources.on("ready", () => {
+  // console.log(resources.items.get("crane"));
+  const crane = resources.items.get("crane");
+  instance.scene.add(crane.scene);
+  instance._camera.position.x = 6
+  const animation = new AUTO.Animation(instance,crane.animations,crane.scene)
+  AUTO.action(crane.scene.rotation,{x:Math.PI})
+  AUTO.action(crane.scene.rotation,{y:Math.PI})
+  AUTO.action(crane.scene.rotation,{z:Math.PI})
+  AUTO.action(crane.scene.position,{x:1})
+  AUTO.action(crane.scene.position,{y:1})
+  AUTO.action(crane.scene.position,{z:1})
+  animation.openSkeletonHelper()
+  // console.log(animation.names,animation.actions);
+  animation.actions[animation.names[0]].play()
+  instance.time.on("tick", () => {
+    animation.update()
+  });
+});
+})
+
+</script>
 
 :::tip 注意
-点击图片跳转案例！ ⬆️
+双击跳转案例！ ⬆️
 :::
 
 ## 构造函数（Constructor）

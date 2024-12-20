@@ -16,8 +16,9 @@
     "vue": "^3.5.4",
     "three": "^0.166.0"
   },
+  
   "dependencies": {
-    "three-auto": "workspace:0.2.9",
+    "three-auto": "0.2.9",
     "module": "^1.2.5"
   }
 }

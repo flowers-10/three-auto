@@ -7,10 +7,46 @@ outline: deep
 ## 构造函数（Constructor）
 此构造函数创建一个新的Grid。
 
-[![网格](https://img.picgo.net/2024/11/01/379655119-12715265-cc6b-4349-9d2b-29d9009fd8401964a9cfe904a504.gif)](https://github.com/flowers-10/three-auto/blob/main/packages/examples/src/grid.ts)
+<div @dblclick="navLink" style="width:100%;height:400px;position:relative;border-radius: 12px;overflow:hidden;">
+    <canvas id="_scene" />
+</div>
+
+<script setup lang="ts">
+import * as AUTO from "three-auto";
+import * as THREE from "three";
+import {ref,onMounted} from 'vue'
+
+const navLink = () => {
+  console.log(111)
+}
+onMounted(() => {
+const instance = new AUTO.ThreeAuto(undefined, {
+  size: {type: 'parent'},
+  camera: {
+    fov: 70,
+    far: 1000,
+    near: 0.1,
+    position: {
+      x: 25,
+      y: 25,
+      z: 25
+    }
+  }
+});
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({
+  color: "#E89ABE",
+  transparent: true,
+});
+const box = new THREE.Mesh(geometry, material);
+instance.scene.add(box);
+new AUTO.Grid(15,instance)
+
+})
+</script>
 
 :::tip 注意
-点击图片跳转案例！ ⬆️
+双击跳转案例！ ⬆️
 :::
 
 

@@ -5,7 +5,152 @@ outline: deep
 
 灯光组件和阴影组件，灯光和阴影是相辅相成的，所以我们一起介绍它们。
 
-[![阴影和灯光](https://img.picgo.net/2024/11/07/tutieshi_640x295_10s24d588c40e8c6e6d.gif)](https://github.com/flowers-10/three-auto/blob/main/packages/examples/src/shadow.ts)
+<div @dblclick="navLink" style="width:100%;height:400px;position:relative;border-radius: 12px;overflow:hidden;">
+    <canvas id="_scene" />
+</div>
+
+<script setup lang="ts">
+import * as AUTO from "three-auto";
+import * as THREE from "three";
+import {ref,onMounted} from 'vue'
+
+const navLink = () => {
+  console.log(111)
+}
+onMounted(() => {
+const geometry = new THREE.BoxGeometry(100, 10, 100);
+const material = new THREE.MeshPhongMaterial({
+  color: "#E89ABE",
+  transparent: true,
+});
+const box = new THREE.Mesh(geometry, material);
+box.castShadow = true;
+box.position.set(0, 30, 0);
+
+const instance = new AUTO.ThreeAuto(undefined, {
+  size: {
+    type: 'parent'
+  },
+  camera: {
+    fov: 75,
+    near: 0.1,
+    far: 1000,
+    position: {
+      x: 50, y: 220, z: 50
+    }
+  },
+  renderer: {
+    clearColor: '#ccc'
+  },
+  shadow: {
+    show: true,
+    width: 1000,
+    height: 1000,
+    color: '#000',
+    opacity: 0.1,
+    rotation: { x: -Math.PI / 2, y: 0, z: 0 },
+    position: { x: 0, y: 0, z: 0 },
+  },
+  light: [
+    {
+      type: "hemisphere",
+      color: "#3e99e5",
+      intensity: 1,
+      groundColor: '#fff',
+      distance: 1000,
+      helper: true,
+      helperSize: 5,
+      lightName: "hemisphere-light",
+      position: {
+        x: 0,
+        y: 50,
+        z: -50,
+      },
+    },
+    {
+      type: "point",
+      color: "#3e99e5",
+      intensity: 1000,
+      distance: 1000,
+      helper: true,
+      helperSize: 5,
+      lightName: "point-light",
+      position: {
+        x: 0,
+        y: 50,
+        z: 50,
+      },
+    },
+    {
+      type: "spot",
+      color: "#C8A2CB",
+      intensity: 1,
+      distance: 3000,
+      angle: Math.PI / 20,
+      decay: 1,
+      penumbra: 5,
+      helper: true,
+      helperSize: 5,
+      lightName: "spot-light",
+      castShadow: true,
+      shadow: {
+        mapSizeWidth: 1024,
+        mapSizeHeight: 1024,
+        cameraLeft: -100,
+        cameraTop: 100,
+        cameraBottom: -100,
+        cameraRight: 100,
+        cameraNear: 0.1,
+        cameraFar: 1000,
+        radius: 10,
+      },
+      position: {
+        x: -150, y: 50, z: 0,
+      }
+    },
+    {
+      type: "directional",
+      color: "#C8A2CB",
+      intensity: 1,
+      distance: 3000,
+      helper: true,
+      helperSize: 5,
+      lightName: "directional-light",
+      castShadow: true,
+      shadow: {
+        mapSizeWidth: 1024,
+        mapSizeHeight: 1024,
+        cameraLeft: -100,
+        cameraTop: 100,
+        cameraBottom: -100,
+        cameraRight: 100,
+        cameraNear: 0.1,
+        cameraFar: 1000,
+        radius: 100,
+        bias: -0.004,
+        normalBias: 0.027
+      },
+      position: {
+        x: 0, y: 100, z: 50,
+      }
+    },
+    {
+      type: "ambient",
+      color: "#3e99e5",
+      intensity: 1,
+      lightName: "ambient-light",
+    },
+  ],
+
+});
+instance.scene.add(box);
+
+instance.time.on("tick", () => {
+  box.rotation.y = instance.time.elapsedTime;
+});
+})
+</script>
+
 
 ## 阴影（Shadow）{#config-resolution}
 阴影组件，你可以通过配置项快速生成一个阴影平面。
