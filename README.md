@@ -13,7 +13,7 @@
 
 > three-auto can quickly generate a Three.js scene through default configuration settings, without requiring users to manually declare basic classes like camera and renderer.
 
-### ✨ <a href="https://three-auto.vercel.app/" target="_blank">Demo</a> | 📖 <a href="https://three-auto-documents.vercel.app/" target="_blank">Documents</a>
+### ✨ <a href="https://three-auto.vercel.app/" target="_blank">Demo</a> | 📖 <a href="https://flowers-10.github.io/three-auto/" target="_blank">Documents</a>
 
 ## Install
 
