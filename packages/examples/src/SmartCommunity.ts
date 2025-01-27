@@ -39,7 +39,7 @@ const instance = new AUTO.ThreeAuto(undefined, {
     {
       name: "preview",
       type: "GLTF",
-      path: "./models/preview_opt.glb",
+      path: "./models/community.glb",
       show: true,
     },
     {
@@ -48,43 +48,43 @@ const instance = new AUTO.ThreeAuto(undefined, {
       path: '/env/artist_workshop_1k.f6da9025.hdr'
     }
   ],
-  shadow: {
-    show: true,
-    width: 1600,
-    height: 1600,
-    color: '#000',
-    opacity: 0.3,
-    position: { x: 0, y: 0.1, z: 0 },
-    rotation: { x: -Math.PI / 2, y: 0, z: 0 },
-  },
-  light: [
-    {
-      type: "directional",
-      color: "#fff",
-      intensity: 1,
-      distance: 500,
-      helper: false,
-      helperSize: 5,
-      lightName: "spot-light",
-      castShadow: true,
-      shadow: {
-        mapSizeWidth: 1024,
-        mapSizeHeight: 1024,
-        cameraLeft: -500,
-        cameraTop: 500,
-        cameraBottom: -500,
-        cameraRight: 500,
-        cameraNear: 0.1,
-        cameraFar: 500,
-        radius: 100,
-        bias: -0.004,
-        normalBias: 0.027
-      },
-      position: {
-        x: -100, y: 300, z: 165,
-      }
-    },
-  ],
+  // shadow: {
+  //   show: true,
+  //   width: 1600,
+  //   height: 1600,
+  //   color: '#000',
+  //   opacity: 0.3,
+  //   position: { x: 0, y: 0.1, z: 0 },
+  //   rotation: { x: -Math.PI / 2, y: 0, z: 0 },
+  // },
+  // light: [
+  //   {
+  //     type: "directional",
+  //     color: "#fff",
+  //     intensity: 1,
+  //     distance: 500,
+  //     helper: false,
+  //     helperSize: 5,
+  //     lightName: "spot-light",
+  //     castShadow: true,
+  //     shadow: {
+  //       mapSizeWidth: 1024,
+  //       mapSizeHeight: 1024,
+  //       cameraLeft: -500,
+  //       cameraTop: 500,
+  //       cameraBottom: -500,
+  //       cameraRight: 500,
+  //       cameraNear: 0.1,
+  //       cameraFar: 500,
+  //       radius: 100,
+  //       bias: -0.004,
+  //       normalBias: 0.027
+  //     },
+  //     position: {
+  //       x: -100, y: 300, z: 165,
+  //     }
+  //   },
+  // ],
 });
 
 const checkMeshShadow = (origin: any) => {
@@ -103,7 +103,7 @@ instance.resource?.on('ready', () => {
   // preview.scene.position.y = -100 
   preview.scene.position.z = 120
   preview.scene.children.forEach((item: any) => {
-    console.log(item);
+    // console.log(item);
     item.castShadow = true
     checkMeshShadow(item.children)
   })
@@ -111,6 +111,8 @@ instance.resource?.on('ready', () => {
   const env = instance.resource?.items.get('env')
   env.mapping = THREE.EquirectangularReflectionMapping
   instance.scene.environment = env
+  console.log(instance._renderer,33333);
+  
 })
 
 const liftDetail = [

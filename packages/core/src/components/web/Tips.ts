@@ -28,7 +28,7 @@ export class Tips extends BaseThree {
         this.cssRenderer.setSize(this.sizes?.width, this.sizes.height);
         this.domElement = this.cssRenderer.domElement;
         this.domElement.style.position = 'absolute';
-        this.domElement.style.zIndex = '9999';
+        this.domElement.style.zIndex = '2';
         this.domElement.style.top = '0px'
         this.domElement.style.left = '0px'
         this.domElement.style.pointerEvents = 'none';
