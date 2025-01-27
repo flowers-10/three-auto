@@ -62,21 +62,21 @@ Thank you to all the people who already contributed to three-auto!
 		<tr>
             <td align="center">
                 <a href="https://github.com/flowers-10">
-                    <img src="https://private-avatars.githubusercontent.com/u/94791181?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODIyMDAsIm5iZiI6MTczNDY4MTAwMCwicGF0aCI6Ii91Lzk0NzkxMTgxIn0.iHY8052dULi5m1PcNty0bxzo69Gs29HNEXctQ006FRs&v=4" width="100;" alt="flowers-10"/>
+                    <img src="https://avatars.githubusercontent.com/u/94791181?v=4" width="100;" alt="flowers-10"/>
                     <br />
                     <sub><b>Michela</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/KallkaGo">
-                    <img src="https://private-avatars.githubusercontent.com/u/82202033?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODIwODAsIm5iZiI6MTczNDY4MDg4MCwicGF0aCI6Ii91LzgyMjAyMDMzIn0.kjqBy76J_eIBEaUo_9J77d6W7C7kozCEFbHCo7DxYo8&v=4" width="100;" alt="KallkaGo"/>
+                    <img src="https://avatars.githubusercontent.com/u/82202033?v=4" width="100;" alt="KallkaGo"/>
                     <br />
                     <sub><b>More</b></sub>
                 </a>
             </td>
             <td align="center">
                 <a href="https://github.com/coderhyh">
-                    <img src="https://private-avatars.githubusercontent.com/u/84608497?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTEiLCJleHAiOjE3MzQ2ODE3MjAsIm5iZiI6MTczNDY4MDUyMCwicGF0aCI6Ii91Lzg0NjA4NDk3In0.Go8iNHlnQYoXUlXjFOMbvfuFWSiEADr0AUfQcecsfDg&v=4" width="100;" alt="coderhyh"/>
+                    <img src="https://avatars.githubusercontent.com/u/84608497?v=4" width="100;" alt="coderhyh"/>
                     <br />
                     <sub><b>coderhyh</b></sub>
                 </a>
