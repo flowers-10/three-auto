@@ -50,7 +50,7 @@ export class Camera extends BaseThree {
     this.scene.add(this.instance);
   }
   setControls() {
-    const controls = this.cameraConfig.controls;
+    const controls = this.cameraConfig.controls || {};
     Object.assign(this.controls!, controls);
   }
   resize() {
