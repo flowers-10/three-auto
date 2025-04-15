@@ -13,9 +13,10 @@ export class Camera extends BaseThree {
     super(instance);
     this.cameraConfig = config;
     this.instance = this.switchCameraType()
+    
     if (config.controls?.enable) {
-      this.setControls();
       this.controls = new OrbitControls(this.instance, this.canvas);
+      this.setControls();
     }
 
     this.setInstance();
