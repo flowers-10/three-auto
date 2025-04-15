@@ -1,6 +1,6 @@
 {
   "name": "@three-auto/documents",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "@three-auto/docs",
   "main": "index.js",
   "author": "Michela",
@@ -16,7 +16,6 @@
     "vue": "^3.5.4",
     "three": "^0.166.0"
   },
-  
   "dependencies": {
     "three-auto": "0.2.9",
     "module": "^1.2.5"
