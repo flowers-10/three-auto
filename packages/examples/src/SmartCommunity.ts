@@ -18,7 +18,7 @@ const instance = new AUTO.ThreeAuto(undefined, {
     },
     lookAt: false,
     controls: {
-      show: true,
+      enable: true,
       enableDamping: true,
       enablePan: true,
     },

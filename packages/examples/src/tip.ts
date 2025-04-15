@@ -33,7 +33,7 @@ tipsMesh1.position.set(1,1,1)
 tipsMesh1.scale.set(0.005,0.005,1)
 tipsMesh2.position.set(0,1,0)
 tipsMesh2.scale.set(0.005,0.005,1)
-
+box.position.set(1,1,1)
 
 instance.sizes.on('resize',() => {
   // css2.resize()
@@ -42,5 +42,5 @@ instance.sizes.on('resize',() => {
 instance.time.on("tick", () => {
   // css2.update()
   css3.update()
-  box.rotation.y = instance.time.elapsedTime;
+  box.rotation.y -= Math.PI / 180;
 });

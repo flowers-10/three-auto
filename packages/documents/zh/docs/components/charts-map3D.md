@@ -41,9 +41,9 @@ onMounted(() => {
         },
         lookAt: true,
         controls: {
-        show: true,
-        enableDamping: true,
-        enablePan: true,
+            enable: true,
+            enableDamping: true,
+            enablePan: true,
         },
     },
     light: [ {

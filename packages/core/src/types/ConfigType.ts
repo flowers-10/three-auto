@@ -58,7 +58,7 @@ export type CameraConfig = {
   position: PositionType;
   lookAt?: boolean;
   controls?: {
-    show: boolean;
+    enable: boolean;
     enableDamping: boolean;
     minPolarAngle?: number;
     maxPolarAngle?: number;

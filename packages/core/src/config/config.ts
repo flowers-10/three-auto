@@ -16,7 +16,7 @@ export const CONFIG: ConfigType = {
     },
     lookAt: true,
     controls: {
-      show: true,
+      enable: true,
       enableDamping: true,
       enablePan: true,
     },
