@@ -1,5 +1,4 @@
 import * as AUTO from "three-auto";
-import * as THREE from "three";
 import GUI from "three/examples/jsm/libs/lil-gui.module.min.js";
 
 const gui = new GUI();
