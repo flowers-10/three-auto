@@ -20,5 +20,8 @@
   },
   "peerDependencies": {
     "three": ">=0.154"
+  },
+  "dependencies": {
+    "@release-it/conventional-changelog": "^10.0.1"
   }
 }
