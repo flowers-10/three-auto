@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import gsap from "gsap";
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 
 import { ConfigType } from "../types/ConfigType";
 import { CONFIG } from "../config/config";
@@ -33,6 +35,9 @@ export interface ThreeInstance {
   createTips(root: HTMLElement): any
 }
 class ThreeAuto implements ThreeInstance {
+  public static gsap = gsap;
+  public static MotionPathPlugin = MotionPathPlugin;
+  
   public tips: Tips;
   public time: Time;
   public scene: THREE.Scene;
