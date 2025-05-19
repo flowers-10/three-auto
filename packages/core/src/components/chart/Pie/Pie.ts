@@ -12,26 +12,53 @@ export class Pie extends BaseThree {
     public group: THREE.Group;
     public previous: THREE.Object3D | null = null;
     public config: SeriesConfig;
+    public animationId: number | null = null;
+    private currentIndex: number = 0; // 添加当前索引追踪
     constructor(option: Partial<SeriesConfig>, instance: ThreeInstance) {
         super(instance);
         this.group = new THREE.Group();
         this.scene.add(this.group);
-        this.config = mergeConfig(PIE_CONFIG, option)
+        this.config = mergeConfig(PIE_CONFIG, option);
         if (option.data && option.data.length) {
             this.createPie();
         } else {
-            throw new Error("ThreeAuto.Pie:Data must be provided")
+            throw new Error("ThreeAuto.Pie:Data must be provided");
         }
+        this.dispatchEvent();
+
         if (this.config.animation) {
-            this.dispatchEvent();
+            this.dispatchAnimation();
+            // 添加鼠标移入移出事件监听
+            this._canvas.addEventListener("mouseenter", () => {
+                this.stopAnimation();
+            });
+
+            this._canvas.addEventListener("mouseleave", () => {
+                if (this.config.animation) {
+                    this.dispatchAnimation();
+                }
+            });
         }
+
         if (this.config.tooltip.show) {
-            new Tooltip(instance, this.group, this.config.tooltip)
+            new Tooltip(instance, this.group, this.config.tooltip);
         }
     }
     createPie() {
-        const { data, height, radius, gap, transparent, opacity, selectedOffset = 5, heightMode = 'auto', name, label, shadow = false } = this.config;
-
+        const {
+            data,
+            height,
+            radius,
+            gap,
+            transparent,
+            opacity,
+            emphasis,
+            heightMode = "auto",
+            name,
+            label,
+            shadow = false,
+        } = this.config;
+        const { scaleSize } = emphasis;
         let sum = 0;
         let min = Number.MAX_SAFE_INTEGER;
         let max = 0;
@@ -49,7 +76,10 @@ export class Pie extends BaseThree {
         if (Array.isArray(radius)) {
             if (radius.length === 2) {
                 [innerRadius, outerRadius] = radius;
-                isRing = innerRadius !== undefined && innerRadius !== null && innerRadius !== 0;
+                isRing =
+                    innerRadius !== undefined &&
+                    innerRadius !== null &&
+                    innerRadius !== 0;
             } else {
                 outerRadius = radius[0];
             }
@@ -58,17 +88,27 @@ export class Pie extends BaseThree {
         }
         const axis = new THREE.Vector3(1, 0, 0);
 
-
         data.forEach((item: any) => {
-            const pieSlice = new THREE.Group()
+            const pieSlice = new THREE.Group();
             pieSlice.name = item.name;
             pieSlice.userData = { ...pieSlice.userData, ...item };
             pieSlice.userData.title = name;
-            this.group.add(pieSlice)
+            this.group.add(pieSlice);
 
             const angle = (item.value / sum) * Math.PI * 2;
-            const h = heightMode === 'auto' ? height + ((item.value - min) / valLen) * height : height;
-            const material = new THREE[shadow ? 'MeshStandardMaterial' : 'MeshBasicMaterial']({ color: item.color, side: THREE.DoubleSide, transparent, opacity,roughness: 0.7 });
+            const h =
+                heightMode === "auto"
+                    ? height + ((item.value - min) / valLen) * height
+                    : height;
+            const material = new THREE[
+                shadow ? "MeshStandardMaterial" : "MeshBasicMaterial"
+            ]({
+                color: item.color,
+                side: THREE.DoubleSide,
+                transparent,
+                opacity,
+                roughness: 0.7,
+            });
             const outerGeometry = new THREE.CylinderGeometry(
                 outerRadius,
                 outerRadius,
@@ -114,34 +154,45 @@ export class Pie extends BaseThree {
                 upperRing.rotateX(-0.5 * Math.PI);
                 upperRing.rotateZ(-0.5 * Math.PI);
                 upperRing.position.y = h;
-                pieSlice.add(upperRing)
+                pieSlice.add(upperRing);
                 const belowRing = new THREE.Mesh(ringGeometry, material);
                 belowRing.rotateX(-0.5 * Math.PI);
                 belowRing.rotateZ(-0.5 * Math.PI);
                 belowRing.position.y = 0;
                 belowRing.castShadow = shadow;
                 belowRing.receiveShadow = shadow;
-                pieSlice.add(belowRing)
+                pieSlice.add(belowRing);
 
-                const plane = new THREE.Mesh(new THREE.PlaneGeometry(outerRadius - innerRadius, h), material);
+                const plane = new THREE.Mesh(
+                    new THREE.PlaneGeometry(outerRadius - innerRadius, h),
+                    material
+                );
                 plane.position.y = h * 0.5;
                 plane.position.x = 0;
                 plane.position.z = 0;
                 plane.rotation.y = startAngle + Math.PI * 0.5;
-                plane.translateOnAxis(axis, -(innerRadius + 0.5 * (outerRadius - innerRadius)));
+                plane.translateOnAxis(
+                    axis,
+                    -(innerRadius + 0.5 * (outerRadius - innerRadius))
+                );
                 plane.castShadow = shadow;
                 plane.receiveShadow = shadow;
                 pieSlice.add(plane);
-                const plane1 = new THREE.Mesh(new THREE.PlaneGeometry(outerRadius - innerRadius, h), material);
+                const plane1 = new THREE.Mesh(
+                    new THREE.PlaneGeometry(outerRadius - innerRadius, h),
+                    material
+                );
                 plane1.position.y = h * 0.5;
                 plane1.position.x = 0;
                 plane1.position.z = 0;
                 plane1.rotation.y = startAngle + angle + Math.PI * 0.5;
-                plane1.translateOnAxis(axis, -(innerRadius + 0.5 * (outerRadius - innerRadius)));
+                plane1.translateOnAxis(
+                    axis,
+                    -(innerRadius + 0.5 * (outerRadius - innerRadius))
+                );
                 plane1.castShadow = shadow;
                 plane1.receiveShadow = shadow;
                 pieSlice.add(plane1);
-
             } else {
                 const planeGeometry = new THREE.PlaneGeometry(outerRadius, h);
                 const plane1 = new THREE.Mesh(planeGeometry, material);
@@ -164,92 +215,151 @@ export class Pie extends BaseThree {
                 pieSlice.add(plane2);
             }
 
-
             // 计算方向向量
             const centerAngle = startAngle + angle / 2;
-            const direction = new THREE.Vector3(Math.sin(centerAngle), 0, Math.cos(centerAngle));
+            const direction = new THREE.Vector3(
+                Math.sin(centerAngle),
+                0,
+                Math.cos(centerAngle)
+            );
             direction.normalize();
-            pieSlice.position.addScaledVector(direction, gap)
-            pieSlice.userData.toTarget = pieSlice.position.clone().addScaledVector(direction, selectedOffset);
-            pieSlice.userData.backTarget = pieSlice.userData.toTarget.clone().addScaledVector(direction, -selectedOffset);
+            pieSlice.position.addScaledVector(direction, gap);
+            pieSlice.userData.toTarget = pieSlice.position
+                .clone()
+                .addScaledVector(direction, scaleSize);
+            pieSlice.userData.backTarget = pieSlice.userData.toTarget
+                .clone()
+                .addScaledVector(direction, -scaleSize);
 
             if (label && label.show) {
-                this.createLabel(item.name, h, innerRadius + (outerRadius - innerRadius) * 0.5, direction, pieSlice)
+                this.createLabel(
+                    item.name,
+                    h,
+                    innerRadius + (outerRadius - innerRadius) * 0.5,
+                    direction,
+                    pieSlice
+                );
             }
 
             startAngle += angle;
         });
     }
 
-    createLabel(name: string, height: number, radius: number, direction: THREE.Vector3, pieSlice: THREE.Group) {
+    createLabel(
+        name: string,
+        height: number,
+        radius: number,
+        direction: THREE.Vector3,
+        pieSlice: THREE.Group
+    ) {
         const { label } = this.config;
-        const { distance = 0, rotation = {
-            x: 0,
-            y: 0,
-            z: 0,
-        }, textStyle, scale = 1, } = label
+        const {
+            distance = 0,
+            rotation = {
+                x: 0,
+                y: 0,
+                z: 0,
+            },
+            textStyle,
+            scale = 1,
+        } = label;
 
         const labelElement = htmlRender({
-            tag: 'div', children: name, style: textStyle,
-        })
-        const tips = this._instance.createTips(labelElement)
+            tag: "div",
+            children: name,
+            style: textStyle,
+        });
+        const tips = this._instance.createTips(labelElement);
         tips.position.y = height + distance;
-        tips.scale.set(scale, scale, scale)
-        tips.rotation.set(rotation.x, rotation.y, rotation.z)
-        tips.position.addScaledVector(direction, radius)
-        pieSlice.add(tips)
+        tips.scale.set(scale, scale, scale);
+        tips.rotation.set(rotation.x, rotation.y, rotation.z);
+        tips.position.addScaledVector(direction, radius);
+        pieSlice.add(tips);
     }
-    dispatchEvent() {
+    handleAnimation(currentItem: THREE.Object3D, isPrevious: boolean = false) {
         const {
             animationDuration = 1000,
-            animationEasing = 'power1.inOut',
+            animationEasing = "power1.inOut",
             animationDelay = 0,
-            eventName = 'click' } = this.config
-
-        this._canvas.addEventListener(eventName, () => {
+            emphasis
+        } = this.config;
+        const { selectedMode = 'offset', scaleSize = 4 } = emphasis;
+        if (selectedMode === "offset") {
+            // 偏移模式
+            const target = isPrevious
+                ? currentItem.userData.backTarget :
+                currentItem.userData.toTarget;
+            gsap.killTweensOf(currentItem.position);
+            gsap.to(currentItem.position, {
+                x: target.x,
+                y: target.y,
+                z: target.z,
+                duration: animationDuration / 1000,
+                ease: animationEasing,
+                delay: animationDelay / 1000,
+            });
+        } else if (selectedMode === "height") {
+            // 高度模式
+            gsap.killTweensOf(currentItem.scale);
+            gsap.to(currentItem.scale, {
+                y: isPrevious ? 1 : scaleSize,
+                duration: animationDuration / 1000,
+                ease: animationEasing,
+                delay: animationDelay / 1000,
+            });
+        }
+    }
+    dispatchEvent() {
+        this._canvas.addEventListener(this.config.eventName, () => {
             const intersects = this._raycaster.onRaycasting();
             if (this.previous) {
-                const target = this.previous.userData.backTarget
-                gsap.killTweensOf(this.previous.position);
-                gsap.to(this.previous.position, {
-                    x: target.x,
-                    y: target.y,
-                    z: target.z,
-                    duration: animationDuration / 1000,
-                    ease: animationEasing,
-                    delay: animationDelay / 1000
-                })
-
-                this.previous = null
+                this.handleAnimation(this.previous, true);
+                this.previous = null;
             }
-            this.group.children.forEach(item => {
-                item.children.forEach(itemX => {
+
+            this.group.children.forEach((item) => {
+                item.children.forEach((itemX) => {
                     if (intersects && intersects[0].object.uuid === itemX.uuid) {
-
-                        const target = item.userData.toTarget
-                        gsap.killTweensOf(item.position);
-                        gsap.to(item.position, {
-                            x: target.x,
-                            y: target.y,
-                            z: target.z,
-                            duration: animationDuration / 1000,
-                            ease: animationEasing,
-                            delay: animationDelay / 1000
-                        })
-                        this.previous = item
-
+                        this.handleAnimation(item, false);
+                        this.previous = item;
                     }
-                })
-            })
-        })
+                });
+            });
+        });
+    }
+    dispatchAnimation() {
+        if (this.animationId !== null) return;
+        const { animationDurationUpdate = 3000 } = this.config;
+
+        this.animationId = setInterval(() => {
+            // 重置前一个选中状态
+            if (this.previous) {
+                this.handleAnimation(this.previous, true);
+            }
+
+            // 获取当前要激活的项
+            const currentItem = this.group.children[this.currentIndex];
+
+            this.handleAnimation(currentItem);
+            this.previous = currentItem;
+
+            // 更新索引，循环
+            this.currentIndex = (this.currentIndex + 1) % this.group.children.length;
+        }, animationDurationUpdate);
+    }
+    stopAnimation() {
+        if (this.animationId !== null) {
+            clearInterval(this.animationId);
+            this.animationId = null; // 重置 animationId
+        }
     }
     update() {
         this._instance.onTick(() => {
-            document.body.style.cursor = 'auto';
+            document.body.style.cursor = "auto";
             const intersects = this._raycaster.onRaycasting();
             if (intersects) {
-                document.body.style.cursor = 'pointer';
+                document.body.style.cursor = "pointer";
             }
-        })
+        });
     }
 }

@@ -1,25 +1,31 @@
 import { SeriesConfig } from "../types";
 
-export const PIE_CONFIG: SeriesConfig =  {
+export const PIE_CONFIG: SeriesConfig =   {
   type: 'pie',
   name: 'three-auto-pie',
   shadow: false,
-  itemStyle: {},
   data: [],
+  itemStyle: {},
+  transparent: true,
   opacity: 0.5,
+  height: 1,
+  heightMode: 'height',
+  radius: [8, 10],
+  gap: 0.1,
+  eventName: 'mousemove',
   animation: true,
   animationDuration: 350,
   animationEasing: 'power1.inOut',
   animationDelay: 0,
-  selectedOffset: 2.5,
-  height: 20,
-  heightMode: 'flat',
-  radius: 30,
-  gap: 0.5,
-  eventName: 'click',
+  animationDurationUpdate: 3000,
+  emphasis:{
+    selectedMode: 'offset',
+    disabled:false,
+    scaleSize: 4,
+  },
   label: {
     show: true,
-    distance: 3,
+    distance: 0,
     scale: 1,
     rotation: {
       x: 0,
