@@ -91,6 +91,7 @@ export class Pie extends BaseThree {
         data.forEach((item: any) => {
             const pieSlice = new THREE.Group();
             pieSlice.name = item.name;
+            item.percent = (item.value / sum) * 100;
             pieSlice.userData = { ...pieSlice.userData, ...item };
             pieSlice.userData.title = name;
             this.group.add(pieSlice);
@@ -231,30 +232,47 @@ export class Pie extends BaseThree {
                 .clone()
                 .addScaledVector(direction, -scaleSize);
 
-            if (label && label.show) {
+            if (!!label) {
                 this.createLabel(
-                    item.name,
+                    item,
+                    data,
                     h,
                     innerRadius + (outerRadius - innerRadius) * 0.5,
                     direction,
+                    'label',
                     pieSlice
                 );
             }
 
+            if (!!emphasis.label) {
+                this.createLabel(
+                    item,
+                    data,
+                    h,
+                    innerRadius + (outerRadius - innerRadius) * 0.5,
+                    direction,
+                    'emphasis',
+                    pieSlice
+                );
+            }
             startAngle += angle;
         });
     }
 
     createLabel(
-        name: string,
+        item: any,
+        data: any[],
         height: number,
         radius: number,
         direction: THREE.Vector3,
+        type: string,
         pieSlice: THREE.Group
     ) {
-        const { label } = this.config;
+        const { label } = type === 'label' ? this.config : this.config.emphasis;
         const {
             distance = 0,
+            position = "inside",
+            show = true,
             rotation = {
                 x: 0,
                 y: 0,
@@ -262,19 +280,33 @@ export class Pie extends BaseThree {
             },
             textStyle,
             scale = 1,
+            formatter,
         } = label;
 
+        let children = item.name
+        if (formatter) {
+            children = formatter({ data, value: item.value, name: item.name, seriesName: this.config.name, color: item.color, percent: item.percent });
+        }
         const labelElement = htmlRender({
             tag: "div",
-            children: name,
+            children,
             style: textStyle,
         });
         const tips = this._instance.createTips(labelElement);
-        tips.position.y = height + distance;
+        tips.name = type;
         tips.scale.set(scale, scale, scale);
         tips.rotation.set(rotation.x, rotation.y, rotation.z);
-        tips.position.addScaledVector(direction, radius);
         pieSlice.add(tips);
+        tips.visible = type === 'label' ? show : false;
+        switch (position) {
+            case "inside":
+                tips.position.y = height + distance;
+                tips.position.addScaledVector(direction, radius);
+                break;
+            case "center":
+                tips.position.copy(this.group.position);
+                break;
+        }
     }
     handleAnimation(currentItem: THREE.Object3D, isPrevious: boolean = false) {
         const {
@@ -306,6 +338,19 @@ export class Pie extends BaseThree {
                 duration: animationDuration / 1000,
                 ease: animationEasing,
                 delay: animationDelay / 1000,
+            });
+        }
+        if (isPrevious) {
+            currentItem.children.forEach((item) => {
+                if (item.name === 'emphasis') {
+                    item.visible = false;
+                }
+            });
+        } else {
+            currentItem.children.forEach((item) => {
+                if (item.name === 'emphasis') {
+                    item.visible = true;
+                }
             });
         }
     }
@@ -340,7 +385,7 @@ export class Pie extends BaseThree {
             // 获取当前要激活的项
             const currentItem = this.group.children[this.currentIndex];
 
-            this.handleAnimation(currentItem);
+            this.handleAnimation(currentItem, false);
             this.previous = currentItem;
 
             // 更新索引，循环

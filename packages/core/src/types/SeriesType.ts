@@ -11,6 +11,7 @@ export interface LabelStyle {
   type?: cssType;
   distance?: number;
   scale?: number;
+  position?: string;
   rotation?: {
     x: number;
     y: number;

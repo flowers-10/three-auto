@@ -70,8 +70,16 @@ export function htmlRender(obj: NodeObject, root: HTMLElement = document.body): 
   }
 
   if (typeof obj.children === "string" || typeof obj.children === "number") {
-    const text = document.createTextNode(String(obj.children));
-    el.appendChild(text);
+    const childrenStr = String(obj.children);
+    // 检查字符串是否包含HTML标签
+    if (typeof childrenStr === "string" && /<[a-z][\s\S]*>/i.test(childrenStr)) {
+      // 安全检查：过滤掉可能的危险标签和属性
+      const safeHtml = sanitizeHtml(childrenStr);
+      el.innerHTML = safeHtml;
+    } else {
+      const text = document.createTextNode(childrenStr);
+      el.appendChild(text);
+    }
   } else if (Array.isArray(obj.children)) {
     obj.children.forEach((child) => {
       if (typeof child === "object" && child !== null) {
@@ -85,4 +93,46 @@ export function htmlRender(obj: NodeObject, root: HTMLElement = document.body): 
 
   root.appendChild(el);
   return el
+}
+
+// 添加HTML安全过滤函数
+function sanitizeHtml(html: string): string {
+  // 创建一个临时元素
+  const tempEl = document.createElement('div');
+  tempEl.innerHTML = html;
+  
+  // 移除危险标签和属性
+  const dangerousTags = ['script', 'iframe', 'object', 'embed', 'form'];
+  const dangerousAttrs = ['onerror', 'onload', 'onclick', 'onmouseover', 'javascript:'];
+  
+  // 移除危险标签
+  dangerousTags.forEach(tag => {
+    const elements = tempEl.getElementsByTagName(tag);
+    for (let i = elements.length - 1; i >= 0; i--) {
+      elements[i].parentNode?.removeChild(elements[i]);
+    }
+  });
+  
+  // 移除危险属性
+  const allElements = tempEl.getElementsByTagName('*');
+  for (let i = 0; i < allElements.length; i++) {
+    const element = allElements[i];
+    for (let j = 0; j < element.attributes.length; j++) {
+      const attr = element.attributes[j];
+      const attrName = attr.name.toLowerCase();
+      const attrValue = attr.value.toLowerCase();
+      
+      // 检查属性名和值是否包含危险内容
+      const isDangerous = dangerousAttrs.some(dangerous => 
+        attrName.includes(dangerous) || attrValue.includes(dangerous)
+      );
+      
+      if (isDangerous || attrName.startsWith('on')) {
+        element.removeAttribute(attr.name);
+        j--; 
+      }
+    }
+  }
+  
+  return tempEl.innerHTML;
 }

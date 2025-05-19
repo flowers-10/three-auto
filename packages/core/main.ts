@@ -37,17 +37,39 @@ const instance = new AUTO.ThreeAuto(undefined, {
       radius: [8, 10],
       gap: 0.1,
       eventName: 'mousemove',
-      animation:true,
+      animation: true,
       animationDurationUpdate: 3000,
-      emphasis:{
-        selectedMode: 'offset',
-        disabled:false,
+      emphasis: {
+        selectedMode: 'height',
+        disabled: false,
         scaleSize: 4,
+        label: {
+          show: true,
+          distance: 0,
+          scale: 1,
+          position: 'center',
+          formatter: (params: any) => {
+            return `<div style="font-size: 28px">${params.value}</div><div style="font-size: 18px">${params.name}</div>`
+          },
+          rotation: {
+            x: 0,
+            y: 0,
+            z: 0,
+          },
+          textStyle: {
+            padding: '6px',
+            color: "#fff",
+            bold: true,
+            'font-weight': 'bold',
+            'font-style': 'normal',
+          },
+        }
       },
       label: {
-        show: true,
+        show: false,
         distance: 0,
         scale: 1,
+        position: 'center',
         rotation: {
           x: 0,
           y: 0,
@@ -78,7 +100,7 @@ const instance = new AUTO.ThreeAuto(undefined, {
       }
     }
   ],
-  
+
 });
 
 
