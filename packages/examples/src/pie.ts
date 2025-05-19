@@ -1,67 +1,52 @@
 import * as AUTO from "three-auto";
-import * as THREE from "three";
 
 
 const instance = new AUTO.ThreeAuto(undefined, {
-  light: [
-    {
-      type: "directional",
-      color: "#fff",
-      intensity: 1,
-      distance: 3000,
-      helper: false,
-      helperSize: 5,
-      lightName: "directional-light",
-      castShadow: true,
-      shadow: {
-        mapSizeWidth: 1024,
-        mapSizeHeight: 1024,
-        cameraLeft: -100,
-        cameraTop: 100,
-        cameraBottom: -100,
-        cameraRight: 100,
-        cameraNear: 0.1,
-        cameraFar: 1000,
-        radius: 100,
-        bias: -0.004,
-        normalBias: 0.027
-      },
-      position: {
-        x: 0, y: 100, z: 50,
-      }
+  camera: {
+    type: 'PerspectiveCamera',
+    fov: 60,
+    near: 1,
+    far: 1000,
+    position: {
+      x: 20,
+      y: 20,
+      z: 0,
     },
-   
-  ],
-  shadow: {
-    show: true,
-    width: 400,
-    height: 400,
-    color: '#000',
-    opacity: 0.1,
-    rotation:  { x: -Math.PI / 2, y: 0, z: 0 },
+    lookAt: true,
+    controls: {
+      enable: false,
+      enableDamping: false,
+      enablePan: false,
+    },
   },
   series: [
     {
       type: 'pie',
       name: 'three-auto-pie',
-      shadow: true,
+      shadow: false,
       data: [
-        { name: '小学', value: 100, color: '#fcc02a' },
-        { name: '中学', value: 200, color: '#f16b91' },
-        { name: '大学', value: 300, color: '#187bac' },
-        { name: '不学', value: 500, color: '#eeeeee' },
+        { name: '报修', value: 40, color: '#52E4AC' },
+        { name: '安全', value: 20, color: '#1561EC' },
+        { name: '环境', value: 25, color: '#FED859' },
+        { name: '服务', value: 15, color: '#22B6E7' },
       ],
       transparent: true,
-      opacity: 1,
-      selectedOffset: 10,
-      height: 20,
-      heightMode: 'flat',
-      radius: [50, 60],
-      gap: 5,
-      eventName: 'click',
+      opacity: 0.5,
+      height: 1,
+      heightMode: 'height',
+      radius: [8, 10],
+      gap: 0.1,
+      eventName: 'mousemove',
+      animation:true,
+      animationDurationUpdate: 3000,
+      emphasis:{
+        selectedMode: 'offset',
+        disabled:false,
+        scaleSize: 4,
+      },
       label: {
         show: true,
-        distance: 3,
+        distance: 0,
         scale: 1,
         rotation: {
           x: 0,
@@ -93,22 +78,11 @@ const instance = new AUTO.ThreeAuto(undefined, {
       }
     }
   ],
-  postprocess: {
-    type: 'moebius',
-    options: {
-      shadow: false,
-    }
-  }
+  
 });
 
 
-(instance.camera.instance as THREE.PerspectiveCamera).fov = 75;
-instance.camera.instance.near = 0.1;
-instance.camera.instance.far = 5000;
 instance.camera.instance.updateProjectionMatrix()
-instance.camera.instance.position.set(100, 100, 100.0);
 instance._renderer.setClearColor("#DDEAFB");
 instance.onTick(() => {
 });
-
-
