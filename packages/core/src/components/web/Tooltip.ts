@@ -35,7 +35,7 @@ export class Tooltip extends BaseThree {
                 padding,
                 borderStyle,
                 transition: 'opacity ' + hideDelay / 1000 + 's',
-                opacity: 0,
+                visibility : 'hidden',
                 ...textStyle
             }
         }, (this._canvas.parentElement || document.body));
@@ -86,30 +86,24 @@ export class Tooltip extends BaseThree {
      * @returns 调整后的坐标对象
      */
     adjustTooltipPosition(x: number, y: number): {x: number, y: number} {
-        // 获取视口宽高
         const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
         const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
         
-        // 获取tooltip尺寸
         const tooltipRect = this.tooltipElement.getBoundingClientRect();
         const tooltipWidth = tooltipRect.width;
         const tooltipHeight = tooltipRect.height;
         
-        // 计算默认位置
         let posX = x + (this.options.offsetX || 20);
         let posY = y + (this.options.offsetY || 20);
         
-        // 检查是否超出右边界
         if (posX + tooltipWidth > viewportWidth) {
             posX = x - tooltipWidth - (this.options.offsetX || 20);
         }
         
-        // 检查是否超出下边界
         if (posY + tooltipHeight > viewportHeight) {
             posY = y - tooltipHeight - (this.options.offsetY || 20);
         }
         
-        // 确保不超出左边界和上边界
         posX = Math.max(0, posX);
         posY = Math.max(0, posY);
         
@@ -119,23 +113,20 @@ export class Tooltip extends BaseThree {
     update() {
         this._instance.onTick(() => {
             const intersects = this._raycaster.onRaycasting();
-            this.tooltipElement.style.opacity = '0';
+            this.tooltipElement.style.visibility = 'hidden';
 
             this.group?.children?.forEach(item => {
                 if (intersects && intersects[0].object.uuid === item.uuid) {
                     document.body.style.cursor = 'pointer';
                     
-                    // 获取鼠标位置
                     const mouseX = this.mousemove.eventOffset.x;
                     const mouseY = this.mousemove.eventOffset.y;
                     
-                    // 计算调整后的位置
                     const position = this.adjustTooltipPosition(mouseX, mouseY);
                     
-                    // 应用新位置
                     this.tooltipElement.style.left = position.x + 'px';
                     this.tooltipElement.style.top = position.y + 'px';
-                    this.tooltipElement.style.opacity = '1';
+                    this.tooltipElement.style.visibility = 'visible';
                     this.tooltipElement.style.borderColor = item.userData.color;
 
                     if (!this.uuid || this.uuid !== item.uuid) {
@@ -149,17 +140,14 @@ export class Tooltip extends BaseThree {
                     if (intersects && intersects[0].object.uuid === itemX.uuid) {
                         document.body.style.cursor = 'pointer';
                         
-                        // 获取鼠标位置
                         const mouseX = this.mousemove.eventOffset.x;
                         const mouseY = this.mousemove.eventOffset.y;
                         
-                        // 计算调整后的位置
                         const position = this.adjustTooltipPosition(mouseX, mouseY);
                         
-                        // 应用新位置
                         this.tooltipElement.style.left = position.x + 'px';
                         this.tooltipElement.style.top = position.y + 'px';
-                        this.tooltipElement.style.opacity = '1';
+                        this.tooltipElement.style.visibility = 'visible';
                         this.tooltipElement.style.borderColor = item.userData.color;
 
                         if (!this.uuid || this.uuid !== item.uuid) {
