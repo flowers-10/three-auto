@@ -86,8 +86,8 @@ export class Tooltip extends BaseThree {
      * @returns 调整后的坐标对象
      */
     adjustTooltipPosition(x: number, y: number): {x: number, y: number} {
-        const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        const viewportWidth = this._canvas.clientWidth ||  window.innerWidth || document.documentElement.clientWidth;
+        const viewportHeight =  this._canvas.clientHeight ||  window.innerHeight || document.documentElement.clientHeight;
         
         const tooltipRect = this.tooltipElement.getBoundingClientRect();
         const tooltipWidth = tooltipRect.width;

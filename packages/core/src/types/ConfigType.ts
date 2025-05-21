@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { SeriesConfig } from "./SeriesType";
 import { LoadingType, SourcesItems } from "./SourcesType";
-import {TipsType} from '../components/web/Tips'
+import { TipsType, LegendOptions } from '../components'
 
 type SizeType = "parent" | "window";
 type LightType = "point" | "ambient" | "hemisphere" | "spot" | 'directional';
@@ -69,7 +69,7 @@ export type CameraConfig = {
 };
 
 export type RendererConfig = {
-  logarithmicDepthBuffer?:boolean;
+  logarithmicDepthBuffer?: boolean;
   antialias?: boolean;
   alpha?: boolean;
   clearAlpha?: number;
@@ -114,6 +114,7 @@ export interface ConfigType {
   resource?: SourcesItems[]
   renderer: RendererConfig;
   shadow?: ShadowConfig;
+  legend?: LegendOptions;
   postprocess?: PostProcessConfig;
-  env?: {} 
+  env?: {}
 }

@@ -19,14 +19,16 @@ export class Pie extends BaseThree {
         this.group = new THREE.Group();
         this.scene.add(this.group);
         this.config = mergeConfig(PIE_CONFIG, option);
+        const { animation, tooltip, position } = this.config
         if (option.data && option.data.length) {
             this.createPie();
+            this.group.position.set(position?.x || 0, position?.y || 0, position?.z || 0);
         } else {
             throw new Error("ThreeAuto.Pie:Data must be provided");
         }
         this.dispatchEvent();
 
-        if (this.config.animation) {
+        if (animation) {
             this.dispatchAnimation();
             // 添加鼠标移入移出事件监听
             this._canvas.addEventListener("mouseenter", () => {
@@ -34,15 +36,19 @@ export class Pie extends BaseThree {
             });
 
             this._canvas.addEventListener("mouseleave", () => {
-                if (this.config.animation) {
+                if (animation) {
                     this.dispatchAnimation();
                 }
             });
         }
 
-        if (this.config.tooltip.show) {
-            new Tooltip(instance, this.group, this.config.tooltip);
+        if (tooltip.show) {
+            new Tooltip(instance, this.group, tooltip);
         }
+
+        this._canvas.addEventListener("legend-change", (event: any) => {
+            this.handleLegendChange(event.detail);
+        });
     }
     createPie() {
         const {
@@ -88,7 +94,7 @@ export class Pie extends BaseThree {
         }
         const axis = new THREE.Vector3(1, 0, 0);
 
-        data.forEach((item: any) => {
+        data.forEach((item: any, index: number) => {
             const pieSlice = new THREE.Group();
             pieSlice.name = item.name;
             item.percent = (item.value / sum) * 100;
@@ -236,6 +242,7 @@ export class Pie extends BaseThree {
                 this.createLabel(
                     item,
                     data,
+                    index,
                     h,
                     innerRadius + (outerRadius - innerRadius) * 0.5,
                     direction,
@@ -248,6 +255,7 @@ export class Pie extends BaseThree {
                 this.createLabel(
                     item,
                     data,
+                    index,
                     h,
                     innerRadius + (outerRadius - innerRadius) * 0.5,
                     direction,
@@ -262,6 +270,7 @@ export class Pie extends BaseThree {
     createLabel(
         item: any,
         data: any[],
+        index: number,
         height: number,
         radius: number,
         direction: THREE.Vector3,
@@ -285,13 +294,13 @@ export class Pie extends BaseThree {
 
         let children = item.name
         if (formatter) {
-            children = formatter({ data, value: item.value, name: item.name, seriesName: this.config.name, color: item.color, percent: item.percent });
+            children = formatter({ data, value: item.value, seriesIndex: index, name: item.name, seriesName: this.config.name, color: item.color, percent: item.percent });
         }
         const labelElement = htmlRender({
             tag: "div",
             children,
             style: textStyle,
-        });
+        }, this._canvas);
         const tips = this._instance.createTips(labelElement);
         tips.name = type;
         tips.scale.set(scale, scale, scale);
@@ -304,7 +313,7 @@ export class Pie extends BaseThree {
                 tips.position.addScaledVector(direction, radius);
                 break;
             case "center":
-                tips.position.copy(this.group.position);
+                tips.position.y = distance;
                 break;
         }
     }
@@ -316,6 +325,20 @@ export class Pie extends BaseThree {
             emphasis
         } = this.config;
         const { selectedMode = 'offset', scaleSize = 4 } = emphasis;
+        
+        // 检查该切片是否被图例隐藏（通过检查非标签类子元素的可见性）
+        let isHiddenByLegend = false;
+        currentItem.children.forEach(child => {
+            if (child.name !== 'emphasis' && child.name !== 'label' && !child.visible) {
+                isHiddenByLegend = true;
+            }
+        });
+
+        // 如果被图例隐藏，则不执行任何动画
+        if (isHiddenByLegend) {
+            return;
+        }
+
         if (selectedMode === "offset") {
             // 偏移模式
             const target = isPrevious
@@ -340,16 +363,12 @@ export class Pie extends BaseThree {
                 delay: animationDelay / 1000,
             });
         }
-        if (isPrevious) {
+
+        // 只有在切片未被图例隐藏时才处理 emphasis 标签的显示状态
+        if (!isHiddenByLegend) {
             currentItem.children.forEach((item) => {
                 if (item.name === 'emphasis') {
-                    item.visible = false;
-                }
-            });
-        } else {
-            currentItem.children.forEach((item) => {
-                if (item.name === 'emphasis') {
-                    item.visible = true;
+                    item.visible = !isPrevious;
                 }
             });
         }
@@ -397,6 +416,19 @@ export class Pie extends BaseThree {
             clearInterval(this.animationId);
             this.animationId = null; // 重置 animationId
         }
+    }
+    handleLegendChange(detail: { name: string, selected: boolean, selectedMap: Record<string, boolean> }): void {
+        this.group.children.forEach(pieSlice => {
+            if (pieSlice.name === detail.name) {
+                pieSlice.children.forEach(item => {
+                    if (item.name === 'emphasis' || item.name === 'label') {
+                        if (!detail.selected) { item.visible = detail.selected }
+                    } else {
+                        item.visible = detail.selected;
+                    }
+                });
+            }
+        });
     }
     update() {
         this._instance.onTick(() => {

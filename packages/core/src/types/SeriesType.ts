@@ -49,7 +49,7 @@ export interface ItemStyle {
   [key: string]: any;
 }
 
-export interface DataConfig {
+export interface DataItem {
   name?: string;
   value?: string | number;
   color?: string;
@@ -68,7 +68,7 @@ export interface SeriesConfig {
   json?: any; // Replace 'any'
   itemStyle: Partial<ItemStyle>;
   label: LabelStyle;
-  data: DataConfig[];
+  data: DataItem[];
   height: number;
   radius: number | [number, number];
   gap: number;

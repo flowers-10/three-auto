@@ -13,7 +13,7 @@ import {
   Renderer,
   Camera,
 } from "./index";
-import { Light, Series, PostProcess, Tips, Shadow, Environment } from "../components";
+import { Light, Series, PostProcess, Tips, Shadow, Environment, Legend } from "../components";
 
 export interface ThreeInstance {
   time: Time;
@@ -37,7 +37,6 @@ export interface ThreeInstance {
 class ThreeAuto implements ThreeInstance {
   public static gsap = gsap;
   public static MotionPathPlugin = MotionPathPlugin;
-  
   public tips: Tips;
   public time: Time;
   public scene: THREE.Scene;
@@ -51,6 +50,7 @@ class ThreeAuto implements ThreeInstance {
   public mousemove: MouseMoveTracker;
   public raycaster: Raycaster;
   public series?: Series;
+  public legend?: Legend;
   public light?: Light;
   public postprocess?: PostProcess;
   public resource?: Resources;
@@ -59,9 +59,11 @@ class ThreeAuto implements ThreeInstance {
   public Resources = Resources;
   public Raycaster = Raycaster;
   public Series = Series;
+  public Legend = Legend;
   public PostProcess = PostProcess;
+
   constructor(canvas?: HTMLCanvasElement, config: Partial<ConfigType> = {}) {
-    const { id = '_scene', size = { type: 'window' }, camera = CONFIG.camera, renderer = CONFIG.renderer, tipsType } = config
+    const { id = '_scene', size = { type: 'window' }, camera = CONFIG.camera, renderer = CONFIG.renderer, tipsType, light, series, legend, postprocess, resource, loadingType, env, shadow } = config
     const canvass = document.getElementById(id);
     if (!canvass && !canvas) {
       throw new Error("ThreeAuto:Canvas has already been initialized.");
@@ -86,23 +88,32 @@ class ThreeAuto implements ThreeInstance {
     this.time.on("tickAfter", () => {
       this.postprocess?.render();
     });
-    if (config.light) {
-      this.light = new Light(config.light, this);
+    if (light) {
+      this.light = new Light(light, this);
     }
-    if (config.series && config.series.length) {
-      this.series = new Series(config.series, this);
+    if (series && series.length) {
+      this.series = new Series(series, this);
     }
-    if (config.postprocess) {
-      this.postprocess = new PostProcess(config.postprocess, this);
+    if (legend) {
+      if (!legend.data || !legend.data.length) {
+        const seriesData = series?.map(item => item.data).filter(Boolean);
+        if (seriesData && seriesData.length > 0) {
+          legend.data = seriesData[0];
+        }
+      }
+      this.legend = new Legend(legend, this);
     }
-    if (config.resource && config.resource.length) {
-      this.resource = new Resources(config.resource, config.loadingType);
+    if (postprocess) {
+      this.postprocess = new PostProcess(postprocess, this);
     }
-    if (config.env) {
+    if (resource && resource.length) {
+      this.resource = new Resources(resource, loadingType);
+    }
+    if (env) {
       this.env = new Environment(this)
     }
-    if (config.shadow?.show) {
-      this.shadow = new Shadow(config.shadow, this)
+    if (shadow?.show) {
+      this.shadow = new Shadow(shadow, this)
     }
   }
   protected resize() {
