@@ -45,7 +45,7 @@ importers:
       vue: ^3.5.4
     dependencies:
       module: 1.2.5
-      three-auto: link:../core
+      three-auto: 0.2.10_three@0.166.1
     devDependencies:
       three: 0.166.1
       vitepress: 1.3.4
@@ -53,7 +53,7 @@ importers:
 
   packages/examples:
     specifiers:
-      three-auto: workspace:0.2.10
+      three-auto: workspace:0.3.0
     dependencies:
       three-auto: link:../core
 
@@ -3496,9 +3496,17 @@ packages:
       source-map-support: 0.5.21
     dev: true
 
+  /three-auto/0.2.10_three@0.166.1:
+    resolution: {integrity: sha512-f94KuZ2VCbdWYrjGXoimhBTZSZn2tyWi0PZzxU7PmNzYt43V2BaNqSacqK92mkBZ/tIsByEC8RlKfru69gXMZA==}
+    peerDependencies:
+      three: '>=0.154'
+    dependencies:
+      lil-gui: 0.19.2
+      three: 0.166.1
+    dev: false
+
   /three/0.166.1:
     resolution: {integrity: sha512-LtuafkKHHzm61AQA1be2MAYIw1IjmhOUxhBa0prrLpEMWbV7ijvxCRHjSgHPGp2493wLBzwKV46tA9nivLEgKg==}
-    dev: true
 
   /through2-filter/2.0.0:
     resolution: {integrity: sha512-miwWajb1B80NvIVKXFPN/o7+vJc4jYUvnZCwvhicRAoTxdD9wbcjri70j+BenCrN/JXEPKDjhpw4iY7yiNsCGg==}
