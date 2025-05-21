@@ -100,6 +100,7 @@ Give a ⭐️ if this project helped you!
 - add more chart types(Curve ✅\Bar\Pie  ✅\map  ✅\Scatter\Radar\Heatmap\Graph)
 
 - support environment ✅
+- support lenged ✅
 - optimize picture sizes ✅
 - support customer compose renderer pass ✅
 - support animationMixer ✅ （Skeleton） ✅
