@@ -9,10 +9,12 @@ import { Pie } from "./Pie/Pie";
 
 export class Series extends BaseThree {
   public seriesGroup: THREE.Group;
+  public disposeGroup: Function[];
   constructor(series: Partial<SeriesConfig>[], instance: ThreeInstance) {
     super(instance);
     this.seriesGroup = new THREE.Group();
     this.seriesGroup.name = "series";
+    this.disposeGroup = [];
     series.forEach((options: Partial<SeriesConfig>) => {
       this.seriesScheduler(options)
     });
@@ -21,8 +23,11 @@ export class Series extends BaseThree {
   seriesScheduler(options: Partial<SeriesConfig>) {
     switch (options.type) {
       case "map":
-        const map = new Map3D(options, this._instance).group
-        this.seriesGroup.add(map)
+        const map = new Map3D(options, this._instance)
+        const mapDispose = map.dispose
+        const mapGroup = map.group
+        this.seriesGroup.add(mapGroup)
+        this.disposeGroup.push(mapDispose)
         break;
       case "earth":
         const earth = new Earth(options, this._instance).group
@@ -41,5 +46,9 @@ export class Series extends BaseThree {
         break;
     }
   }
-
+  dispose(): void {
+    this.disposeGroup.forEach((fn) => {
+      fn()
+    })
+  }
 }

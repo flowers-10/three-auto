@@ -220,4 +220,7 @@ export class Map3D extends BaseThree {
     })
   }
   update() { }
+  dispose(): void {
+    this.cssRender.dispose()
+  }
 }

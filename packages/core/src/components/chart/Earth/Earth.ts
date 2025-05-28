@@ -66,10 +66,7 @@ export class Earth extends BaseThree {
                 type: "TEXTURE",
                 path: "https://img.picgo.net/2024/10/16/light_column7f4475c95d20ad21.png",
             },
-
-
-
-        ]);
+        ], 'circle');
         this.option = {
             atmosphereDayColor: '#00aaff',
             atmosphereTwilightColor: '#ff6600',

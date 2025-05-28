@@ -1,141 +1,122 @@
 import * as AUTO from "./src/index";
 
-const canvas = document.getElementById('_canvas') as HTMLCanvasElement;
+import ZheJiangCity from '../examples/public/ZheJiangCity.json'
 
-const instance = new AUTO.ThreeAuto(canvas, {
-  size: {
-    type: 'parent',
+const instance = new AUTO.ThreeAuto(undefined, {
+  id: "_scene",
+  name: "Hello three auto",
+  shadow: {
+    show: true,
+    width: 1000,
+    height: 1000,
+    color: '#000',
+    opacity: 0.1,
+    rotation:  { x: 0, y: 0, z: 0 },
   },
   camera: {
-    type: 'OrthographicCamera',
-    fov: 60,
-    near: 1,
+    type: 'PerspectiveCamera',
+    fov: 75,
+    near: 0.1,
     far: 1000,
     position: {
-      x: 120,
-      y: 60,
-      z: 0,
+      x: 0,
+      y: 0,
+      z: 20,
     },
     lookAt: true,
     controls: {
-      enable: false,
-      enableDamping: false,
-      enablePan: false,
+      enable: true,
+      enableDamping: true,
+      enablePan: true,
     },
   },
-  legend: {
-    show: true,
-    orient: 'vertical',
-    left: 'center',
-    align: 'left',
-    top: 10,
-    right: 10,
-    itemGap: 10,
-    itemWidth: 8,
-    itemHeight: 10,
-    icon: 'circle',
-    textStyle:{
-      'font-size': '12px',
-      color: '#fff',
-      'font-weight': 'normal'
-    },
-    formatter: (params: any) => {
-      return `<div style="font-size: 14px;text-align:center;margin-left: 4px">${params.name}<span style="display:inline-block;vertical-align:middle;color:#6F96C7;margin:0 8px;border-bottom:2px dotted #6F96C7;width:30px;"></span><span style="color:#FDD050">${params.percent.toFixed(0)}%</span></div>`
-    },
+  size: {
+    type: "window",
+  },
+  renderer: {
+    antialias: true,
+    alpha: true,
+    clearAlpha: 1,
+    clearColor: '#fff',
   },
   series: [
     {
-      type: 'pie',
-      name: 'three-auto-pie',
-      shadow: false,
-      data: [
-        { name: '安全', value: 40, color: '#1561EC' },
-        { name: '服务', value: 30, color: '#22B6E7' },
-        { name: '报修', value: 20, color: '#52E4AC' },
-        { name: '环境', value: 10, color: '#FED859' },
-      ],
-      transparent: true,
-      opacity: 0.9,
-      height: 10,
-      heightMode: 'height',
-      radius: [44, 60],
-      gap: 1,
-      eventName: 'mousemove',
+      shadow: true,
+      name: "轮廓地图",
+      id: 0,
+      type: "map",
+      json: ZheJiangCity,
       animation: true,
-      animationDurationUpdate: 3000,
-      position: {
-        x: 0,
-        y: 0,
-        z: 76,
-      },
-      emphasis: {
-        selectedMode: 'height',
-        disabled: false,
-        scaleSize: 2,
-        label: {
-          show: true,
-          distance: 8,
-          scale: 1,
-          position: 'center',
-          formatter: (params: any) => {
-            return `<div style="font-size: 14px;text-align:center">${params.value}</div><div style="font-size: 8px;text-align:center">${params.name}</div>`
-          },
-          rotation: {
-            x: 0,
-            y: 0,
-            z: 0,
-          },
-          textStyle: {
-            padding: '6px',
-            color: "#fff",
-            bold: true,
-            'font-weight': 'bold',
-            'font-style': 'normal',
-          },
-        }
+      animationDuration: 350,
+      animationEasing: 'power1.inOut',
+      animationDelay: 0,
+      selectedOffset: 2.5,
+      eventName: 'click',
+      data: [
+      ],
+      tooltip: {
+        className: 'three-auto-tooltip',
+        background: 'rgba(255,255,255,1)',
+        show: true,
+        borderWidth: 1,
+        padding: '15px 20px',
+        hideDelay: 100,
+        textStyle: {
+          'font-size': '18px',
+          color: "#000000",
+          'font-weight': 400,
+          'font-style': 'normal',
+        },
       },
       label: {
-        show: false,
-        distance: 0,
-        scale: 1,
-        position: 'center',
+        type: 'css3',
+        show: true,
+        distance: 1.3,
         rotation: {
           x: 0,
           y: 0,
           z: 0,
         },
         textStyle: {
-          padding: '6px',
-          'font-size': '16px',
-          color: "#000",
+          padding: '8px',
+          'font-size': '20px',
+          color: "#fff",
           bold: true,
           'font-weight': 400,
           'font-style': 'normal',
         },
       },
-      tooltip: {
-        className: 'three-auto-tooltip',
-        background: 'rgba(255,255,255,1)',
-        show: true,
-        borderWidth: 1,
-        padding: '4px 8px',
-        hideDelay: 100,
-        textStyle: {
-          'font-size': '10px',
-          color: "#000000",
-          'font-weight': 400,
-          'font-style': 'normal',
+      itemStyle: {
+        depth: 1,
+        bevelEnabled: false,
+        bevelSegments: 1,
+        bevelSize: 0,
+        bevelThickness: 0,
+        extrudeFaces: {
+          material: 'MeshNormalMaterial',
+          color: "red",
+          opacity: 1,
+          metalness: 1,
+          roughness: 1,
         },
-      }
-    }
+        crossSection: {
+          material: 'MeshNormalMaterial',
+          opacity: 1,
+          color: "red",
+        },
+        lineStyle: {
+          show: true,
+          color: "#A0E5FF",
+          width: 2,
+        },
+       
+      },
+    },
   ],
-
+  // postprocess: {
+  //   type: 'moebius',
+  // }
 });
 
-
-instance.camera.instance.updateProjectionMatrix()
-// instance._renderer.setClearColor("#000");
-instance.onTick(() => {
-});
-
+instance.time.on("tick", () => {});
 
