@@ -28,9 +28,9 @@ instance.time.on("tick", () => {
 const sceneDom = document.getElementById("_scene") as HTMLCanvasElement;
 sceneDom.onclick = function () {
   const intersects = instance.raycaster.onRaycasting(true);
-  console.log("Monitor all raycast-detected objects:", intersects);
+  alert(`Monitor all raycast-detected objects: ${JSON.stringify(intersects)}`);
   const obj = instance.raycaster.isTargetIntersected(box2);
-  console.log("Check if the passed target is triggered:", obj);
+  console.log(`Check if the passed target is triggered: ${JSON.stringify(obj)}`);
   if (obj) {
     obj.object.position.x += 1;
   }

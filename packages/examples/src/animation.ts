@@ -7,7 +7,7 @@ const resources = new AUTO.Resources([
     path: "./models/crane_ori.glb",
     show: true,
   },
-]);
+], 'default');
 new AUTO.Light(
   [
     {

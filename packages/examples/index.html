@@ -8,17 +8,283 @@
       href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon"  href="./three-auto.ico" />
+    <link rel="icon" href="./three-auto.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>examples</title>
   </head>
   <body>
+    <div class="tabs-container">
+      <div class="tabs-scroll-container">
+        <button class="scroll-button scroll-left">&lt;</button>
+        <div class="tabs-wrapper">
+          <div class="tabs" id="tabs-container">
+            <!-- Tabs will be dynamically generated here -->
+            <div class="loading">加载中...</div>
+          </div>
+        </div>
+        <button class="scroll-button scroll-right">&gt;</button>
+      </div>
+    </div>
     <div id="app">
-      <!-- <div class="chart">6666</div> -->
       <canvas class="webgl" id="_scene"></canvas>
     </div>
-    <script type="module" src="./src/card.ts">
-     
+    <script>
+      // 示例文件映射表，用于自定义显示名称和排序
+      const exampleMap = {
+        // 特殊排序的示例（按此顺序显示在最前面）
+        main: { name: "主要示例", order: 1 },
+        basic: { name: "基础示例", order: 2 },
+        animation: { name: "动画效果", order: 3 },
+        earth: { name: "地球", order: 4 },
+        map: { name: "地图", order: 5 },
+        pie: { name: "饼图", order: 6 },
+
+        // 其他示例将按字母顺序排在后面
+        shadow: { name: "阴影" },
+        tooltip: { name: "提示框" },
+        environment: { name: "环境" },
+        lights: { name: "灯光" },
+        GTToneMapPass: { name: "色调映射" },
+        SmartCommunity: { name: "智慧社区" },
+        cubeCamera: { name: "立方相机" },
+        grid: { name: "网格" },
+        card: { name: "卡片效果" },
+        mixEnv: { name: "混合环境" },
+        moebius: { name: "莫比乌斯" },
+        raycaster: { name: "射线投射" },
+        resource: { name: "资源" },
+        tip: { name: "提示" },
+      };
+
+      // 获取URL参数中的tab值
+      function getTabFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get("tab");
+      }
+
+      // 设置当前脚本
+      function setCurrentScript(src) {
+        // 移除旧脚本
+        const oldScript = document.getElementById("current-script");
+        if (oldScript) {
+          oldScript.remove();
+        }
+
+        // 创建新脚本
+        const newScript = document.createElement("script");
+        newScript.type = "module";
+        newScript.id = "current-script";
+        newScript.src = src;
+        document.body.appendChild(newScript);
+      }
+
+      // 自动扫描src目录下的所有.ts文件
+      async function scanSrcDirectory() {
+        try {
+          // 这里我们使用fetch来获取目录列表
+          // 注意：这需要服务器支持目录列表或者提供一个API
+          // 由于浏览器安全限制，我们不能直接读取目录
+          // 这里使用一个变通方法，假设我们知道所有可能的文件
+
+          const files = Object.keys(exampleMap).map((key) => `./src/${key}.ts`);
+
+          // 检查文件是否存在
+          const existingFiles = [];
+
+          for (const file of files) {
+            try {
+              // 尝试获取文件，如果成功则添加到列表
+              const response = await fetch(file, { method: "HEAD" });
+              if (response.ok) {
+                existingFiles.push(file);
+              }
+            } catch (e) {
+              // 忽略错误，文件可能不存在
+            }
+          }
+
+          return existingFiles;
+        } catch (error) {
+          console.error("扫描目录失败:", error);
+          // 如果扫描失败，返回一个默认列表
+          return [
+            "./src/card.ts",
+            "./src/animation.ts",
+            "./src/basic.ts",
+            "./src/earth.ts",
+            "./src/map.ts",
+            "./src/pie.ts",
+            "./src/shadow.ts",
+            "./src/tooltip.ts",
+            "./src/environment.ts",
+            "./src/lights.ts",
+          ];
+        }
+      }
+
+      // 创建标签页
+      function createTabs(files) {
+        const tabsContainer = document.getElementById("tabs-container");
+        // 清空加载提示
+        tabsContainer.innerHTML = "";
+
+        // 对文件进行排序
+        files.sort((a, b) => {
+          const fileNameA = a.split("/").pop().replace(".ts", "");
+          const fileNameB = b.split("/").pop().replace(".ts", "");
+
+          const infoA = exampleMap[fileNameA] || {
+            name: fileNameA,
+            order: 999,
+          };
+          const infoB = exampleMap[fileNameB] || {
+            name: fileNameB,
+            order: 999,
+          };
+
+          // 首先按order排序
+          if (infoA.order && infoB.order) {
+            return infoA.order - infoB.order;
+          } else if (infoA.order) {
+            return -1;
+          } else if (infoB.order) {
+            return 1;
+          }
+
+          // 然后按名称字母顺序排序
+          return infoA.name.localeCompare(infoB.name);
+        });
+
+        // 创建标签
+        files.forEach((file) => {
+          const fileName = file.split("/").pop().replace(".ts", "");
+          const info = exampleMap[fileName] || { name: fileName };
+
+          const tab = document.createElement("div");
+          tab.className = "tab";
+          tab.setAttribute("data-src", file);
+          tab.textContent = info.name || fileName;
+
+          tabsContainer.appendChild(tab);
+        });
+
+        return document.querySelectorAll(".tab");
+      }
+
+      // 初始化滚动按钮
+      function initScrollButtons() {
+        const tabsWrapper = document.querySelector(".tabs-wrapper");
+        const scrollLeftBtn = document.querySelector(".scroll-left");
+        const scrollRightBtn = document.querySelector(".scroll-right");
+
+        // 滚动到左边
+        scrollLeftBtn.addEventListener("click", () => {
+          tabsWrapper.scrollBy({ left: -200, behavior: "smooth" });
+        });
+
+        // 滚动到右边
+        scrollRightBtn.addEventListener("click", () => {
+          tabsWrapper.scrollBy({ left: 200, behavior: "smooth" });
+        });
+
+        // 检查是否需要显示滚动按钮
+        function checkScrollButtons() {
+          const isScrollable =
+            tabsWrapper.scrollWidth > tabsWrapper.clientWidth;
+          scrollLeftBtn.style.display = isScrollable ? "flex" : "none";
+          scrollRightBtn.style.display = isScrollable ? "flex" : "none";
+
+          // 检查是否到达边界
+          if (tabsWrapper.scrollLeft <= 0) {
+            scrollLeftBtn.classList.add("disabled");
+          } else {
+            scrollLeftBtn.classList.remove("disabled");
+          }
+
+          if (
+            tabsWrapper.scrollLeft + tabsWrapper.clientWidth >=
+            tabsWrapper.scrollWidth - 5
+          ) {
+            scrollRightBtn.classList.add("disabled");
+          } else {
+            scrollRightBtn.classList.remove("disabled");
+          }
+        }
+
+        // 监听滚动事件
+        tabsWrapper.addEventListener("scroll", checkScrollButtons);
+
+        // 监听窗口大小变化
+        window.addEventListener("resize", checkScrollButtons);
+
+        // 初始检查
+        setTimeout(checkScrollButtons, 100);
+      }
+
+      // 初始化页面
+      document.addEventListener("DOMContentLoaded", async function () {
+        // 扫描src目录
+        const files = await scanSrcDirectory();
+
+        // 创建标签
+        const tabs = createTabs(files);
+
+        // 初始化滚动按钮
+        initScrollButtons();
+
+        const tabParam = getTabFromUrl();
+        let activeTab = null;
+        let defaultSrc = "./src/card.ts";
+
+        // 根据URL参数设置活动tab
+        if (tabParam) {
+          tabs.forEach((tab) => {
+            const src = tab.getAttribute("data-src");
+            const fileName = src.split("/").pop().replace(".ts", "");
+            
+            // 使用精确匹配而不是部分匹配
+            if (fileName === tabParam) {
+              tab.classList.add("active");
+              activeTab = tab;
+              defaultSrc = src;
+            }
+          });
+        }
+
+        // 如果没有找到匹配的tab，设置第一个为活动
+        if (!activeTab && tabs.length > 0) {
+          tabs[0].classList.add("active");
+          defaultSrc = tabs[0].getAttribute("data-src");
+        }
+
+        // 设置初始脚本
+        setCurrentScript(defaultSrc);
+
+        // 添加点击事件
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", function () {
+            // 移除所有active类
+            tabs.forEach((t) => t.classList.remove("active"));
+            // 添加active类到当前点击的tab
+            this.classList.add("active");
+
+            // 获取脚本源
+            const scriptSrc = this.getAttribute("data-src");
+            const tabName = scriptSrc.split("/").pop().replace(".ts", "");
+
+            // 更新URL参数而不刷新页面
+            const url = new URL(window.location);
+            url.searchParams.set("tab", tabName);
+            window.history.pushState({}, "", url);
+
+            // 设置新脚本
+            setCurrentScript(scriptSrc);
+
+            // 刷新页面以确保脚本正确执行
+            location.reload();
+          });
+        });
+      });
     </script>
   </body>
   <style>
@@ -40,6 +306,94 @@
       font-size: 60px;
       z-index: 3;
       color: #fff;
+    }
+    .tabs-container {
+      position: fixed;
+      bottom: 20px; /* 放在底部，类似Mac Dock */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      width: auto;
+      max-width: 90%;
+    }
+    .tabs-scroll-container {
+      display: flex;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
+      padding: 5px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .tabs-wrapper {
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+      scroll-behavior: smooth;
+    }
+    .tabs-wrapper::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+    .tabs {
+      display: inline-flex;
+      gap: 10px;
+      padding: 5px;
+    }
+    .tab {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 60px;
+      height: 60px;
+      padding: 0 15px;
+      background-color: rgba(50, 50, 50, 0.8);
+      color: white;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+      user-select: none;
+      font-weight: 500;
+    }
+    .tab:hover {
+      transform: scale(1.1);
+      background-color: rgba(70, 70, 70, 0.9);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .tab.active {
+      background-color: #6f96c7;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(111, 150, 199, 0.5);
+    }
+    .loading {
+      color: white;
+      padding: 8px 16px;
+    }
+    .scroll-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      background-color: rgba(80, 80, 80, 0.8);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      margin: 0 5px;
+      transition: all 0.2s ease;
+      font-weight: bold;
+      z-index: 11;
+    }
+    .scroll-button:hover {
+      background-color: rgba(100, 100, 100, 0.9);
+      transform: scale(1.1);
+    }
+    .scroll-button.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
   </style>
 </html>

@@ -3,6 +3,7 @@ import * as AUTO from "three-auto";
 const instance = new AUTO.ThreeAuto(undefined, {
   id: "_scene",
   name: "hello world",
+  loadingType: 'circle',
   camera: {
     type: "PerspectiveCamera",
     fov: 60,

@@ -9,9 +9,9 @@ const material = new THREE.MeshBasicMaterial({
 });
 const box = new THREE.Mesh(geometry, material);
 box.userData = {
-    title: '你好',
-    name: '我是一个盒子',
-    value: '111111111'
+    title: 'Hello!',
+    name: 'box:',
+    value: 'I am a box'
 }
 
 const group = new THREE.Group()

@@ -13,6 +13,11 @@ const instance = new AUTO.ThreeAuto(undefined, {
         far: 1000,
         position: {
             x: 50, y: 80, z: 50
+        },
+        controls: {
+            enable: true,
+            enableDamping: true,
+            enablePan: true
         }
     },
     shadow: {

@@ -3,15 +3,22 @@ import * as THREE from "three";
 
 const instance = new AUTO.ThreeAuto(undefined, {
   camera: {
+    type: 'PerspectiveCamera',
     fov: 70,
+    near: 1,
     far: 1000,
-    near: 0.1,
     position: {
       x: 25,
       y: 25,
-      z: 25
-    }
-  }
+      z: 25,
+    },
+    lookAt: true,
+    controls: {
+      enable: true,
+      enableDamping: true,
+      enablePan: false,
+    },
+  },
 });
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({

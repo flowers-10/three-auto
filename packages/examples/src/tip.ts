@@ -1,7 +1,19 @@
 import * as AUTO from "three-auto";
 import * as THREE from "three";
 
-const instance = new AUTO.ThreeAuto();
+const instance = new AUTO.ThreeAuto(undefined, {camera: {
+  fov: 75,
+  near: 0.1,
+  far: 1000,
+  position: {
+    x: 5, y: 5, z: 5
+  },
+  controls: {
+    enable: true,
+    enableDamping: true,
+    enablePan: true
+  }
+}});
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({
   color: "#E89ABE",
