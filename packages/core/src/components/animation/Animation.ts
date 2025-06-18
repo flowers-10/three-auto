@@ -31,7 +31,7 @@ export class Animation extends BaseThree {
     );
   }
   update(): void {
-    this.mixer.update(1);
+    this.mixer.update(this.time.deltaTime);
   }
 }
 

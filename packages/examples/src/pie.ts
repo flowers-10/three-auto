@@ -26,10 +26,9 @@ const instance = new AUTO.ThreeAuto(canvas, {
   legend: {
     show: true,
     orient: 'vertical',
-    left: 'center',
     align: 'left',
-    top: 10,
-    right: 10,
+    top: '10%',
+    left: '20%',
     itemGap: 10,
     itemWidth: 8,
     itemHeight: 10,
@@ -42,6 +41,12 @@ const instance = new AUTO.ThreeAuto(canvas, {
     formatter: (params: any) => {
       return `<div style="font-size: 14px;text-align:center;margin-left: 4px">${params.name}<span style="display:inline-block;vertical-align:middle;color:#6F96C7;margin:0 8px;border-bottom:2px dotted #6F96C7;width:30px;"></span><span style="color:#FDD050">${params.percent.toFixed(0)}%</span></div>`
     },
+  },
+  renderer: {
+    antialias: true,
+    alpha: true,
+    clearAlpha: 1,
+    clearColor: '#000',
   },
   series: [
     {
@@ -62,7 +67,7 @@ const instance = new AUTO.ThreeAuto(canvas, {
       gap: 1,
       eventName: 'mousemove',
       animation: true,
-      animationDurationUpdate: 3000,
+      animationDurationUpdate: 1000,
       position: {
         x: 0,
         y: 0,

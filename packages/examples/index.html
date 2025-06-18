@@ -32,13 +32,13 @@
       // 示例文件映射表，用于自定义显示名称和排序
       const exampleMap = {
         // 特殊排序的示例（按此顺序显示在最前面）
-        floor: { name: "地板", order: 1 },
-        main: { name: "主要示例", order: 7 },
+        main: { name: "主要示例", order: 1 },
         basic: { name: "基础示例", order: 2 },
         animation: { name: "动画效果", order: 3 },
         earth: { name: "地球", order: 4 },
         map: { name: "地图", order: 5 },
         pie: { name: "饼图", order: 6 },
+        floor: { name: "地板", order: 7 },
         // 其他示例将按字母顺序排在后面
         shadow: { name: "阴影" },
         tooltip: { name: "提示框" },
@@ -48,7 +48,6 @@
         SmartCommunity: { name: "智慧社区" },
         cubeCamera: { name: "立方相机" },
         grid: { name: "网格" },
-        card: { name: "卡片效果" },
         mixEnv: { name: "混合环境" },
         moebius: { name: "莫比乌斯" },
         raycaster: { name: "射线投射" },
@@ -108,7 +107,7 @@
           console.error("扫描目录失败:", error);
           // 如果扫描失败，返回一个默认列表
           return [
-            "./src/card.ts",
+            "./src/main.ts",
             "./src/animation.ts",
             "./src/basic.ts",
             "./src/earth.ts",
@@ -235,7 +234,7 @@
 
         const tabParam = getTabFromUrl();
         let activeTab = null;
-        let defaultSrc = "./src/card.ts";
+        let defaultSrc = "./src/main.ts";
 
         // 根据URL参数设置活动tab
         if (tabParam) {

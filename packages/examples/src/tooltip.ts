@@ -32,6 +32,19 @@ new AUTO.Tooltip(instance, group, {
     },
 });
 
+
+const div1 = AUTO.htmlRender({ tag: 'div', children: 'Hover box 🤚' , style: { 'font-size': '40px', background: 'rgba(1,1,1,0.1)', padding: '20px', 'border-radius': '8px' } })
+const css3 = new AUTO.Tips(instance)
+const tipsMesh1 = css3.createTips(div1)
+tipsMesh1.position.set(-5, 0, 0)
+tipsMesh1.scale.set(0.005, 0.005, 1)
+
 instance.time.on("tick", () => {
+    css3.update()
     instance.scene.add(group)
+});
+
+instance.sizes.on('resize',() => {
+    // css2.resize()
+    css3.resize()
 });
