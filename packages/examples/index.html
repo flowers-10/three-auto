@@ -32,13 +32,13 @@
       // 示例文件映射表，用于自定义显示名称和排序
       const exampleMap = {
         // 特殊排序的示例（按此顺序显示在最前面）
-        main: { name: "主要示例", order: 1 },
+        floor: { name: "地板", order: 1 },
+        main: { name: "主要示例", order: 7 },
         basic: { name: "基础示例", order: 2 },
         animation: { name: "动画效果", order: 3 },
         earth: { name: "地球", order: 4 },
         map: { name: "地图", order: 5 },
         pie: { name: "饼图", order: 6 },
-
         // 其他示例将按字母顺序排在后面
         shadow: { name: "阴影" },
         tooltip: { name: "提示框" },
@@ -113,6 +113,7 @@
             "./src/basic.ts",
             "./src/earth.ts",
             "./src/map.ts",
+            "./src/floor.ts",
             "./src/pie.ts",
             "./src/shadow.ts",
             "./src/tooltip.ts",

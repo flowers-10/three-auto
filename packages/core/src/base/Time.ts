@@ -9,6 +9,7 @@ export class Time extends EventEmitter {
   public lerpValue: number;
   public delta: number;
   public elapsedTime: number;
+  public deltaTime: number;
 
   private animationTick: null | number;
   private timer: number;
@@ -20,6 +21,7 @@ export class Time extends EventEmitter {
     this.current = this.start;
     this.delta = 16;
     this.elapsedTime = 0;
+    this.deltaTime = 0;
     this.lerpValue = 0;
 
     this.animationTick = null;
@@ -32,11 +34,12 @@ export class Time extends EventEmitter {
     const currentTime = Date.now();
     this.delta = currentTime - this.current;
     this.current = currentTime;
+    this.deltaTime = this.clock.getDelta();
     this.elapsedTime = this.clock.getElapsedTime();
     // this.lerpValue = lerp(this.lerpValue, 1, clamp(dt,0,1))
-    this.trigger("tickBefore", null);
-    this.trigger("tick", null);
-    this.trigger("tickAfter", null);
+    this.trigger("tickBefore", this.deltaTime, this.elapsedTime);
+    this.trigger("tick", this.deltaTime, this.elapsedTime);
+    this.trigger("tickAfter", this.deltaTime, this.elapsedTime);
     this.animationTick = window.requestAnimationFrame(() => {
       this.tick();
     });
