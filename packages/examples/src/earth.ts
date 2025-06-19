@@ -12,7 +12,7 @@ new AUTO.ThreeAuto(undefined, {
       atmosphereDayColor: '#00aaff',
       atmosphereTwilightColor: '#ff6600',
       atmosphereThickness: 1.04,
-      rotation: true,
+      animation: true,
       radius: 20,
       json: ChinaJson,
       data: [

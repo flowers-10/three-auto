@@ -63,6 +63,7 @@ class ThreeAuto implements ThreeInstance {
   public PostProcess = PostProcess;
 
   constructor(canvas?: HTMLCanvasElement, config: Partial<ConfigType> = {}) {
+    config = Object.assign(CONFIG, config)
     const { id = '_scene', size = { type: 'window' }, camera = CONFIG.camera, renderer = CONFIG.renderer, tipsType, light, series, legend, postprocess, resource, loadingType, env, shadow } = config
     const canvass = document.getElementById(id);
     if (!canvass && !canvas) {

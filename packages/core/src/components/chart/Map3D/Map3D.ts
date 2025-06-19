@@ -30,10 +30,7 @@ export class Map3D extends BaseThree {
     this.group = new THREE.Group();
     const { center, scale } = this.createCenter(config.json);
     this.projection = this.getProjection(center, scale);
-    this.config = {
-      ...MAP_CONFIG,
-      ...config
-    }
+    this.config = Object.assign(MAP_CONFIG, config);
     this.cssRender = new Tips(instance, this.config.label.type)
     this.createMap();
     if (this.config.animation) {
@@ -42,6 +39,11 @@ export class Map3D extends BaseThree {
     if (this.config.tooltip.show) {
       new Tooltip(instance, this.group, this.config.tooltip)
     }
+    this.group.position.set(config.position?.x || 0, config.position?.y || 0, config.position?.z || 0);
+    this.group.scale.set(config.scale?.x || 0, config.scale?.y || 0, config.scale?.z || 0)
+    this.group.rotateX(config.rotation?.x || 0);
+    this.group.rotateY(config.rotation?.y || 0);
+    this.group.rotateZ(config.rotation?.z || 0);
     instance.onResize(() => {
       this.cssRender.resize()
     })

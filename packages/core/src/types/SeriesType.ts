@@ -80,7 +80,11 @@ export interface SeriesConfig {
   atmosphereDayColor?: string;
   atmosphereTwilightColor?: string;
   atmosphereThickness?: number;
-  rotation?: boolean;
+  rotation?: {
+    x: number;
+    y: number;
+    z: number;
+  };
   tooltip?: any;
   [key: string]: any
 }

@@ -16,8 +16,9 @@ import { Curve, flyArc } from "../Curve/Curve";
 type EarthOptions = {
     atmosphereDayColor: string,
     atmosphereTwilightColor: string,
-    rotation: boolean,
+    rotation: { x: number, y: number, z: number },
     atmosphereThickness: number,
+    animation: boolean,
     radius: number | [number, number],
     json: any,
     data: any[]
@@ -71,7 +72,12 @@ export class Earth extends BaseThree {
             atmosphereDayColor: '#00aaff',
             atmosphereTwilightColor: '#ff6600',
             atmosphereThickness: 1.04,
-            rotation: true,
+            animation: false,
+            rotation: {
+                x: 0,
+                y: 0,
+                z: 0
+            },
             radius: 2,
             json: null,
             data: [],
@@ -284,7 +290,7 @@ export class Earth extends BaseThree {
             if (this.earth.material) {
                 this.uniforms.uTime.value = this.uniforms.uTime.value < -this.option.radius ? this.option.radius : this.uniforms.uTime.value - (this.time.delta * (this.option.radius as number) * 0.001)
             }
-            if (this.option.rotation) {
+            if (this.option.animation) {
                 this.group.rotation.y = -this.time.elapsedTime * 0.1;
             }
             this.pointGroup.children.forEach((mesh: any) => {

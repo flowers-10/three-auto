@@ -5,7 +5,6 @@ import { htmlRender } from "../../web";
 import { SeriesConfig } from "../../../types";
 import { Tooltip } from "../../web/Tooltip";
 import gsap from "gsap";
-import { mergeConfig } from "../../../shared";
 import { PIE_CONFIG } from "../../../config";
 
 export class Pie extends BaseThree {
@@ -18,11 +17,11 @@ export class Pie extends BaseThree {
         super(instance);
         this.group = new THREE.Group();
         this.scene.add(this.group);
-        this.config = mergeConfig(PIE_CONFIG, option);
+        this.config = Object.assign(PIE_CONFIG, option);
         const { animation, tooltip, position } = this.config
         if (option.data && option.data.length) {
             this.createPie();
-            this.group.position.set(position?.x || 0, position?.y || 0, position?.z || 0);
+            this.group.position.set(position?.x || 1, position?.y || 1, position?.z || 1);
         } else {
             throw new Error("ThreeAuto.Pie:Data must be provided");
         }
