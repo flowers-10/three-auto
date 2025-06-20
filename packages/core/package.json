@@ -1,7 +1,7 @@
 {
   "name": "three-auto",
   "private": false,
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": "Michela",
   "main": "./dist/three-auto.umd.js",
   "module": "./dist/three-auto.es.js",
