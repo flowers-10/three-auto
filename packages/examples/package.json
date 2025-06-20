@@ -1,7 +1,7 @@
 {
   "name": "@three-auto/examples",
   "private": true,
-  "version": "0.3.1",
+  "version": "0.3.2",
   "type": "module",
   "author": "Michela",
   "scripts": {
@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "three-auto": "workspace:0.3.1"
+    "three-auto": "workspace:0.3.2"
   },
   "peerDependencies": {
     "three": "^0.166.0",
