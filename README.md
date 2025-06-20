@@ -97,7 +97,7 @@ Give a ⭐️ if this project helped you!
 - support physic
 - support auto uniforms
 - add edit packages (like gui)
-- add more chart types(Curve ✅\Bar\Pie  ✅\map  ✅\Scatter\Radar\Heatmap\Graph)
+- add more chart types(Curve ✅\Bar  ✅\Pie  ✅\map  ✅\Scatter\Radar\Heatmap\Graph)
 
 - support environment ✅
 - support lenged ✅
