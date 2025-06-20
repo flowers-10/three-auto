@@ -66,11 +66,11 @@ export interface SeriesConfig {
   shadow?: boolean,
   code?: number | string;
   json?: any; // Replace 'any'
-  itemStyle: Partial<ItemStyle>;
+  itemStyle?: Partial<ItemStyle>;
   label: LabelStyle;
   data: DataItem[];
   height: number;
-  radius: number | [number, number];
+  radius?: number | [number, number];
   gap: number;
   animation: boolean,
   animationDuration: number,

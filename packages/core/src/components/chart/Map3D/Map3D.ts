@@ -36,7 +36,7 @@ export class Map3D extends BaseThree {
     if (this.config.animation) {
       this.dispatchEvent();
     }
-    if (this.config.tooltip.show) {
+    if (this.config.tooltip && this.config.tooltip.show) {
       new Tooltip(instance, this.group, this.config.tooltip)
     }
     this.group.position.set(config.position?.x || 0, config.position?.y || 0, config.position?.z || 0);
@@ -130,7 +130,7 @@ export class Map3D extends BaseThree {
     }
   }
   createShape(elem: any, polygon: any[], material: MaterialGroup, regionGroup: THREE.Group) {
-    const { depth, bevelEnabled, bevelSegments, bevelSize, bevelThickness } = this.config.itemStyle
+    const { depth, bevelEnabled, bevelSegments, bevelSize, bevelThickness } = this.config.itemStyle!
     const shape = new THREE.Shape();
     for (let i = 0; i < polygon.length; i++) {
       let [x, y] = this.projection(polygon[i]);

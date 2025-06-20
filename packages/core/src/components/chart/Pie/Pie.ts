@@ -89,7 +89,7 @@ export class Pie extends BaseThree {
                 outerRadius = radius[0];
             }
         } else {
-            outerRadius = radius;
+            outerRadius = radius || 1;
         }
         const axis = new THREE.Vector3(1, 0, 0);
 

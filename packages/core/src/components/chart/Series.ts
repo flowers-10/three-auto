@@ -6,6 +6,7 @@ import { SeriesConfig } from "../../types";
 import { Map3D } from './Map3D/Map3D'
 import { Earth } from "./Earth/Earth";
 import { Pie } from "./Pie/Pie";
+import { Bar } from "./Bar/Bar";
 
 export class Series extends BaseThree {
   public seriesGroup: THREE.Group;
@@ -36,6 +37,8 @@ export class Series extends BaseThree {
       case "line":
         break;
       case "bar":
+        const bar = new Bar(options, this._instance).group
+        this.seriesGroup.add(bar)
         break;
       case "pie":
         const pie = new Pie(options, this._instance).group

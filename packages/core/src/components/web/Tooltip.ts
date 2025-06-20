@@ -35,7 +35,7 @@ export class Tooltip extends BaseThree {
                 padding,
                 borderStyle,
                 transition: 'opacity ' + hideDelay / 1000 + 's',
-                visibility : 'hidden',
+                visibility: 'hidden',
                 ...textStyle
             }
         }, (this._canvas.parentElement || document.body));
@@ -66,11 +66,11 @@ export class Tooltip extends BaseThree {
         if (option.name) {
             list.push({ tag: 'span', children: option.name })
         }
-        if (option.value) {
-            list.push({
-                tag: 'span', children: String(option.value), style: { 'margin-left': '30px' }
-            })
-        }
+
+        list.push({
+            tag: 'span', children: String(option.value || 0), style: { 'margin-left': '30px' }
+        })
+
         htmlRender({
             tag: 'div', children: list, style: {
                 padding: '6px 0',
@@ -78,6 +78,28 @@ export class Tooltip extends BaseThree {
                 'align-items': 'center'
             }
         }, root)
+        if (option.xName) {
+            htmlRender({
+                tag: 'div', children: [{ tag: 'span', children: '- x:' }, {
+                    tag: 'span', children: option.xName, style: { 'margin-left': '30px' }
+                }], style: {
+                    padding: '6px 0',
+                    display: 'flex',
+                    'align-items': 'center'
+                }
+            }, root)
+        }
+        if (option.yName) {
+            htmlRender({
+                tag: 'div', children: [{ tag: 'span', children: '- y:' }, {
+                    tag: 'span', children: option.yName, style: { 'margin-left': '30px' }
+                }], style: {
+                    padding: '6px 0',
+                    display: 'flex',
+                    'align-items': 'center'
+                }
+            }, root)
+        }
     }
     /**
      * 计算并调整tooltip位置，避免超出屏幕
@@ -85,31 +107,31 @@ export class Tooltip extends BaseThree {
      * @param y 鼠标Y坐标
      * @returns 调整后的坐标对象
      */
-    adjustTooltipPosition(x: number, y: number): {x: number, y: number} {
-        const viewportWidth = this._canvas.clientWidth ||  window.innerWidth || document.documentElement.clientWidth;
-        const viewportHeight =  this._canvas.clientHeight ||  window.innerHeight || document.documentElement.clientHeight;
-        
+    adjustTooltipPosition(x: number, y: number): { x: number, y: number } {
+        const viewportWidth = this._canvas.clientWidth || window.innerWidth || document.documentElement.clientWidth;
+        const viewportHeight = this._canvas.clientHeight || window.innerHeight || document.documentElement.clientHeight;
+
         const tooltipRect = this.tooltipElement.getBoundingClientRect();
         const tooltipWidth = tooltipRect.width;
         const tooltipHeight = tooltipRect.height;
-        
+
         let posX = x + (this.options.offsetX || 20);
         let posY = y + (this.options.offsetY || 20);
-        
+
         if (posX + tooltipWidth > viewportWidth) {
             posX = x - tooltipWidth - (this.options.offsetX || 20);
         }
-        
+
         if (posY + tooltipHeight > viewportHeight) {
             posY = y - tooltipHeight - (this.options.offsetY || 20);
         }
-        
+
         posX = Math.max(0, posX);
         posY = Math.max(0, posY);
-        
+
         return { x: posX, y: posY };
     }
-    
+
     update() {
         this._instance.onTick(() => {
             const intersects = this._raycaster.onRaycasting();
@@ -118,12 +140,12 @@ export class Tooltip extends BaseThree {
             this.group?.children?.forEach(item => {
                 if (intersects && intersects[0].object.uuid === item.uuid) {
                     document.body.style.cursor = 'pointer';
-                    
+
                     const mouseX = this.mousemove.eventOffset.x;
                     const mouseY = this.mousemove.eventOffset.y;
-                    
+
                     const position = this.adjustTooltipPosition(mouseX, mouseY);
-                    
+
                     this.tooltipElement.style.left = position.x + 'px';
                     this.tooltipElement.style.top = position.y + 'px';
                     this.tooltipElement.style.visibility = 'visible';
@@ -135,16 +157,16 @@ export class Tooltip extends BaseThree {
                     }
                     this.previous = item;
                 }
-                
+
                 item.children.forEach(itemX => {
                     if (intersects && intersects[0].object.uuid === itemX.uuid) {
                         document.body.style.cursor = 'pointer';
-                        
+
                         const mouseX = this.mousemove.eventOffset.x;
                         const mouseY = this.mousemove.eventOffset.y;
-                        
+
                         const position = this.adjustTooltipPosition(mouseX, mouseY);
-                        
+
                         this.tooltipElement.style.left = position.x + 'px';
                         this.tooltipElement.style.top = position.y + 'px';
                         this.tooltipElement.style.visibility = 'visible';
