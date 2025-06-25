@@ -91,14 +91,10 @@ Thank you to all the people who already contributed to three-auto!
 Give a ⭐️ if this project helped you!
 
 ## Features
-- support axis helpers 
-- support generate low code
-- support webGPU
+- support axis helpers ✅
 - support physic
-- support auto uniforms
-- add edit packages (like gui)
-- add more chart types(Curve ✅\Bar  ✅\Pie  ✅\map  ✅\Scatter\Radar\Heatmap\Graph)
-
+- add edit packages (like gui) ✅
+- add more chart types(Curve ✅\Bar  ✅\Pie  ✅\map  ✅)
 - support environment ✅
 - support lenged ✅
 - optimize picture sizes ✅
