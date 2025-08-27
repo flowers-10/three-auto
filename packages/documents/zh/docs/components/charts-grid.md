@@ -30,8 +30,14 @@ const instance = new AUTO.ThreeAuto(undefined, {
       x: 25,
       y: 25,
       z: 25
+    },
+     controls: {
+      enableDamping: true,
+      enablePan: true,
+      enable: true,
     }
-  }
+  },
+  
 });
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({

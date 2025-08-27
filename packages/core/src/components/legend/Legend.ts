@@ -90,7 +90,8 @@ export class Legend extends BaseThree {
             'user-select': 'none',
             display: 'flex',
             'flex-direction': this.options.orient === 'vertical' ? 'column' : 'row',
-            'flex-wrap': this.options.orient === 'horizontal' ? 'wrap' : 'nowrap'
+            'flex-wrap': this.options.orient === 'horizontal' ? 'wrap' : 'nowrap',
+            margin: '0 auto'
         };
 
         // Handle position

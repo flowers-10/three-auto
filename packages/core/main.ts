@@ -1,72 +1,45 @@
 import * as AUTO from "./src/index";
 import * as THREE from 'three'
-const gsap = AUTO.ThreeAuto.gsap
+import ChinaJson from '../examples/public/China.json'
 
-const hours = ['12a', '1a', '2a', '3a', '4a', '5a', '6a',
-  '7a', '8a', '9a', '10a', '11a',
-  '12p', '1p', '2p', '3p', '4p', '5p',
-  '6p', '7p', '8p', '9p', '10p', '11p'];
-// prettier-ignore
-const days = ['Saturday', 'Friday', 'Thursday',
-  'Wednesday', 'Tuesday', 'Monday', 'Sunday'];
-const instance = new AUTO.ThreeAuto(undefined, {
-  camera: {
-    type: 'PerspectiveCamera',
-    fov: 70,
-    near: 1,
-    far: 1000,
-    position: {
-      x: -20,
-      y: 10,
-      z: 40,
-    },
-    lookAt: false,
-    controls: {
-      enable: true,
-      enableDamping: true,
-      enablePan: true,
-    },
-  },
-  renderer: {
-    logarithmicDepthBuffer: true,
-    alpha: true,
-    clearColor: '#fff',
+new AUTO.ThreeAuto(undefined, {
+  size: {
+    type: 'window',
   },
   series: [
     {
-      type: 'bar',
-      show: true,
-      data: Array.from({ length: 168 }, (item, index) => ({
-        value: Math.floor(Math.random() * 16),
-        name: '问题',
-        xName: days[index % 7],
-        yName: hours[Math.floor(index / 7)],
-        x: index % 7,
-        y: Math.floor(index / 7)
-      })),
-      tooltip: {
-        className: 'three-auto-tooltip',
-        background: 'rgba(255,255,255,1)',
-        show: true,
-        borderWidth: 1,
-        padding: '15px 20px',
-        hideDelay: 100,
-        textStyle: {
-          'font-size': '18px',
-          color: "#000000",
-          'font-weight': 400,
-          'font-style': 'normal',
-        },
-      },
+      name: 'earth',
+      type: 'earth',
+      atmosphereDayColor: '#00aaff',
+      atmosphereTwilightColor: '#ff6600',
+      atmosphereThickness: 1.04,
+      animation: true,
+      radius: 20,
+      json: ChinaJson,
+      data: [
+        { name: '曼谷', value: 100, color: '#fcc02a', lng: 100.49074172973633,lat: 22 },
+        { name: '澳大利亚', value: 200, color: '#f16b91', lng: 133,lat: -23.68477416688374 },
+        { name: '新疆维吾尔自治区', value: 300, color: '#187bac', lng: 85,lat: 42 },
+        { name: '德黑兰', value: 500, color: '#eeeeee', lng: 51,lat: 35 },
+        { name: '美国', value: 1000, color: '#ccc', lng: 241,lat: 34 },
+        { name: '英国', value: 400, color: '#000', lng: 359,lat: 51 },
+        { name: '巴西', value: 500, color: '#3e1', lng: 668,lat: -9 },
+        { name: '西藏', value: 200, color: '#9e2', lng: 91,lat: 29 },
+        { name: '广西', value: 100, color: '#cf1', lng: 108,lat: 22 },
+        { name: '江西', value: 0, color: '#cf2', lng: 115,lat: 28 },
+      ],
+    },
+  ],
+  camera: {
+    fov: 75,
+    near: 0.1,
+    far: 1000,
+    position: {
+      z: 40,
     }
-  ]
+  },
+  renderer: {
+    clearColor: '#000',
+    clearAlpha: 1,
+  }
 });
-
-const axisHelper = new THREE.AxesHelper(30)
-instance.scene.add(axisHelper)
-instance.scene.position.set(-10, 0, -10)
-instance.time.on("tick", () => {
-  // box.rotation.y = instance.time.elapsedTime;
-});
-
-

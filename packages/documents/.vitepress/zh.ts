@@ -14,8 +14,8 @@ export const zh = defineConfig({
             { text: '案例', link: '/examples/markdown-examples' },
             {
                 text: pkg.version, items: [
-                    { text: '更新日志', link: 'https://github.com/flowers-10/three-auto/blob/main/README.md' },
-                    { text: '参与贡献', link: 'https://github.com/flowers-10/three-auto/blob/main/README.md' },
+                    { text: '更新日志', link: 'https://github.com/flowers-10/three-auto/releases' },
+                    { text: '参与贡献', link: 'https://github.com/flowers-10/three-auto/graphs/contributors' },
                 ]
             },
         ],

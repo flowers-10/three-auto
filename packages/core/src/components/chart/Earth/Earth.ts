@@ -39,8 +39,6 @@ export class Earth extends BaseThree {
     curveInstance: Curve;
     constructor(option: Partial<SeriesConfig>, instance: ThreeInstance) {
         super(instance);
-        // "https://img.picgo.net/2024/10/16/earth376dcabe9e2b9138.jpg"
-        // "https://img.picgo.net/2024/10/14/day899f5289e588690d.jpg"
         this.resources = new Resources([
             {
                 name: "day",

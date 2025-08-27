@@ -21,20 +21,20 @@ const navLink = () => {
   console.log(111)
 }
 onMounted(() => {
-    new AUTO.ThreeAuto(undefined, {
+new AUTO.ThreeAuto(undefined, {
   size: {
     type: 'parent',
   },
   series: [
     {
-      name: 'three-auto-earth',
+      name: 'earth',
       type: 'earth',
       atmosphereDayColor: '#00aaff',
       atmosphereTwilightColor: '#ff6600',
       atmosphereThickness: 1.04,
-      rotation: true,
+      animation: true,
       radius: 20,
-    //   json: ChinaJson,
+      json: ChinaJson,
       data: [
         { name: '曼谷', value: 100, color: '#fcc02a', lng: 100.49074172973633,lat: 22 },
         { name: '澳大利亚', value: 200, color: '#f16b91', lng: 133,lat: -23.68477416688374 },
@@ -54,7 +54,7 @@ onMounted(() => {
     near: 0.1,
     far: 1000,
     position: {
-      z: 50,
+      z: 40,
     }
   },
   renderer: {

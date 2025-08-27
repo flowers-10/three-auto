@@ -1,9 +1,9 @@
 ---
 outline: deep
 ---
-# 灯光和阴影
+# Lights and Shadows
 
-灯光组件和阴影组件，灯光和阴影是相辅相成的，所以我们一起介绍它们。
+Lights and shadows components. Lights and shadows complement each other, so we introduce them together.
 
 <div @dblclick="navLink" style="width:100%;height:400px;position:relative;border-radius: 12px;overflow:hidden;">
     <canvas id="_scene" />
@@ -36,12 +36,7 @@ const instance = new AUTO.ThreeAuto(undefined, {
     near: 0.1,
     far: 1000,
     position: {
-      x: 50, y: 80, z: 50
-    },
-    controls: {
-      enableDamping: true,
-      enablePan: true,
-      enable: true,
+      x: 50, y: 220, z: 50
     }
   },
   renderer: {
@@ -153,36 +148,35 @@ instance.scene.add(box);
 instance.time.on("tick", () => {
   box.rotation.y = instance.time.elapsedTime;
 });
-
 })
 </script>
 
 
-## 阴影（Shadow）{#config-resolution}
-阴影组件，你可以通过配置项快速生成一个阴影平面。
-`Shadow` 类是用于在 Three.js 场景中创建阴影平面的对象。它继承自 `BaseThree` 类，并且依赖于 `ThreeInstance` 和 `ShadowConfig` 接口。`Shadow` 类允许用户通过配置对象来定义阴影的大小、颜色、透明度、旋转角度和位置等属性。
+## Shadow {#config-resolution}
+Shadow component allows you to quickly generate a shadow plane through configuration options.
+The `Shadow` class is used to create shadow planes in Three.js scenes. It inherits from the `BaseThree` class and depends on `ThreeInstance` and the `ShadowConfig` interface. The `Shadow` class allows users to define shadow properties such as size, color, opacity, rotation angle, and position through a configuration object.
 
-### 构造函数（Constructor）
+### Constructor
 **`Shadow(config: ShadowConfig, instance: ThreeInstance)`**
 
-#### 参数
-- **config** (`ShadowConfig`): 包含阴影属性的配置对象。
+#### Parameters
+- **config** (`ShadowConfig`): Configuration object containing shadow properties.
 
-     **width** (`number`, 可选, 默认值: `10`): 阴影平面的宽度。
+     **width** (`number`, optional, default: `10`): Width of the shadow plane.
 
-     **height** (`number`, 可选, 默认值: `10`): 阴影平面的高度。
+     **height** (`number`, optional, default: `10`): Height of the shadow plane.
 
-     **color** (`string`, 可选, 默认值: `'#000'`): 阴影的颜色（CSS 格式）。
+     **color** (`string`, optional, default: `'#000'`): Shadow color (CSS format).
 
-     **opacity** (`number`, 可选, 默认值: `0.1`): 阴影的透明度（0 到 1 之间）。
+     **opacity** (`number`, optional, default: `0.1`): Shadow opacity (between 0 and 1).
 
-     **rotation** (`{ x?: number; y?: number; z?: number; }`, 可选): 阴影平面的旋转角度。
+     **rotation** (`{ x?: number; y?: number; z?: number; }`, optional): Rotation angles of the shadow plane.
 
-     **position** (`{ x?: number; y?: number; z?: number; }`, 可选): 阴影平面的位置。
+     **position** (`{ x?: number; y?: number; z?: number; }`, optional): Position of the shadow plane.
 
-- **instance** (`ThreeInstance`): 一个 `ThreeInstance` 实例，用于访问 Three.js 场景、相机和渲染器。
+- **instance** (`ThreeInstance`): A `ThreeInstance` instance used to access Three.js scene, camera, and renderer.
 
-### 使用示例
+### Usage Example
 ```javascript
 import * as AUTO from "three-auto";
 const instance = new AUTO.ThreeAuto()
@@ -198,77 +192,77 @@ const shadowConfig = {
 const shadow = new Shadow(shadowConfig, instance);
 ```
 
-## 灯光（Light）
-灯光组件，你可以通过配置项中的type属性快速生成不同的灯光。
+## Light
+Light component allows you to quickly generate different types of lights through the type property in configuration options.
 
-`Light` 类用于在 Three.js 场景中创建和管理多种类型的光源。它继承自 `BaseThree` 类，并且依赖于 `ThreeInstance` 和 `LightItems` 接口。`Light` 类允许用户通过配置数组来定义多个光源，每个光源可以有不同的类型（如点光源、环境光、半球光、方向光和聚光灯），并且可以配置光源的位置、强度、颜色以及其他相关属性。
+The `Light` class is used to create and manage various types of light sources in Three.js scenes. It inherits from the `BaseThree` class and depends on `ThreeInstance` and the `LightItems` interface. The `Light` class allows users to define multiple light sources through a configuration array, where each light source can have different types (such as point light, ambient light, hemisphere light, directional light, and spotlight), and can configure the light's position, intensity, color, and other related properties.
 
-### 构造函数（Constructor）
+### Constructor
 `Light(config: LightItems[], instance: ThreeInstance)`
 
-此构造函数创建一个新的`Light`。
+This constructor creates a new `Light`.
 
-#### 参数
-- **config** (`LightItems[]`): 包含多个光源配置的对象数组。
+#### Parameters
+- **config** (`LightItems[]`): Array of objects containing multiple light source configurations.
 
-  **color** (`string`): 光源的颜色（CSS 格式）。
+  **color** (`string`): Light color (CSS format).
 
-  **groundColor** (`string`): 半球光的地面颜色（仅对半球光有效）。
+  **groundColor** (`string`): Ground color for hemisphere light (only valid for hemisphere light).
 
-  **type** (`string`): 光源类型，可以是 `"point"`, `"ambient"`, `"hemisphere"`, `"directional"`, 或 `"spot"`。
+  **type** (`string`): Light type, can be `"point"`, `"ambient"`, `"hemisphere"`, `"directional"`, or `"spot"`.
 
-  **intensity** (`number`): 光源的强度。
+  **intensity** (`number`): Light intensity.
 
-  **distance** (`number`): 点光源和聚光灯的影响距离。
+  **distance** (`number`): Influence distance for point lights and spotlights.
   
-  **angle** (`number`): 聚光灯的角度。
+  **angle** (`number`): Spotlight angle.
 
-  **penumbra** (`number`): 聚光灯的半影衰减。
+  **penumbra** (`number`): Spotlight penumbra decay.
 
-  **position** (`{ x: number, y: number, z: number }`): 光源的位置。
+  **position** (`{ x: number, y: number, z: number }`): Light position.
   
-  **decay** (`number`): 光源的衰减系数。
+  **decay** (`number`): Light decay coefficient.
   
-  **target** (`{ x: number, y: number, z: number }`): 光源的目标位置（仅对方向光和聚光灯有效）。
+  **target** (`{ x: number, y: number, z: number }`): Light target position (only valid for directional light and spotlight).
   
-  **helper** (`boolean`): 是否启用光源辅助工具。
+  **helper** (`boolean`): Whether to enable light helper tools.
   
-  **shadow** (`object`): 阴影配置对象，包含以下属性：
+  **shadow** (`object`): Shadow configuration object containing the following properties:
   
-  **mapSizeWidth** (`number`): 阴影贴图的宽度。
+  **mapSizeWidth** (`number`): Shadow map width.
   
-  **mapSizeHeight** (`number`): 阴影贴图的高度。
+  **mapSizeHeight** (`number`): Shadow map height.
   
-  **cameraLeft** (`number`): 阴影相机的左侧边界。
+  **cameraLeft** (`number`): Shadow camera left boundary.
   
-  **cameraRight** (`number`): 阴影相机的右侧边界。
+  **cameraRight** (`number`): Shadow camera right boundary.
   
-  **cameraTop** (`number`): 阴影相机的顶部边界。
+  **cameraTop** (`number`): Shadow camera top boundary.
   
-  **cameraBottom** (`number`): 阴影相机的底部边界。
+  **cameraBottom** (`number`): Shadow camera bottom boundary.
   
-  **cameraNear** (`number`): 阴影相机的近裁剪面。
+  **cameraNear** (`number`): Shadow camera near clipping plane.
   
-  **cameraFar** (`number`): 阴影相机的远裁剪面。
+  **cameraFar** (`number`): Shadow camera far clipping plane.
   
-  **radius** (`number`): 阴影的模糊半径。
+  **radius** (`number`): Shadow blur radius.
   
-  **normalBias** (`number`): 阴影的法线偏移。
+  **normalBias** (`number`): Shadow normal bias.
   
-  **bias** (`number`): 阴影的偏移。
+  **bias** (`number`): Shadow bias.
   
-  **castShadow** (`boolean`): 是否启用投射阴影。
+  **castShadow** (`boolean`): Whether to enable shadow casting.
 
-  **helperSize** (`number`): 辅助工具的大小（如果启用了辅助工具）。
-- **instance** (`ThreeInstance`): 一个 `ThreeInstance` 实例，用于访问 Three.js 场景、相机和渲染器。
+  **helperSize** (`number`): Helper tool size (if helper tools are enabled).
+- **instance** (`ThreeInstance`): A `ThreeInstance` instance used to access Three.js scene, camera, and renderer.
 
-### 属性（attribute）
+### Properties
 
 -  **.light**
 
-获取当前的灯光组。
+Get the current light group.
 
-### 使用示例
+### Usage Example
 ```typescript
 import * as AUTO from "three-auto";
 const instance = new AUTO.ThreeAuto()
@@ -302,11 +296,8 @@ const lightConfigs = [
     helper: true,
     helperSize: 1,
   },
-  // 更多光源配置...
+  // More light source configurations...
 ];
 
 const lights = new Light(lightConfigs, instance);
 ```
-
-
-

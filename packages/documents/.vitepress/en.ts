@@ -9,12 +9,12 @@ export const en = defineConfig({
     themeConfig: {
         nav: [
             { text: 'Documents', link: '/en/docs/what-is-three-auto' },
-            { text: 'options', link: '/docs/what-is-three-auto' },
+            { text: 'Config', link: '/en/config/default' },
             { text: 'Examples', link: '/en/examples/markdown-examples' },
             {
                 text: pkg.version, items: [
-                    { text: 'Changelog', link: 'https://github.com/flowers-10/three-auto/blob/main/README.md' },
-                    { text: 'Contributing', link: 'https://github.com/flowers-10/three-auto/blob/main/README.md' },
+                    { text: 'Changelog', link: 'https://github.com/flowers-10/three-auto/releases' },
+                    { text: 'Contributing', link: 'https://github.com/flowers-10/three-auto/graphs/contributors' },
                 ]
             },
         ],
@@ -24,62 +24,139 @@ export const en = defineConfig({
                 {
                     text: 'Introduction',
                     collapsed: false,
+                    base: '/en/docs/',
                     items: [
-                        { text: 'What is three-auto?', link: '/en/docs/what-is-three-auto' },
-                        { text: 'Getting Started', link: '/en/docs/getting-started' },
+                        { text: 'What is three-auto?', link: 'what-is-three-auto' },
+                        { text: 'Getting Started', link: 'getting-started' },
                     ]
                 },
                 {
                     text: 'Core',
                     collapsed: false,
+                    base: '/en/docs/',
                     items: [
-                        { text: 'BaseThree', link: '/en/docs/docs' },
-                        { text: 'ThreeInstance', link: '/docs/docs' },
-                        { text: 'Resource', link: '/docs/docs' },
-                        { text: 'Size', link: '/docs/docs' },
-                        { text: 'Time', link: '/docs/docs' },
-                        { text: 'Mousemove', link: '/docs/docs' },
-                        { text: 'Raycaster', link: '/docs/docs' },
-                        { text: 'EventEmitter', link: '/docs/docs' },
+                        {
+                            text: 'Common Properties', link: 'three-instance'
+                        },
+                        {
+                            text: 'General Methods', link: 'general-method'
+                        }
                     ]
                 },
                 {
                     text: 'Components',
                     collapsed: false,
+                    base: '/en/docs/components/',
                     items: [
-                        { text: 'Animation', link: '/docs/docs' },
-                        { text: 'Cameras', link: '/docs/docs' },
-                        { text: 'Charts', link: '/docs/docs' },
-                        { text: 'Lights', link: '/docs/docs' },
-                        { text: 'Loading', link: '/docs/docs' },
-                        { text: 'Postprocessing', link: '/docs/docs' },
-                        { text: 'Renderers', link: '/docs/docs' },
-                        { text: 'Web', link: '/docs/docs' },
+                        { text: 'Animation', link: 'animation' },
+                        {
+                            text: 'Charts', base: '/en/docs/components/charts-', items: [
+                                { text: 'Series', link: 'series' },
+                                { text: 'Earth', link: 'earth' },
+                                { text: 'Pie', link: 'pie' },
+                                { text: 'Map3D', link: 'map3D' },
+                                { text: 'Grid', link: 'grid' },
+                            ]
+                        },
+                        { text: 'Lights', link: 'lights' },
+                        { text: 'Environment', link: 'environment' },
+                        { text: 'Resource', link: 'resource' },
+                        {
+                            text: 'Postprocessing', base: '/en/docs/components/postprocessing-', items: [
+                                { text: 'MoebiusPass', link: 'moebius' },
+                                { text: 'GTToneMap', link: 'gttoneMap' },
+                                { text: 'Bloom', link: 'bloom' },
+
+                            ]
+                        },
+                        {
+                            text: 'Web', base: '/en/docs/components/web-', items: [
+                                { text: 'Tips', link: 'tips' },
+                                { text: 'Tooltip', link: 'tooltip' },
+                            ]
+                        },
                     ]
                 },
+            ],
+            '/en/config/': [
                 {
                     text: 'Config',
                     collapsed: false,
+                    base: '/en/config/',
                     items: [
-                        { text: 'Default Config', link: '/docs/docs' },
-                        { text: 'loading Config', link: '/docs/docs' },
+                        {
+                            text: 'default', link: 'default'
+                        },
+                        {
+                            text: 'size: {...}', link: 'size'
+                        },
+                        {
+                            text: 'camera: {...}', link: 'camera'
+                        },
+                        {
+                            text: 'renderer: {...}', link: 'renderer'
+                        },
+                        {
+                            text: 'light: [{...}]', link: 'light'
+                        },
+                        {
+                            text: 'shadow: {...}', link: 'shadow'
+                        },
+                        {
+                            text: 'series: [{...}]',
+                            collapsed: false,
+                            base: 'en/config/series/',
+                            items: [
+                                {
+                                    text: 'type:map', link: 'map'
+                                },
+                            ]
+                        },
+                        {
+                            text: 'resource:[{...}]', link: 'resource'
+                        },
+                        {
+                            text: 'postprocess: {...}', link: 'postprocess'
+                        },
                     ]
                 },
             ],
             '/en/examples/': [
                 {
                     text: 'Examples',
+                    base: '/en/examples',
                     items: [
-                        { text: 'Markdown Examples', link: '/examples/markdown-examples' },
-                        { text: 'Runtime API Examples', link: '/examples/api-examples' }
+                        { text: 'Markdown Examples', link: 'markdown-examples' },
+                        { text: 'Runtime API Examples', link: 'api-examples' }
                     ]
                 }
             ],
 
         },
-        // footer: {
-        //     message: '基于 MIT 许可发布',
-        //     copyright: `版权所有 © 2019-${new Date().getFullYear()} Michela`
-        // },
+        footer: {
+            message: 'Released under the MIT License',
+            copyright: `Copyright © 2019-${new Date().getFullYear()} Michela`
+        },
+        docFooter: {
+            prev: 'Previous page',
+            next: 'Next page'
+        },
+        outline: {
+            label: 'Page navigation'
+        },
+
+        lastUpdated: {
+            text: 'Last updated at',
+            formatOptions: {
+                dateStyle: 'short',
+                timeStyle: 'medium'
+            }
+        },
+        langMenuLabel: 'Multilingual',
+        returnToTopLabel: 'Back to top',
+        sidebarMenuLabel: 'Menu',
+        darkModeSwitchLabel: 'Theme',
+        lightModeSwitchTitle: 'Switch to light mode',
+        darkModeSwitchTitle: 'Switch to dark mode'
     },
 })

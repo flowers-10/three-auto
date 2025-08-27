@@ -2,37 +2,39 @@
 outline: deep
 ---
 
-# What is auto-three? 
+# What is three-auto? 
 
-Three-auto can quickly generate a [Three.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) 3D scene through default configuration options, without requiring the user to manually declare basic classes such as the [camera](https://threejs.org/docs/index.html#api/en/cameras/OrthographicCamera) and [renderer](https://threejs.org/docs/index.html#api/en/renderers/WebGLRenderer).
+three-auto can quickly generate a [Three.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) 3D scene through default configuration options, without requiring users to manually declare basic classes such as [cameras](https://threejs.org/docs/index.html#api/en/cameras/OrthographicCamera) and [renderers](https://threejs.org/docs/index.html#api/en/renderers/WebGLRenderer).
 
 ::: tip
-Just want to try it out? Jump to the [Quick Start](/docs/getting-started).
+Just want to try it out? Jump to [Getting Started](/en/docs/getting-started)
 :::
 
-
-
-## Use Cases
+## Use Cases 
 - **3D**
 
 three-auto can help you quickly build your 3D scenes and many cool effects.
 
 ::: tip
-Quickly check out the [examples](/docs/getting-started).
+Quickly check out [Examples](/en/examples/api-examples).
 :::
 
-- **Charts，DataScreen**
+- **Charts**
 
-Three-auto supports the rapid generation of 3D visual charts, including 3D bar charts, curves, scatter plots, heatmaps, maps, pie charts, and other common chart types. You can customize the chart type you want just by using configuration options, which is inspired by the usage of [Apache ECharts](https://echarts.apache.org/zh/index.html).
+three-auto supports rapid generation of 3D visualization charts, including common chart types such as 3D bar charts, curves, scatter plots, heat maps, maps, pie charts, etc. You can customize the chart type you want just through configuration options, which references the usage of [Apache ECharts](https://echarts.apache.org/en/index.html).
 
+## Development Experience 
+three-auto is essentially based on [Three.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene) API. It has built-in configuration architecture internally, allowing developers to directly use a piece of JS configuration to quickly generate a 3D scene.
+- [Three.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene): Based on the three.js library to generate scenes.
+- [gsap](https://gsap.com/): Internal transition animations are all based on the gsap animation library, making your scene animation transitions less rigid.
+- charts: Supports rapid generation of various 3D visualization charts.
+- [postprocessing](https://github.com/pmndrs/postprocessing): Built-in many post-processing effects to make your pages more visually impactful.
+- low-code: Configured debug mode supports low-code generation.
 
-## Developer Experience
-Three-auto is essentially based on the API of [Three.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene). It has an internal configuration architecture that allows developers to quickly generate a 3D scene using a segment of JavaScript configuration options.
-- [Three.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene): Based on the Three.js library, generate a scene.
-- [gsap](https://gsap.com/): The internal transition animations are based on the GSAP animation library, making your scene transitions smoother and less rigid.
-- charts: Supports the quick generation of various 3D visualization charts.
-- [postprocessing](https://github.com/pmndrs/postprocessing): Built-in post-processing effects enhance the visual impact of your page.
-- low-code: Configured with a debugging mode that supports low-code generation.
+## Acknowledgments
+First, please allow me to express my gratitude to [Bruno Simon](https://github.com/brunosimon). His [course](https://threejs-journey.com/) opened up new directions of thinking for me, which is of great significance to me.
+
+Yes, my inspiration comes from [threejs-journey](https://threejs-journey.com/). When I finished reading the course documentation, I had a strong desire to create a repository to preserve this architecture.
 
 
 
