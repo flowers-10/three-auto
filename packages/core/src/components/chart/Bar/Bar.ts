@@ -96,6 +96,6 @@ export class Bar extends BaseThree {
   }
   update() { }
   dispose(): void {
-    this.cssRender.dispose();
+    this.cssRender?.dispose();
   }
 }

@@ -40,7 +40,7 @@ export class Map3D extends BaseThree {
       new Tooltip(instance, this.group, this.config.tooltip)
     }
     this.group.position.set(config.position?.x || 0, config.position?.y || 0, config.position?.z || 0);
-    this.group.scale.set(config.scale?.x || 0, config.scale?.y || 0, config.scale?.z || 0)
+    this.group.scale.set(config?.scale?.x || 1, config?.scale?.y || 1, config?.scale?.z || 1)
     this.group.rotateX(config.rotation?.x || 0);
     this.group.rotateY(config.rotation?.y || 0);
     this.group.rotateZ(config.rotation?.z || 0);
