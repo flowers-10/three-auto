@@ -1,45 +1,153 @@
 import * as AUTO from "./src/index";
 import * as THREE from 'three'
 import ChinaJson from '../examples/public/China.json'
+const canvas = document.getElementById('_canvas') as HTMLCanvasElement;
 
-new AUTO.ThreeAuto(undefined, {
+const instance = new AUTO.ThreeAuto(canvas, {
   size: {
-    type: 'window',
+    type: 'parent',
+  },
+  camera: {
+    type: 'OrthographicCamera',
+    fov: 60,
+    near: 1,
+    far: 1000,
+    position: {
+      x: 120,
+      y: 60,
+      z: 0,
+    },
+    lookAt: true,
+    controls: {
+      enable: false,
+      enableDamping: false,
+      enablePan: false,
+    },
+  },
+  legend: {
+    show: true,
+    orient: 'vertical',
+    align: 'left',
+    top: '10%',
+    left: '20%',
+    itemGap: 10,
+    itemWidth: 8,
+    itemHeight: 10,
+    icon: 'circle',
+    textStyle:{
+      'font-size': '12px',
+      color: '#fff',
+      'font-weight': 'normal'
+    },
+    formatter: (params: any) => {
+      return `<div style="font-size: 14px;text-align:center;margin-left: 4px">${params.name}<span style="display:inline-block;vertical-align:middle;color:#6F96C7;margin:0 8px;border-bottom:2px dotted #6F96C7;width:30px;"></span><span style="color:#FDD050">${params.percent.toFixed(0)}%</span></div>`
+    },
+  },
+  renderer: {
+    antialias: true,
+    alpha: true,
+    clearAlpha: 1,
+    clearColor: '#000',
   },
   series: [
     {
-      name: 'earth',
-      type: 'earth',
-      atmosphereDayColor: '#00aaff',
-      atmosphereTwilightColor: '#ff6600',
-      atmosphereThickness: 1.04,
-      animation: true,
-      radius: 20,
-      json: ChinaJson,
+      type: 'pie',
+      name: 'three-auto-pie',
+      shadow: false,
       data: [
-        { name: '曼谷', value: 100, color: '#fcc02a', lng: 100.49074172973633,lat: 22 },
-        { name: '澳大利亚', value: 200, color: '#f16b91', lng: 133,lat: -23.68477416688374 },
-        { name: '新疆维吾尔自治区', value: 300, color: '#187bac', lng: 85,lat: 42 },
-        { name: '德黑兰', value: 500, color: '#eeeeee', lng: 51,lat: 35 },
-        { name: '美国', value: 1000, color: '#ccc', lng: 241,lat: 34 },
-        { name: '英国', value: 400, color: '#000', lng: 359,lat: 51 },
-        { name: '巴西', value: 500, color: '#3e1', lng: 668,lat: -9 },
-        { name: '西藏', value: 200, color: '#9e2', lng: 91,lat: 29 },
-        { name: '广西', value: 100, color: '#cf1', lng: 108,lat: 22 },
-        { name: '江西', value: 0, color: '#cf2', lng: 115,lat: 28 },
+        { name: '安全', value: 40, color: '#1561EC',unit:'人' },
+        { name: '服务', value: 30, color: '#22B6E7',unit:'人' },
+        { name: '报修', value: 20, color: '#52E4AC',unit:'人' },
+        { name: '环境', value: 10, color: '#FED859',unit:'人' },
       ],
-    },
-  ],
-  camera: {
-    fov: 75,
-    near: 0.1,
-    far: 1000,
-    position: {
-      z: 40,
+      transparent: true,
+      opacity: 0.9,
+      height: 10,
+      heightMode: 'height',
+      radius: [44, 60],
+      gap: 1,
+      eventName: 'mousemove',
+      animation: true,
+      animationDurationUpdate: 1000,
+      position: {
+        x: 0,
+        y: 0,
+        z: 76,
+      },
+      emphasis: {
+        selectedMode: 'height',
+        disabled: false,
+        scaleSize: 2,
+        label: {
+          show: true,
+          distance: 8,
+          scale: 1,
+          position: 'center',
+          formatter: (params: any) => {
+            return `<div style="font-size: 14px;text-align:center">${params.value}</div><div style="font-size: 8px;text-align:center">${params.name}</div>`
+          },
+          rotation: {
+            x: 0,
+            y: 0,
+            z: 0,
+          },
+          textStyle: {
+            padding: '6px',
+            color: "#fff",
+            bold: true,
+            'font-weight': 'bold',
+            'font-style': 'normal',
+          },
+        }
+      },
+      label: {
+        show: false,
+        distance: 0,
+        scale: 1,
+        position: 'center',
+        rotation: {
+          x: 0,
+          y: 0,
+          z: 0,
+        },
+        textStyle: {
+          padding: '6px',
+          'font-size': '16px',
+          color: "#000",
+          bold: true,
+          'font-weight': 400,
+          'font-style': 'normal',
+        },
+      },
+      tooltip: {
+        className: 'three-auto-tooltip',
+        background: 'rgba(255,255,255,1)',
+        show: true,
+        borderWidth: 1,
+        padding: '4px 8px',
+        hideDelay: 100,
+        textStyle: {
+          'font-size': '10px',
+          color: "#000000",
+          'font-weight': 400,
+          'font-style': 'normal',
+        },
+        // formatter: (params: any) => {
+        //   return `<div style="display:flex;align-items:center;">
+        //     <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background-color:${params.color};margin-right:6px;"></span>
+        //     <span>${params.name}</span>
+        //     <span style="margin-left:20px;font-weight:bold;">${params.value}</span>
+        //     <span style="margin-left:2px;font-size:0.8em;opacity:0.8;">${params.unit || ''}</span>
+        //   </div>`
+        // }
+      }
     }
-  },
-  renderer: {
-    clearColor: '#000',
-    clearAlpha: 1,
-  }
+  ],
+
+});
+
+
+instance.camera.instance.updateProjectionMatrix()
+// instance._renderer.setClearColor("#000");
+instance.onTick(() => {
 });

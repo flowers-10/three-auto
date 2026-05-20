@@ -43,29 +43,29 @@ export class Earth extends BaseThree {
             {
                 name: "day",
                 type: "TEXTURE",
-                path: "https://img.picgo.net/2024/10/14/day899f5289e588690d.jpg",
+                path: "./earth/day.jpg",
             },
             {
                 name: "night",
                 type: "TEXTURE",
-                path: "https://img.picgo.net/2024/10/14/night62454a45f4890e2e.jpg",
+                path: "./earth/night.jpg",
             },
             {
                 name: "specularClouds",
                 type: "TEXTURE",
-                path: "https://img.picgo.net/2024/10/14/specularClouds19e5807325c90501.jpg",
+                path: "./earth/specularClouds.jpg",
             },
             {
                 name: "label",
                 type: "TEXTURE",
-                path: "https://img.picgo.net/2024/10/16/label67551425a8d52d32.png",
+                path: "./earth/label.png",
             },
             {
                 name: "lightBar",
                 type: "TEXTURE",
-                path: "https://img.picgo.net/2024/10/16/light_column7f4475c95d20ad21.png",
+                path: "./earth/lightBar.png",
             },
-        ], 'circle');
+        ]);
         this.option = {
             atmosphereDayColor: '#00aaff',
             atmosphereTwilightColor: '#ff6600',

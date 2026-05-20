@@ -43,7 +43,15 @@ export class Tooltip extends BaseThree {
         this.options = options;
         this.update();
     }
+    private parsePx(val: string | number): number {
+        if (typeof val === 'number') return val;
+        return parseFloat(val) || 12;
+    }
     createTooltip(option: any, root: HTMLElement) {
+        if (this.options.formatter) {
+            root.innerHTML = this.options.formatter(option);
+            return;
+        }
         root.innerHTML = ''
         if (option.title) {
             htmlRender({
@@ -52,14 +60,17 @@ export class Tooltip extends BaseThree {
         }
         const list = []
         if (option.color) {
+            const fontSize = this.parsePx(this.options.textStyle['font-size']);
+            const circleSize = fontSize * 0.8;
             list.push({
                 tag: 'span', style: {
                     display: 'inline-block',
-                    width: this.options.textStyle['font-size'],
-                    height: this.options.textStyle['font-size'],
+                    width: circleSize + 'px',
+                    height: circleSize + 'px',
                     'background-color': option.color,
                     'border-radius': '50%',
                     'margin-right': '6px',
+                    'flex-shrink': '0'
                 }
             })
         }
@@ -71,11 +82,23 @@ export class Tooltip extends BaseThree {
             tag: 'span', children: String(option.value || 0), style: { 'margin-left': '30px' }
         })
 
+        if (option.unit) {
+            list.push({
+                tag: 'span',
+                children: option.unit,
+                style: {
+                    'margin-left': '4px',
+                    'font-size': '0.85em',
+                    'opacity': '0.8'
+                }
+            })
+        }
+
         htmlRender({
             tag: 'div', children: list, style: {
                 padding: '6px 0',
                 display: 'flex',
-                'align-items': 'center'
+                'align-items': 'baseline'
             }
         }, root)
         if (option.xName) {
@@ -85,7 +108,7 @@ export class Tooltip extends BaseThree {
                 }], style: {
                     padding: '6px 0',
                     display: 'flex',
-                    'align-items': 'center'
+                    'align-items': 'baseline'
                 }
             }, root)
         }
@@ -96,7 +119,7 @@ export class Tooltip extends BaseThree {
                 }], style: {
                     padding: '6px 0',
                     display: 'flex',
-                    'align-items': 'center'
+                    'align-items': 'baseline'
                 }
             }, root)
         }
