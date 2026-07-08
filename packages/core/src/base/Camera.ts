@@ -13,13 +13,21 @@ export class Camera extends BaseThree {
     super(instance);
     this.cameraConfig = config;
     this.instance = this.switchCameraType()
-    
-    if (config.controls?.enable) {
-      this.controls = new OrbitControls(this.instance, this.canvas);
-      this.setControls();
-    }
+
+    const designEnabled = typeof config.controls?.design === "object"
+      ? Boolean(config.controls.design.enable)
+      : Boolean(config.controls?.design);
 
     this.setInstance();
+
+    if (config.controls?.enable && !designEnabled) {
+      this.controls = new OrbitControls(this.instance, this.canvas);
+      if (this.cameraConfig.lookAt) {
+        this.controls.target.copy(this.scene.position);
+      }
+      this.setControls();
+      this.controls.update();
+    }
   }
   switchCameraType() {
     switch (this.cameraConfig.type) {
@@ -51,8 +59,27 @@ export class Camera extends BaseThree {
     this.scene.add(this.instance);
   }
   setControls() {
-    const controls = this.cameraConfig.controls || {};
-    Object.assign(this.controls!, controls);
+    const controls = this.cameraConfig.controls;
+    if (!controls || !this.controls) {
+      return;
+    }
+
+    this.controls.enabled = controls.enable;
+    this.controls.enableDamping = controls.enableDamping;
+    this.controls.enablePan = controls.enablePan;
+
+    if (typeof controls.minPolarAngle === "number") {
+      this.controls.minPolarAngle = controls.minPolarAngle;
+    }
+    if (typeof controls.maxPolarAngle === "number") {
+      this.controls.maxPolarAngle = controls.maxPolarAngle;
+    }
+    if (typeof controls.minAzimuthAngle === "number") {
+      this.controls.minAzimuthAngle = controls.minAzimuthAngle;
+    }
+    if (typeof controls.maxAzimuthAngle === "number") {
+      this.controls.maxAzimuthAngle = controls.maxAzimuthAngle;
+    }
   }
   resize() {
     if (this.instance instanceof THREE.PerspectiveCamera) {

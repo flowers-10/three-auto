@@ -57,15 +57,7 @@ export type CameraConfig = {
   far: number;
   position: PositionType;
   lookAt?: boolean;
-  controls?: {
-    enable: boolean;
-    enableDamping: boolean;
-    minPolarAngle?: number;
-    maxPolarAngle?: number;
-    minAzimuthAngle?: number;
-    maxAzimuthAngle?: number;
-    enablePan: boolean;
-  };
+  controls?: CameraControlConfig;
 };
 
 export type RendererConfig = {
@@ -102,6 +94,25 @@ export interface ShadowConfig {
   position?: { x: number, y: number, z: number };
 }
 
+export type DesignConfig = {
+  enable?: boolean;
+  hoverColor?: THREE.ColorRepresentation;
+  selectColor?: THREE.ColorRepresentation;
+  minDistance?: number;
+  maxDistance?: number;
+}
+
+export type CameraControlConfig = {
+  enable: boolean;
+  enableDamping: boolean;
+  minPolarAngle?: number;
+  maxPolarAngle?: number;
+  minAzimuthAngle?: number;
+  maxAzimuthAngle?: number;
+  enablePan: boolean;
+  design?: boolean | DesignConfig;
+};
+
 export interface ConfigType {
   id: string;
   name?: string;
@@ -116,5 +127,6 @@ export interface ConfigType {
   shadow?: ShadowConfig;
   legend?: LegendOptions;
   postprocess?: PostProcessConfig;
-  env?: {}
+  env?: {};
+  design?: boolean | DesignConfig;
 }

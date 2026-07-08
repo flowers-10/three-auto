@@ -1,153 +1,61 @@
 import * as AUTO from "./src/index";
-import * as THREE from 'three'
-import ChinaJson from '../examples/public/China.json'
-const canvas = document.getElementById('_canvas') as HTMLCanvasElement;
+import * as THREE from "three";
 
-const instance = new AUTO.ThreeAuto(canvas, {
-  size: {
-    type: 'parent',
-  },
-  camera: {
-    type: 'OrthographicCamera',
-    fov: 60,
-    near: 1,
-    far: 1000,
-    position: {
-      x: 120,
-      y: 60,
-      z: 0,
-    },
-    lookAt: true,
-    controls: {
-      enable: false,
-      enableDamping: false,
-      enablePan: false,
-    },
-  },
-  legend: {
-    show: true,
-    orient: 'vertical',
-    align: 'left',
-    top: '10%',
-    left: '20%',
-    itemGap: 10,
-    itemWidth: 8,
-    itemHeight: 10,
-    icon: 'circle',
-    textStyle:{
-      'font-size': '12px',
-      color: '#fff',
-      'font-weight': 'normal'
-    },
-    formatter: (params: any) => {
-      return `<div style="font-size: 14px;text-align:center;margin-left: 4px">${params.name}<span style="display:inline-block;vertical-align:middle;color:#6F96C7;margin:0 8px;border-bottom:2px dotted #6F96C7;width:30px;"></span><span style="color:#FDD050">${params.percent.toFixed(0)}%</span></div>`
-    },
-  },
+const bootstrapCanvas = document.getElementById("_canvas") as HTMLCanvasElement | null;
+
+const instance = new AUTO.ThreeAuto(bootstrapCanvas ?? undefined, {
   renderer: {
     antialias: true,
     alpha: true,
+    logarithmicDepthBuffer: true,
     clearAlpha: 1,
-    clearColor: '#000',
+    clearColor: "#F29EC0",
   },
-  series: [
-    {
-      type: 'pie',
-      name: 'three-auto-pie',
-      shadow: false,
-      data: [
-        { name: '安全', value: 40, color: '#1561EC',unit:'人' },
-        { name: '服务', value: 30, color: '#22B6E7',unit:'人' },
-        { name: '报修', value: 20, color: '#52E4AC',unit:'人' },
-        { name: '环境', value: 10, color: '#FED859',unit:'人' },
-      ],
-      transparent: true,
-      opacity: 0.9,
-      height: 10,
-      heightMode: 'height',
-      radius: [44, 60],
-      gap: 1,
-      eventName: 'mousemove',
-      animation: true,
-      animationDurationUpdate: 1000,
-      position: {
-        x: 0,
-        y: 0,
-        z: 76,
-      },
-      emphasis: {
-        selectedMode: 'height',
-        disabled: false,
-        scaleSize: 2,
-        label: {
-          show: true,
-          distance: 8,
-          scale: 1,
-          position: 'center',
-          formatter: (params: any) => {
-            return `<div style="font-size: 14px;text-align:center">${params.value}</div><div style="font-size: 8px;text-align:center">${params.name}</div>`
-          },
-          rotation: {
-            x: 0,
-            y: 0,
-            z: 0,
-          },
-          textStyle: {
-            padding: '6px',
-            color: "#fff",
-            bold: true,
-            'font-weight': 'bold',
-            'font-style': 'normal',
-          },
-        }
-      },
-      label: {
-        show: false,
-        distance: 0,
-        scale: 1,
-        position: 'center',
-        rotation: {
-          x: 0,
-          y: 0,
-          z: 0,
-        },
-        textStyle: {
-          padding: '6px',
-          'font-size': '16px',
-          color: "#000",
-          bold: true,
-          'font-weight': 400,
-          'font-style': 'normal',
-        },
-      },
-      tooltip: {
-        className: 'three-auto-tooltip',
-        background: 'rgba(255,255,255,1)',
-        show: true,
-        borderWidth: 1,
-        padding: '4px 8px',
-        hideDelay: 100,
-        textStyle: {
-          'font-size': '10px',
-          color: "#000000",
-          'font-weight': 400,
-          'font-style': 'normal',
-        },
-        // formatter: (params: any) => {
-        //   return `<div style="display:flex;align-items:center;">
-        //     <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background-color:${params.color};margin-right:6px;"></span>
-        //     <span>${params.name}</span>
-        //     <span style="margin-left:20px;font-weight:bold;">${params.value}</span>
-        //     <span style="margin-left:2px;font-size:0.8em;opacity:0.8;">${params.unit || ''}</span>
-        //   </div>`
-        // }
-      }
-    }
-  ],
+  camera: {
+    position: { x: 6, y: 15, z: 17 },
+    lookAt: true,
+    controls: {
+      enable: false,
+      enableDamping: true,
+      enablePan: true,
+      design: true,
+    },
+  },
+  light: [
+    { type: "ambient", color: "#ffffff", intensity: 1.1 },
+  ]
+  
+} as any);
 
-});
+const grid = new THREE.GridHelper(30, 30, 0xc85c96, 0xb45b8d);
+grid.position.y = -0.01;
+grid.userData.designSelectable = false;
+instance.scene.add(grid);
 
+const box = new THREE.Mesh(
+  new THREE.BoxGeometry(2, 2, 2),
+  new THREE.MeshStandardMaterial({ color: 0x5b5bd6, roughness: 0.28, metalness: 0.08 }),
+);
+box.name = "target-box";
+box.position.set(0, 1, 0);
+instance.scene.add(box);
 
-instance.camera.instance.updateProjectionMatrix()
-// instance._renderer.setClearColor("#000");
-instance.onTick(() => {
-});
+const group = new THREE.Group();
+group.name = "design-group";
+group.userData.designRoot = true;
+group.position.set(3.2, 1, -1.2);
+
+const capsule = new THREE.Mesh(
+  new THREE.CapsuleGeometry(0.55, 1.4, 8, 16),
+  new THREE.MeshStandardMaterial({ color: 0x7b5cff, roughness: 0.22, metalness: 0.05 }),
+);
+capsule.position.set(0, 0.9, 0);
+
+const sphere = new THREE.Mesh(
+  new THREE.SphereGeometry(0.48, 32, 32),
+  new THREE.MeshStandardMaterial({ color: 0xffb347, roughness: 0.18, metalness: 0.04 }),
+);
+sphere.position.set(1.35, 0.45, 0.35);
+
+group.add(capsule, sphere);
+instance.scene.add(group);

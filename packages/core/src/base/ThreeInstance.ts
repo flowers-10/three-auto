@@ -4,16 +4,71 @@ import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 
 import { ConfigType } from "../types/ConfigType";
 import { CONFIG } from "../config/config";
-import {
-  MouseMoveTracker,
-  Time,
-  Sizes,
-  Raycaster,
-  Resources,
-  Renderer,
-  Camera,
-} from "./index";
+import { MouseMoveTracker } from "./Mousemove";
+import { Time } from "./Time";
+import { Sizes } from "./Sizes";
+import { Raycaster } from "./Raycaster";
+import { Resources } from "./Resources";
+import { Renderer } from "./Renderer";
+import { Camera } from "./Camera";
+import { DesignController } from "./DesignController";
 import { Light, Series, PostProcess, Tips, Shadow, Environment, Legend } from "../components";
+
+function normalizeDesignConfig(value: ConfigType["design"] | NonNullable<ConfigType["camera"]["controls"]>["design"]) {
+  if (typeof value === "boolean") {
+    return { enable: value };
+  }
+  return {
+    enable: false,
+    ...value,
+  };
+}
+
+function mergeCameraConfig(camera?: Partial<ConfigType["camera"]>): ConfigType["camera"] {
+  const defaultCamera = CONFIG.camera;
+  const defaultControls = defaultCamera.controls!;
+  const incomingControls = camera?.controls;
+
+  return {
+    ...defaultCamera,
+    ...camera,
+    position: {
+      ...defaultCamera.position,
+      ...camera?.position,
+    },
+    controls: {
+      ...defaultControls,
+      ...incomingControls,
+    },
+  };
+}
+
+function mergeConfig(config: Partial<ConfigType>): ConfigType {
+  return {
+    ...CONFIG,
+    ...config,
+    size: {
+      ...CONFIG.size,
+      ...config.size,
+    },
+    renderer: {
+      ...CONFIG.renderer,
+      ...config.renderer,
+    },
+    camera: mergeCameraConfig(config.camera),
+  };
+}
+
+function getDesignControllerConfig(config: ConfigType) {
+  const controls = config.camera.controls ?? CONFIG.camera.controls!;
+  const legacyDesign = config.design;
+  const designConfig = normalizeDesignConfig(controls.design ?? legacyDesign);
+
+  return {
+    designConfig,
+    orbitEnabled: controls.enable && !designConfig.enable,
+  };
+}
 
 export interface ThreeInstance {
   time: Time;
@@ -27,6 +82,7 @@ export interface ThreeInstance {
   _renderer: THREE.WebGLRenderer;
   mousemove: MouseMoveTracker;
   raycaster: Raycaster;
+  design?: DesignController;
   dispose(): void;
   onTick(cb: Function): void;
   onResize(cb: Function): void;
@@ -49,6 +105,7 @@ class ThreeAuto implements ThreeInstance {
   public _renderer: THREE.WebGLRenderer;
   public mousemove: MouseMoveTracker;
   public raycaster: Raycaster;
+  public design?: DesignController;
   public series?: Series;
   public legend?: Legend;
   public light?: Light;
@@ -63,8 +120,23 @@ class ThreeAuto implements ThreeInstance {
   public PostProcess = PostProcess;
 
   constructor(canvas?: HTMLCanvasElement, config: Partial<ConfigType> = {}) {
-    config = Object.assign(CONFIG, config)
-    const { id = '_scene', size = { type: 'window' }, camera = CONFIG.camera, renderer = CONFIG.renderer, tipsType, light, series, legend, postprocess, resource, loadingType, env, shadow } = config
+    const mergedConfig = mergeConfig(config);
+    const { designConfig, orbitEnabled } = getDesignControllerConfig(mergedConfig);
+    const mergedControls = mergedConfig.camera.controls ?? CONFIG.camera.controls!;
+    const cameraConfig: ConfigType["camera"] = {
+      ...mergedConfig.camera,
+      controls: {
+        enable: orbitEnabled,
+        enableDamping: mergedControls.enableDamping,
+        enablePan: mergedControls.enablePan,
+        minPolarAngle: mergedControls.minPolarAngle,
+        maxPolarAngle: mergedControls.maxPolarAngle,
+        minAzimuthAngle: mergedControls.minAzimuthAngle,
+        maxAzimuthAngle: mergedControls.maxAzimuthAngle,
+        design: mergedControls.design,
+      },
+    };
+    const { id = '_scene', size = { type: 'window' }, renderer = CONFIG.renderer, tipsType, light, series, legend, postprocess, resource, loadingType, env, shadow } = mergedConfig
     const canvass = document.getElementById(id);
     if (!canvass && !canvas) {
       throw new Error("ThreeAuto:Canvas has already been initialized.");
@@ -74,7 +146,7 @@ class ThreeAuto implements ThreeInstance {
     this.sizes = new Sizes(size);
     this.scene = new THREE.Scene();
     this.time = new Time();
-    this.camera = new Camera(camera, this);
+    this.camera = new Camera(cameraConfig, this);
     this._camera = this.camera.instance;
     this.raycaster = new Raycaster(this);
     this.renderer = new Renderer(renderer, this);
@@ -116,6 +188,9 @@ class ThreeAuto implements ThreeInstance {
     if (shadow?.show) {
       this.shadow = new Shadow(shadow, this)
     }
+    if (designConfig.enable) {
+      this.design = new DesignController({ ...designConfig, enable: true }, this);
+    }
   }
   protected resize() {
     this.camera?.resize();
@@ -124,6 +199,7 @@ class ThreeAuto implements ThreeInstance {
   }
   protected update() {
     this.camera.update();
+    this.design?.update();
     this.raycaster.update();
     this.renderer.update();
     this.tips.update();
@@ -144,6 +220,7 @@ class ThreeAuto implements ThreeInstance {
     this.postprocess?.dispose();
     this.env?.dispose();
     this.shadow?.dispose();
+    this.design?.dispose();
     function clearGroup(group: THREE.Object3D) {
       if (!group.children.length) return;
       const clearCache = (item: THREE.Mesh) => {

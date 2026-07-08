@@ -293,7 +293,7 @@ export class Pie extends BaseThree {
 
         let children = item.name
         if (formatter) {
-            children = formatter({ data, value: item.value, seriesIndex: index, name: item.name, seriesName: this.config.name, color: item.color, percent: item.percent });
+            children = formatter({ data, ...item, value: item.value, seriesIndex: index, name: item.name, seriesName: this.config.name, color: item.color, percent: item.percent });
         }
         const labelElement = htmlRender({
             tag: "div",

@@ -7,7 +7,7 @@ import { EXRLoader } from "three/addons/loaders/EXRLoader.js";
 import { EventEmitter } from "./EventEmitter";
 import { CustomLoading } from "../components";
 import { SourcesItems, Loaders, LoadingType } from "../types";
-import { KTX2Loader, OBJLoader } from "three/examples/jsm/Addons.js";
+import { KTX2Loader, OBJLoader, FBXLoader } from "three/examples/jsm/Addons.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 
 export class Resources extends EventEmitter {
@@ -52,6 +52,7 @@ export class Resources extends EventEmitter {
 
     return {
       objLoader: new OBJLoader(loadingManager),
+      fbxLoader: new FBXLoader(loadingManager),
       gltfLoader: new GLTFLoader(loadingManager).setDRACOLoader(dracoLoader).setMeshoptDecoder(MeshoptDecoder).setKTX2Loader(ktx2Loader),
       textureLoader: new THREE.TextureLoader(loadingManager),
       cubeTextureLoader: new THREE.CubeTextureLoader(loadingManager),
@@ -66,7 +67,8 @@ export class Resources extends EventEmitter {
     const loaderMap: {
       [key: string]: (path: string, callback: (file: any) => void) => void;
     } = {
-      OBJ: this.loaders.gltfLoader.load.bind(this.loaders.objLoader),
+      OBJ: this.loaders.objLoader.load.bind(this.loaders.objLoader),
+      FBX: this.loaders.fbxLoader.load.bind(this.loaders.fbxLoader),
       GLTF: this.loaders.gltfLoader.load.bind(this.loaders.gltfLoader),
       TEXTURE: this.loaders.textureLoader.load.bind(this.loaders.textureLoader),
       FONT: this.loaders.fontLoader.load.bind(this.loaders.fontLoader),

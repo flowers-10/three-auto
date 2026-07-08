@@ -25,6 +25,7 @@
     "three": ">=0.154"
   },
   "dependencies": {
-    "@release-it/conventional-changelog": "^10.0.1"
+    "@release-it/conventional-changelog": "^10.0.1",
+    "camera-controls": "^3.1.2"
   }
 }

@@ -29,6 +29,7 @@
     "three": ">=0.154"
   },
   "dependencies": {
+    "camera-controls": "^3.1.2",
     "lil-gui": "^0.19.2"
   }
 }

@@ -19,6 +19,7 @@ export const CONFIG: ConfigType = {
       enable: true,
       enableDamping: true,
       enablePan: true,
+      design: false,
     },
   },
   size: {
@@ -32,6 +33,5 @@ export const CONFIG: ConfigType = {
     clearColor: '#000000',
   },
   resource: undefined,
-  postprocess: undefined
+  postprocess: undefined,
 };
-
