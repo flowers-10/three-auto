@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" width="1600" height="1200">
+  <defs>
+    <pattern id="bands" width="12" height="13" patternUnits="userSpaceOnUse"><rect width="12" height="13" fill="#c7d8e0"/><path d="M0 1H12" stroke="#425c6a" stroke-width="2"/><path d="M0 6H12" stroke="#f2f8fa" stroke-width="1"/></pattern>
+    <pattern id="darkbands" width="12" height="13" patternUnits="userSpaceOnUse"><rect width="12" height="13" fill="#9bb1bc"/><path d="M0 1H12" stroke="#38525e" stroke-width="2"/><path d="M0 6H12" stroke="#eaf3f6" stroke-width="1"/></pattern>
+    <pattern id="podium" width="12" height="18" patternUnits="userSpaceOnUse"><rect width="12" height="18" fill="#b4cbd5"/><path d="M0 2H12" stroke="#3f5967" stroke-width="3"/><path d="M0 9H12" stroke="#eaf4f7" stroke-width="2"/></pattern>
+    <pattern id="roof" width="16" height="16" patternUnits="userSpaceOnUse"><rect width="16" height="16" fill="#e6ecec"/><path d="M0 0H16M0 8H16" stroke="#c3ced2" stroke-width="1"/></pattern>
+    <style>
+      text{font-family:Arial,'PingFang SC','Microsoft YaHei',sans-serif;fill:#20333d}
+      .title{font-size:35px;font-weight:700}.subtitle{font-size:20px;fill:#52636c}.panel{fill:#fff;stroke:#b6c4c9;stroke-width:2}
+      .head{font-size:25px;font-weight:700}.small{font-size:17px;fill:#50626b}.building{stroke:#334e5b;stroke-width:3;stroke-linejoin:round}
+      .roofline{fill:none;stroke:#3b5662;stroke-width:3}.thin{fill:none;stroke:#8299a3;stroke-width:1.5}
+      .leader{fill:none;stroke:#bd6946;stroke-width:3;marker-end:url(#arrow)}
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0L10 5L0 10Z" fill="#bd6946"/></marker>
+  </defs>
+  <rect width="1600" height="1200" fill="#f5f7f7"/>
+  <text x="45" y="48" class="title">绿峰中心 · 建模参考视图</text>
+  <text x="45" y="78" class="subtitle">依据现场照片重绘：正面阶梯轮廓、侧向斜角、平直背面、一处中间连桥。示意比例，无实测尺寸。</text>
+
+  <!-- FRONT -->
+  <rect class="panel" x="35" y="105" width="745" height="505" rx="10"/>
+  <text class="head" x="62" y="145">正视图</text>
+  <line x1="66" y1="556" x2="750" y2="556" stroke="#61747c" stroke-width="2"/>
+  <path class="building" fill="url(#bands)" d="M118 178H255L360 238V474H118Z"/>
+  <path class="building" fill="url(#darkbands)" d="M475 238L580 165H714V474H475Z"/>
+  <path class="roofline" d="M118 178H255L360 238M475 238L580 165H714"/>
+  <path class="thin" d="M132 205V467M176 205V467M220 205V467M264 207V467M309 230V467M494 237V467M540 205V467M587 179V467M638 179V467M687 179V467"/>
+  <!-- One connected low podium, terrace edges and central open gateway -->
+  <path class="building" fill="url(#podium)" d="M99 477H733V534H99Z"/>
+  <path d="M343 503H490V556H343Z" fill="#fff" stroke="#47616c" stroke-width="3"/>
+  <path class="roofline" d="M105 471H728M117 482H716M130 493H704M143 504H691M159 515H675"/>
+  <path d="M338 473H495V494H338Z" fill="url(#darkbands)" stroke="#425c6a" stroke-width="2"/>
+  <text class="small" x="319" y="585">两塔之间的通道位于低层之下</text>
+
+  <!-- RIGHT SIDE: the key correction: canted front edge, flat back edge -->
+  <rect class="panel" x="820" y="105" width="745" height="505" rx="10"/>
+  <text class="head" x="847" y="145">右视图 · 侧向斜角</text>
+  <line x1="848" y1="556" x2="1537" y2="556" stroke="#61747c" stroke-width="2"/>
+  <!-- far tower peeks out behind the near one, not a third tower -->
+  <path class="building" fill="url(#darkbands)" d="M883 222H1019L1058 267V470H883Z"/>
+  <!-- near tower's rear is VERTICAL, front side tapers diagonally -->
+  <path class="building" fill="url(#bands)" d="M978 175H1193L1158 470H978Z"/>
+  <path class="roofline" d="M978 175H1193L1158 470"/>
+  <path class="thin" d="M1005 176V468M1037 176V468M1069 176V468M1101 176V468M1133 176V468M1165 176L1140 468"/>
+  <!-- side podium: terrace stack slopes down toward the front, distinct from high tower -->
+  <path class="building" fill="url(#podium)" d="M1129 462H1343L1360 476H1486V535H1129Z"/>
+  <path class="roofline" d="M1129 463H1343L1360 476H1486M1136 475H1370L1383 487H1494M1142 487H1400L1410 499H1500M1148 499H1430L1442 511H1506M1154 511H1510"/>
+  <text class="small" x="1288" y="581">前方 →</text>
+  <path class="leader" d="M1372 233L1169 335"/>
+  <text x="1370" y="218" class="small" fill="#bd6946">斜角在侧立面</text>
+  <text x="852" y="581" class="small">← 背面（平直）</text>
+
+  <!-- BACK: both rooflines flat, simple bridge only -->
+  <rect class="panel" x="35" y="630" width="745" height="520" rx="10"/>
+  <text class="head" x="62" y="670">背视图 · 平屋顶 / 平立面</text>
+  <line x1="66" y1="1090" x2="750" y2="1090" stroke="#61747c" stroke-width="2"/>
+  <path class="building" fill="url(#bands)" d="M110 727H355V1065H110Z"/>
+  <path class="building" fill="url(#bands)" d="M465 727H710V1065H465Z"/>
+  <path class="roofline" d="M110 727H355M465 727H710"/>
+  <path class="thin" d="M150 728V1064M190 728V1064M230 728V1064M270 728V1064M310 728V1064M505 728V1064M545 728V1064M585 728V1064M625 728V1064M665 728V1064"/>
+  <path d="M355 996H465V1028H355Z" fill="url(#darkbands)" stroke="#354f5d" stroke-width="3"/>
+  <path d="M355 1028H465V1090H355Z" fill="#fff" stroke="#b6c4c9" stroke-width="1"/>
+  <text class="small" x="311" y="1122">仅一处水平连桥；下方通行</text>
+
+  <!-- TOP: exactly three main footprints, no invented fourth mass -->
+  <rect class="panel" x="820" y="630" width="745" height="520" rx="10"/>
+  <text class="head" x="847" y="670">俯视图 · 三栋主体</text>
+  <text class="small" x="1367" y="670">背面 ↑</text>
+  <path class="building" fill="url(#roof)" d="M895 720H1172V916L1152 935H895Z"/>
+  <path class="building" fill="url(#roof)" d="M1230 720H1507V935H1250L1230 916Z"/>
+  <path class="thin" d="M909 735H1158V909H909ZM1244 735H1493V920H1244Z"/>
+  <text class="head" x="1003" y="829">A</text><text class="head" x="1340" y="829">B</text>
+  <!-- one long front podium footprint: roof connected across middle -->
+  <path class="building" fill="url(#roof)" d="M883 962H1519V1084H883Z"/>
+  <path class="thin" d="M899 976H1503V1068H899Z"/>
+  <text class="head" x="1034" y="1038">C · 连续前排低层</text>
+  <!-- trapezoid dashed projection underneath, central bridge line -->
+  <path d="M1172 916H1230L1264 1084H1138Z" fill="#bbd0d8" fill-opacity=".30" stroke="#b86b49" stroke-width="3" stroke-dasharray="9 6"/>
+  <path d="M1165 946H1237" stroke="#425c6a" stroke-width="8"/>
+  <text class="small" x="1217" y="1122">梯形地面通道（上方为连桥 / 屋面）</text>
+  <text class="small" x="847" y="1122">前方 ↓</text>
+</svg>

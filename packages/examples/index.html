@@ -11,6 +11,11 @@
     <link rel="icon" href="./three-auto.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>examples</title>
+    <script>
+      if (new URLSearchParams(window.location.search).get("tab") === "campus") {
+        document.documentElement.classList.add("campus-only");
+      }
+    </script>
   </head>
   <body>
     <div class="tabs-container">
@@ -316,6 +321,9 @@
       z-index: 10;
       width: auto;
       max-width: 90%;
+    }
+    .campus-only .tabs-container {
+      display: none;
     }
     .tabs-scroll-container {
       display: flex;

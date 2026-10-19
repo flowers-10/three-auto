@@ -2,8 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-// Packages generated images into simple glTF meshes. The road layout and
-// planting are entirely in the authored texture, not procedural scene shapes.
+// Packages the authored campus road texture into a simple glTF mesh.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const source = resolve(root, 'assets/campus');
 const output = resolve(root, 'public/models/campus');
@@ -52,7 +51,7 @@ function makeGlb({ positions, normals, uvs, indices, texture, alpha = false, nam
       indices: 3, material: 0, mode: 4,
     }] }],
     materials: [{
-      name: alpha ? 'Generated foliage' : 'Generated campus surface',
+      name: 'Authored campus surface',
       pbrMetallicRoughness: {
         baseColorTexture: { index: 0 }, metallicFactor: 0, roughnessFactor: 1,
       },
@@ -89,11 +88,12 @@ function makeGlb({ positions, normals, uvs, indices, texture, alpha = false, nam
 }
 
 const ground = makeGlb({
-  name: 'AI campus road and landscape ground 255x242m',
-  positions: [-127.5, 0.06, -121, 127.5, 0.06, -121, 127.5, 0.06, 121, -127.5, 0.06, 121],
+  name: 'Xiyuan campus road ground 500x460m six plots',
+  positions: [-250, 0.06, -230, 250, 0.06, -230, 250, 0.06, 230, -250, 0.06, 230],
   normals: [0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0],
   uvs: [0, 0, 1, 0, 1, 1, 0, 1],
   indices: [0, 2, 1, 0, 3, 2],
   texture: resolve(source, 'campus-ground.png'),
+  alpha: true,
 });
 writeFileSync(resolve(output, 'campus-ground.glb'), ground);
