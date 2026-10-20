@@ -6,7 +6,7 @@ import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment
 import { createCampusTraffic, type CampusTraffic } from './campus/traffic';
 
 const centerBuilding = { x: 0, z: -114, height: 33, yaw: 0 };
-const glassTowers = { x: 0, z: -48, height: 50, yaw: Math.PI };
+const glassTowers = { x: 0, z: -48, height: 50, width: 112.6, yaw: Math.PI };
 const campusViews = {
   entrance: { position: { x: 125, y: 115, z: -235 }, target: { x: 0, y: 17, z: -85 } },
   overview: { position: { x: 180, y: 550, z: -430 }, target: { x: 0, y: 0, z: 0 } },
@@ -300,7 +300,7 @@ const centerGlassMaskPromise = new THREE.TextureLoader()
     return texture;
   });
 
-type Building = { file: string; x: number; z: number; height: number; yaw: number };
+type Building = { file: string; x: number; z: number; height: number; width?: number; yaw: number };
 let traffic: CampusTraffic | null = null;
 let followingTraffic = false;
 const followMovement = new THREE.Vector3();
@@ -344,6 +344,11 @@ async function loadBuilding(building: Building) {
   placement.rotation.y = building.yaw;
   placement.updateMatrixWorld(true);
   bounds = new THREE.Box3().setFromObject(placement);
+  if (building.width !== undefined) {
+    root.scale.x *= building.width / bounds.getSize(new THREE.Vector3()).x;
+    placement.updateMatrixWorld(true);
+    bounds.setFromObject(placement);
+  }
   const center = bounds.getCenter(new THREE.Vector3());
   placement.position.set(building.x - center.x, 0.08 - bounds.min.y, building.z - center.z);
   root.traverse((object) => {
@@ -539,8 +544,9 @@ for (const x of [-63, 63]) {
 [-50, -39, -28, -17, -8, 8, 17, 28, 39, 50].forEach((x, index) => {
   canopyTrees.push([x, -151, 6.1 + (index % 3) * 0.4, index * 1.1]);
 });
-for (const x of [-49, 49]) {
-  [-57, -44, -32].forEach((z, index) => {
+// Keep these trees in the courtyard, clear of the widened tower podium.
+for (const x of [-55, 55]) {
+  [-83, -78, -73].forEach((z, index) => {
     canopyTrees.push([x, z, 6.0 + index * 0.35, index + (x > 0 ? 0.8 : 0)]);
   });
 }
