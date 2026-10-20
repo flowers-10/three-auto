@@ -1,17 +1,25 @@
 import * as AUTO from 'three-auto';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { createCampusTraffic, type CampusTraffic } from './campus/traffic';
+import { campusBuildings, type BuildingPlacement } from './campus/buildingLayout';
+import { createBuildingLabels } from './campus/buildingLabels';
+import { createYongchuangPlot } from './campus/yongchuangPlot';
+import { yongchuangRoadsideTrees, yongchuangCanopyTrees } from './campus/yongchuangLandscape';
+import { createRiversidePlot, riversideRoadsideTrees, riversideCanopyTrees } from './campus/riversidePlot';
+import { createSouthwestPlot, southwestRoadsideTrees, southwestCanopyTrees } from './campus/southwestPlot';
 
-const centerBuilding = { x: 0, z: -114, height: 33, yaw: 0 };
-const glassTowers = { x: 0, z: -48, height: 50, width: 112.6, yaw: Math.PI };
 const campusViews = {
   entrance: { position: { x: 125, y: 115, z: -235 }, target: { x: 0, y: 17, z: -85 } },
   overview: { position: { x: 180, y: 550, z: -430 }, target: { x: 0, y: 0, z: 0 } },
   towers: { position: { x: 85, y: 80, z: -148 }, target: { x: 0, y: 23, z: -48 } },
   traffic: { position: { x: 12, y: 10, z: -195 }, target: { x: 0, y: 1.2, z: -174.2 } },
+  dusk: { position: { x: 185, y: 210, z: 55 }, target: { x: 143, y: 22, z: -94 } },
+  riverside: { position: { x: -106, y: 170, z: 35 }, target: { x: -146, y: 4, z: -95 } },
+  southwest: { position: { x: -106, y: 185, z: 228 }, target: { x: -146, y: 5, z: 80 } },
 };
 
 const app = new AUTO.ThreeAuto(undefined, {
@@ -292,6 +300,11 @@ applyVisualSettings();
 
 const loader = new GLTFLoader();
 loader.setMeshoptDecoder(MeshoptDecoder);
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('/draco/');
+loader.setDRACOLoader(dracoLoader);
+const repeatedBuildingScenes = new Map<string, Promise<THREE.Group>>();
+const repeatedBuildingFiles = new Set(['smart-park-building-8.glb']);
 const centerGlassMaskPromise = new THREE.TextureLoader()
   .loadAsync('/models/campus/twin-terrace-glass-mask.webp')
   .then((texture) => {
@@ -300,7 +313,7 @@ const centerGlassMaskPromise = new THREE.TextureLoader()
     return texture;
   });
 
-type Building = { file: string; x: number; z: number; height: number; width?: number; yaw: number };
+type Building = BuildingPlacement;
 let traffic: CampusTraffic | null = null;
 let followingTraffic = false;
 const followMovement = new THREE.Vector3();
@@ -321,7 +334,7 @@ function showCampusView(view: keyof typeof campusViews) {
 
 const viewPanel = document.createElement('div');
 viewPanel.style.cssText = 'position:fixed;bottom:20px;left:20px;z-index:6;display:flex;gap:6px;padding:5px;border-radius:10px;background:rgba(20,37,43,.72)';
-for (const [label, view] of [['箭头视角', 'entrance'], ['园区总览', 'overview'], ['查看双子塔', 'towers'], ['查看车辆', 'traffic']] as const) {
+for (const [label, view] of [['箭头视角', 'entrance'], ['园区总览', 'overview'], ['绿峰中心', 'towers'], ['永创智能', 'dusk'], ['临河地块', 'riverside'], ['西南院落', 'southwest'], ['查看车辆', 'traffic']] as const) {
   const button = document.createElement('button');
   button.textContent = label;
   button.style.cssText = 'border:0;border-radius:7px;padding:8px 12px;color:white;background:rgba(255,255,255,.15);font:13px system-ui,sans-serif;cursor:pointer';
@@ -331,11 +344,35 @@ for (const [label, view] of [['箭头视角', 'entrance'], ['园区总览', 'ove
 document.body.appendChild(viewPanel);
 if (new URLSearchParams(location.search).get('focus') === 'twin-glass') showCampusView('towers');
 if (new URLSearchParams(location.search).get('focus') === 'traffic') showCampusView('traffic');
+if (['dusk-tower', 'yongchuang'].includes(new URLSearchParams(location.search).get('focus') ?? '')) showCampusView('dusk');
+if (new URLSearchParams(location.search).get('focus') === 'buildings') showCampusView('overview');
+if (new URLSearchParams(location.search).get('focus') === 'riverside') showCampusView('riverside');
+if (new URLSearchParams(location.search).get('focus') === 'southwest') showCampusView('southwest');
+
+const buildingLabels = createBuildingLabels(app._camera, campusBuildings, (building) => {
+  followingTraffic = false;
+  if (building.id === 'dusk-glass') {
+    showCampusView('dusk');
+    return;
+  }
+  const distance = Math.max(70, building.height * 2.2);
+  app._camera.position.set(building.x + distance * 0.6, building.height * 1.35, building.z - distance);
+  controls?.target.set(building.x, building.height * 0.4, building.z);
+  if (controls) controls.minDistance = 30;
+  controls?.update();
+});
 
 async function loadBuilding(building: Building) {
-  const gltf = await loader.loadAsync(`/models/campus/${building.file}`);
+  let source = repeatedBuildingScenes.get(building.file);
+  if (!source) {
+    const url = building.file.startsWith('/') ? building.file : `/models/campus/${building.file}`;
+    source = loader.loadAsync(url).then((gltf) => gltf.scene);
+    if (repeatedBuildingFiles.has(building.file)) repeatedBuildingScenes.set(building.file, source);
+  }
   const centerGlassMask = building.file.startsWith('twin-terrace') ? await centerGlassMaskPromise : null;
-  const root = gltf.scene;
+  const loadedRoot = repeatedBuildingFiles.has(building.file) ? (await source).clone(true) : await source;
+  const root = building.node ? loadedRoot.getObjectByName(building.node) : loadedRoot;
+  if (!root) throw new Error(`Building node not found: ${building.node}`);
   const placement = new THREE.Group();
   placement.add(root);
   placement.updateMatrixWorld(true);
@@ -353,7 +390,7 @@ async function loadBuilding(building: Building) {
   placement.position.set(building.x - center.x, 0.08 - bounds.min.y, building.z - center.z);
   root.traverse((object) => {
     if (object instanceof THREE.Mesh) {
-      if (building.file.startsWith('twin-glass-towers')) {
+      if (!building.file.startsWith('twin-terrace')) {
         for (const material of Array.isArray(object.material) ? object.material : [object.material]) {
           if (material instanceof THREE.MeshStandardMaterial) {
             material.envMap = centerEnvironment;
@@ -393,7 +430,7 @@ async function loadBuilding(building: Building) {
 type BuildingLOD = {
   name: string;
   base: Building;
-  detailFile: string;
+  detailFile?: string;
   light: THREE.Group | null;
   detail: THREE.Group | null;
   promise: Promise<void> | null;
@@ -401,19 +438,17 @@ type BuildingLOD = {
   showingDetail: boolean;
   center: THREE.Vector3;
 };
-const buildingLODs: BuildingLOD[] = [
-  { name: '主楼', base: { ...centerBuilding, file: 'twin-terrace.glb' }, detailFile: 'twin-terrace-detail.glb' },
-  { name: '双子塔', base: { ...glassTowers, file: 'twin-glass-towers.glb' }, detailFile: 'twin-glass-towers-detail.glb' },
-].map((building) => ({
-  ...building, light: null, detail: null, promise: null, failed: false, showingDetail: false,
-  center: new THREE.Vector3(building.base.x, building.base.height / 2, building.base.z),
+const buildingLODs: BuildingLOD[] = campusBuildings.map((building) => ({
+  name: building.name, base: building, detailFile: building.detailFile,
+  light: null, detail: null, promise: null, failed: false, showingDetail: false,
+  center: new THREE.Vector3(building.x, building.height / 2, building.z),
 }));
 let assetsReady = false;
 let assetFailures = 0;
 let styledMode: DetailMode | null = null;
 
 function loadDetailBuilding(entry: BuildingLOD) {
-  if (entry.promise || entry.detail || entry.failed) return;
+  if (!entry.detailFile || entry.promise || entry.detail || entry.failed) return;
   entry.promise = loadBuilding({ ...entry.base, file: entry.detailFile })
     .then((building) => {
       entry.detail = building;
@@ -470,6 +505,7 @@ app.time.on('tick', () => {
     controls.update();
   }
   updateDetailLevel();
+  buildingLabels.update();
 });
 
 async function placeGround() {
@@ -478,6 +514,30 @@ async function placeGround() {
     if (object instanceof THREE.Mesh) object.receiveShadow = true;
   });
   scene.add(gltf.scene);
+}
+
+scene.add(createYongchuangPlot());
+scene.add(createRiversidePlot());
+scene.add(createSouthwestPlot());
+
+// The ground mesh ends at z = 230; leave a clear gap behind its texture.
+const peripheralBuildingsPlacement = { x: 70, groundRearZ: 230, gap: 18, scale: 0.13 };
+
+async function placePeripheralBuildings() {
+  const gltf = await loader.loadAsync('/models/building-preview/buidling-other.glb');
+  const group = new THREE.Group();
+  group.name = '周边建筑';
+  group.add(gltf.scene);
+  group.scale.setScalar(peripheralBuildingsPlacement.scale);
+  group.updateMatrixWorld(true);
+  const bounds = new THREE.Box3().setFromObject(group);
+  const center = bounds.getCenter(new THREE.Vector3());
+  group.position.set(
+    peripheralBuildingsPlacement.x - center.x,
+    0.08 - bounds.min.y,
+    peripheralBuildingsPlacement.groundRearZ + peripheralBuildingsPlacement.gap - bounds.min.z,
+  );
+  scene.add(group);
 }
 
 type TreePlacement = [x: number, z: number, height: number, yaw: number];
@@ -513,8 +573,8 @@ async function placeTrees(file: string, positions: TreePlacement[]) {
   }
 }
 
-const roadsideTrees: TreePlacement[] = [];
-const canopyTrees: TreePlacement[] = [];
+const roadsideTrees: TreePlacement[] = [...yongchuangRoadsideTrees, ...riversideRoadsideTrees, ...southwestRoadsideTrees];
+const canopyTrees: TreePlacement[] = [...yongchuangCanopyTrees, ...riversideCanopyTrees, ...southwestCanopyTrees];
 
 // Two planted courts between the buildings, with the central entrance walk kept clear.
 for (const [row, z] of [-83, -73].entries()) {
@@ -553,6 +613,7 @@ for (const x of [-55, 55]) {
 
 Promise.allSettled([
   placeGround(),
+  placePeripheralBuildings(),
   ...buildingLODs.map(async (entry) => {
     const building = await loadBuilding(entry.base);
     entry.light = building;
