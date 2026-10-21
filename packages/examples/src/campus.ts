@@ -11,6 +11,8 @@ import { createYongchuangPlot } from './campus/yongchuangPlot';
 import { yongchuangRoadsideTrees, yongchuangCanopyTrees } from './campus/yongchuangLandscape';
 import { createRiversidePlot, riversideRoadsideTrees, riversideCanopyTrees } from './campus/riversidePlot';
 import { createSouthwestPlot, southwestRoadsideTrees, southwestCanopyTrees } from './campus/southwestPlot';
+import { createSouthCentralPlot, southCentralRoadsideTrees, southCentralCanopyTrees } from './campus/southCentralPlot';
+import { createSoutheastPlot, southeastRoadsideTrees, southeastCanopyTrees } from './campus/southeastPlot';
 
 const campusViews = {
   entrance: { position: { x: 125, y: 115, z: -235 }, target: { x: 0, y: 17, z: -85 } },
@@ -20,6 +22,8 @@ const campusViews = {
   dusk: { position: { x: 185, y: 210, z: 55 }, target: { x: 143, y: 22, z: -94 } },
   riverside: { position: { x: -106, y: 170, z: 35 }, target: { x: -146, y: 4, z: -95 } },
   southwest: { position: { x: -106, y: 185, z: 228 }, target: { x: -146, y: 5, z: 80 } },
+  'south-central': { position: { x: 85, y: 185, z: 245 }, target: { x: 0, y: 5, z: 80 } },
+  southeast: { position: { x: 228, y: 185, z: 245 }, target: { x: 145, y: 4, z: 80 } },
 };
 
 const app = new AUTO.ThreeAuto(undefined, {
@@ -334,7 +338,7 @@ function showCampusView(view: keyof typeof campusViews) {
 
 const viewPanel = document.createElement('div');
 viewPanel.style.cssText = 'position:fixed;bottom:20px;left:20px;z-index:6;display:flex;gap:6px;padding:5px;border-radius:10px;background:rgba(20,37,43,.72)';
-for (const [label, view] of [['箭头视角', 'entrance'], ['园区总览', 'overview'], ['绿峰中心', 'towers'], ['永创智能', 'dusk'], ['临河地块', 'riverside'], ['西南院落', 'southwest'], ['查看车辆', 'traffic']] as const) {
+for (const [label, view] of [['箭头视角', 'entrance'], ['园区总览', 'overview'], ['绿峰中心', 'towers'], ['永创智能', 'dusk'], ['临河地块', 'riverside'], ['西南院落', 'southwest'], ['南中院落', 'south-central'], ['天煌科技园', 'southeast'], ['查看车辆', 'traffic']] as const) {
   const button = document.createElement('button');
   button.textContent = label;
   button.style.cssText = 'border:0;border-radius:7px;padding:8px 12px;color:white;background:rgba(255,255,255,.15);font:13px system-ui,sans-serif;cursor:pointer';
@@ -348,6 +352,8 @@ if (['dusk-tower', 'yongchuang'].includes(new URLSearchParams(location.search).g
 if (new URLSearchParams(location.search).get('focus') === 'buildings') showCampusView('overview');
 if (new URLSearchParams(location.search).get('focus') === 'riverside') showCampusView('riverside');
 if (new URLSearchParams(location.search).get('focus') === 'southwest') showCampusView('southwest');
+if (new URLSearchParams(location.search).get('focus') === 'south-central') showCampusView('south-central');
+if (new URLSearchParams(location.search).get('focus') === 'southeast') showCampusView('southeast');
 
 const buildingLabels = createBuildingLabels(app._camera, campusBuildings, (building) => {
   followingTraffic = false;
@@ -519,6 +525,8 @@ async function placeGround() {
 scene.add(createYongchuangPlot());
 scene.add(createRiversidePlot());
 scene.add(createSouthwestPlot());
+scene.add(createSouthCentralPlot());
+scene.add(createSoutheastPlot());
 
 // The ground mesh ends at z = 230; leave a clear gap behind its texture.
 const peripheralBuildingsPlacement = { x: 70, groundRearZ: 230, gap: 18, scale: 0.13 };
@@ -573,8 +581,8 @@ async function placeTrees(file: string, positions: TreePlacement[]) {
   }
 }
 
-const roadsideTrees: TreePlacement[] = [...yongchuangRoadsideTrees, ...riversideRoadsideTrees, ...southwestRoadsideTrees];
-const canopyTrees: TreePlacement[] = [...yongchuangCanopyTrees, ...riversideCanopyTrees, ...southwestCanopyTrees];
+const roadsideTrees: TreePlacement[] = [...yongchuangRoadsideTrees, ...riversideRoadsideTrees, ...southwestRoadsideTrees, ...southCentralRoadsideTrees, ...southeastRoadsideTrees];
+const canopyTrees: TreePlacement[] = [...yongchuangCanopyTrees, ...riversideCanopyTrees, ...southwestCanopyTrees, ...southCentralCanopyTrees, ...southeastCanopyTrees];
 
 // Two planted courts between the buildings, with the central entrance walk kept clear.
 for (const [row, z] of [-83, -73].entries()) {

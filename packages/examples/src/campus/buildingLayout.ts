@@ -23,10 +23,4 @@ export const campusBuildings: CampusBuilding[] = [
     x: 0, z: -48, height: 50, width: 112.6, yaw: Math.PI },
   { id: 'dusk-glass', name: '永创智能', file: 'dusk-glass-tower.glb', detailFile: 'dusk-glass-tower-detail.glb',
     x: 144, z: -133, height: 78, yaw: 0 },
-  { id: 'rd-office', name: '研发办公楼', file: 'rd-building-lod.glb', detailFile: 'rd-building.glb',
-    x: -25, z: 55, height: 27, yaw: Math.PI / 2 },
-  { id: 'south-center-office', name: '南中配套楼', file: 'smart-park-building-8.glb',
-    x: 25, z: 120, height: 15, yaw: Math.PI / 2 },
-  { id: 'factory', name: '智慧厂房', file: 'factory-building.glb',
-    x: 143, z: 78, height: 11, yaw: Math.PI / 2 },
 ];
