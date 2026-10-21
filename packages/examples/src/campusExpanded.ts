@@ -4,9 +4,10 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
-import { campusBuildings, type CampusBuilding } from './campus/buildingLayout';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+import type { CampusBuilding } from './campus/buildingLayout';
 import { createBuildingLabels } from './campus/buildingLabels';
-import { fitLandmark, landmarkCenter, landmarkLabels } from './campus-expanded/landmarkLayout';
+import { expandedLandmarks, fitLandmark, landmarkCenter, landmarkLabels } from './campus-expanded/landmarkLayout';
 import { createExpandedGround } from './campus-expanded/ground';
 import { createExpandedTrees } from './campus-expanded/trees';
 
@@ -20,6 +21,8 @@ const campusViews = {
   overview: { position: { x: 0, y: 700, z: -500 }, target: { x: 0, y: 0, z: 0 } },
   towers: landmarkView('twin-glass'),
   dusk: landmarkView('dusk-glass'),
+  courtyard: landmarkView('yellow-courtyard'),
+  sky: { position: { x: 180, y: 80, z: -390 }, target: { x: 30, y: 25, z: -30 } },
 };
 
 const app = new AUTO.ThreeAuto(undefined, {
@@ -68,9 +71,27 @@ sun.shadow.normalBias = 0.02;
 app._renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const pmrem = new THREE.PMREMGenerator(app._renderer);
 const roomEnvironment = new RoomEnvironment();
-const centerEnvironment = pmrem.fromScene(roomEnvironment).texture;
+const fallbackEnvironment = pmrem.fromScene(roomEnvironment);
+let centerEnvironment = fallbackEnvironment.texture;
 roomEnvironment.dispose();
-pmrem.dispose();
+scene.environment = centerEnvironment;
+const skyPromise = new RGBELoader()
+  // Match PMREM's half-float targets and limit GPU texture memory.
+  .setDataType(THREE.HalfFloatType)
+  .loadAsync('/hdr/kloofendal-sky-2k.hdr')
+  .then((sky) => {
+    sky.mapping = THREE.EquirectangularReflectionMapping;
+    const environment = pmrem.fromEquirectangular(sky);
+    scene.background = sky;
+    scene.environment = environment.texture;
+    scene.environmentIntensity = 0.35;
+    centerEnvironment = environment.texture;
+    fallbackEnvironment.dispose();
+    return centerEnvironment;
+  })
+  .finally(() => pmrem.dispose());
+// A missing sky must not prevent the campus models from loading.
+const environmentReady = skyPromise.catch(() => centerEnvironment);
 const centerMaterials: THREE.MeshStandardMaterial[] = [];
 
 const status = document.createElement('div');
@@ -325,7 +346,7 @@ function showCampusView(view: keyof typeof campusViews) {
 
 const viewPanel = document.createElement('div');
 viewPanel.style.cssText = 'position:fixed;bottom:20px;left:20px;z-index:6;display:flex;gap:6px;padding:5px;border-radius:10px;background:rgba(20,37,43,.72);max-width:calc(100vw - 195px);overflow-x:auto;white-space:nowrap';
-for (const [label, view] of [['园区总览', 'overview'], ['绿峰中心', 'towers'], ['紫金科创', 'entrance'], ['永创智能', 'dusk']] as const) {
+for (const [label, view] of [['园区总览', 'overview'], ['绿峰中心', 'towers'], ['紫金科创', 'entrance'], ['永创智能', 'dusk'], ['黄色合院', 'courtyard'], ['天空预览', 'sky']] as const) {
   const button = document.createElement('button');
   button.textContent = label;
   button.style.cssText = 'border:0;border-radius:7px;padding:8px 12px;color:white;background:rgba(255,255,255,.15);font:13px system-ui,sans-serif;cursor:pointer';
@@ -337,6 +358,8 @@ if (new URLSearchParams(location.search).get('focus') === 'twin-glass') showCamp
 if (['dusk-tower', 'yongchuang'].includes(new URLSearchParams(location.search).get('focus') ?? '')) showCampusView('dusk');
 if (new URLSearchParams(location.search).get('focus') === 'buildings') showCampusView('overview');
 if (new URLSearchParams(location.search).get('focus') === 'main') showCampusView('entrance');
+if (new URLSearchParams(location.search).get('focus') === 'yellow-courtyard') showCampusView('courtyard');
+if (new URLSearchParams(location.search).get('focus') === 'sky') showCampusView('sky');
 
 const buildingLabels = createBuildingLabels(app._camera, landmarkLabels, (building) => {
   if (building.id === 'dusk-glass') {
@@ -359,6 +382,7 @@ async function loadBuilding(building: Building) {
   }
   const centerGlassMask = building.file.startsWith('twin-terrace') ? await centerGlassMaskPromise : null;
   const loadedRoot = repeatedBuildingFiles.has(building.file) ? (await source).clone(true) : await source;
+  await environmentReady;
   const root = building.node ? loadedRoot.getObjectByName(building.node) : loadedRoot;
   if (!root) throw new Error(`Building node not found: ${building.node}`);
   const placement = new THREE.Group();
@@ -426,7 +450,7 @@ type BuildingLOD = {
   showingDetail: boolean;
   center: THREE.Vector3;
 };
-const buildingLODs: BuildingLOD[] = campusBuildings.map((building) => ({
+const buildingLODs: BuildingLOD[] = expandedLandmarks.map((building) => ({
   name: building.name, base: building, detailFile: building.detailFile,
   light: null, detail: null, promise: null, failed: false, showingDetail: false,
   center: landmarkCenter(building.id, building.height / 2),
@@ -479,7 +503,7 @@ function updateDetailLevel() {
       : buildingLODs.some((entry) => entry.showingDetail) ? '当前：近景精模' : '当前：轻量版';
   const nextStatus = assetFailures
     ? `园区部分资产未能加载（${assetFailures}） · ${modelStatus}`
-    : `研发园区扩展版 · ${modelStatus} · 3 栋地标建筑 · 拖拽旋转 · 滚轮缩放`;
+    : `研发园区扩展版 · ${modelStatus} · ${buildingLODs.length} 栋地标建筑 · 拖拽旋转 · 滚轮缩放`;
   if (status.textContent !== nextStatus) status.textContent = nextStatus;
 }
 
@@ -493,8 +517,10 @@ async function placeGround() {
 }
 
 Promise.allSettled([
+  skyPromise,
   placeGround(),
-  createExpandedTrees(loader, centerEnvironment).then((trees) => scene.add(trees)),
+  environmentReady.then((environment) => createExpandedTrees(loader, environment))
+    .then((trees) => scene.add(trees)),
   ...buildingLODs.map(async (entry) => {
     const building = await loadBuilding(entry.base);
     entry.light = building;

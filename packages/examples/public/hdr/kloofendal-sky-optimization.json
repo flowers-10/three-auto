@@ -1,0 +1,26 @@
+{
+  "source": {
+    "file": "kloofendal_48d_partly_cloudy_puresky_4k.exr",
+    "bytes": 75640460,
+    "width": 4096,
+    "height": 2048
+  },
+  "versions": {
+    "4k": {
+      "file": "kloofendal-sky-4k.hdr",
+      "bytes": 20851923,
+      "width": 4096,
+      "height": 2048,
+      "maximumRelativeError": 0.006806318424668571,
+      "maximumRadiance": 75559.15625
+    },
+    "2k": {
+      "file": "kloofendal-sky-2k.hdr",
+      "bytes": 5488647,
+      "width": 2048,
+      "height": 1024,
+      "maximumRelativeError": 0.006830660531817033,
+      "maximumRadiance": 73503.125
+    }
+  }
+}

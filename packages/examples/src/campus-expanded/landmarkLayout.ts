@@ -1,6 +1,12 @@
 import * as THREE from 'three';
-import { campusBuildings } from '../campus/buildingLayout';
+import { campusBuildings, type CampusBuilding } from '../campus/buildingLayout';
 import { expandedGround, pixelToWorld, type PixelPoint } from './layout';
+
+export const expandedLandmarks: CampusBuilding[] = [
+  ...campusBuildings,
+  { id: 'yellow-courtyard', name: '黄色合院', file: 'yellow-courtyard.glb',
+    detailFile: 'yellow-courtyard-detail.glb', x: 0, z: 0, height: 19, yaw: 0 },
+];
 
 // Anchors measured on the ground texture, in image pixels (TL, TR, BR, BL).
 // Each building has its own anchor: the new paving no longer matches the old
@@ -9,6 +15,8 @@ export const landmarkPads: Record<string, readonly [PixelPoint, PixelPoint, Pixe
   'twin-glass': [[502, 435], [658, 419], [668, 477], [512, 493]],
   main: [[516, 582], [680, 567], [696, 644], [532, 659]],
   'dusk-glass': [[264, 585], [365, 571], [375, 635], [274, 649]],
+  // Front-centre parcel, directly in front of 紫金科创 (the marked red rectangle).
+  'yellow-courtyard': [[534, 733], [704, 717], [731, 871], [561, 889]],
 };
 
 function padCorners(id: string) {
@@ -54,6 +62,7 @@ export function fitLandmark(group: THREE.Group, id: string) {
   return wrapper;
 }
 
+// New model imports stay unlabelled unless the user explicitly requests a label.
 export const landmarkLabels = campusBuildings.map((building) => {
   const centre = landmarkCenter(building.id);
   return { ...building, x: centre.x, z: centre.z };
